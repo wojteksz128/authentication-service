@@ -1,4 +1,4 @@
-package net.wojteksz128.authenticationservice;
+package net.wojteksz128.authservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
