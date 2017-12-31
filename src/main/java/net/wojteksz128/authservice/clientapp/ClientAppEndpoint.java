@@ -13,17 +13,17 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 interface ClientAppEndpoint {
 
     @RequestMapping(value = "/apps", method = GET)
-    ResponseEntity<?> getAllApps();
+    ResponseEntity<?> getAllApps() throws Exception;
 
     @RequestMapping(value = "/app", method = POST)
     ResponseEntity<?> addNewClientApp(@RequestBody ClientApp app);
 
-    @RequestMapping(value = "/app/{id}", method = GET)
-    ResponseEntity<?> getApp(@PathVariable("id") Long appId);
+    @RequestMapping(value = "/app/{guid}", method = GET)
+    ResponseEntity<?> getApp(@PathVariable("guid") String appGuid);
 
-    @RequestMapping(value = "/app/{id}", method = PUT)
-    ResponseEntity<?> updateAppInfo(@PathVariable("id") Long appId, @RequestBody ClientApp app);
+    @RequestMapping(value = "/app/{guid}", method = PUT)
+    ResponseEntity<?> updateApp(@PathVariable("guid") String appGuid, @RequestBody ClientApp app);
 
-    @RequestMapping(value = "/app/{id}", method = DELETE)
-    ResponseEntity<?> deleteApp(@PathVariable("id") Long appId, @RequestBody ClientApp app);
+    @RequestMapping(value = "/app/{guid}", method = DELETE)
+    ResponseEntity<?> deleteApp(@PathVariable("guid") String appGuid, @RequestBody ClientApp app);
 }
