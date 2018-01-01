@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Optional;
 
@@ -23,7 +25,7 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
     }
 
     @Override
-    public ResponseEntity<?> addNewClientApp(ClientApp app) {
+    public ResponseEntity<?> addNewClientApp(@RequestBody ClientApp app) {
         ResponseEntity<?> response;
 
         try {
@@ -36,7 +38,7 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
     }
 
     @Override
-    public ResponseEntity<?> getApp(String appGuid) {
+    public ResponseEntity<?> getApp(@PathVariable("guid") String appGuid) {
         Optional<ClientApp> findApp = clientAppController.getAppByGuid(appGuid);
 
         return findApp.<ResponseEntity<?>>map(app -> new ResponseEntity<>(app, HttpStatus.OK))
@@ -44,7 +46,7 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
     }
 
     @Override
-    public ResponseEntity<?> updateApp(String appGuid, ClientApp app) {
+    public ResponseEntity<?> updateApp(@PathVariable("guid") String appGuid, @RequestBody ClientApp app) {
         ResponseEntity<?> response;
 
         try {
@@ -60,7 +62,7 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
     }
 
     @Override
-    public ResponseEntity<?> deleteApp(String appGuid, ClientApp app) {
+    public ResponseEntity<?> deleteApp(@PathVariable("guid") String appGuid, @RequestBody ClientApp app) {
         ResponseEntity<?> response;
 
         try {
