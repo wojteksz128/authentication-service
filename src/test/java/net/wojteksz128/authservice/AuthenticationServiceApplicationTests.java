@@ -1,4 +1,4 @@
-package net.wojteksz128.authenticationservice;
+package net.wojteksz128.authservice;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
