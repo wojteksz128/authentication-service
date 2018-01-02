@@ -1,14 +1,16 @@
 package net.wojteksz128.authservice.clientapp;
 
 import net.wojteksz128.authservice.Repository;
+import net.wojteksz128.authservice.exception.InvalidRequestException;
+import net.wojteksz128.authservice.exception.ObjectNotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 
+@SuppressWarnings("unused")
 @org.springframework.stereotype.Repository
 interface ClientAppRepository extends Repository<ClientApp> {
 
-    Optional<ClientApp> findByGuid(String guid);
+    ClientApp findByGuid(String guid) throws InvalidRequestException, ObjectNotFoundException;
 
     List<ClientApp> findByNameContains(String value);
 

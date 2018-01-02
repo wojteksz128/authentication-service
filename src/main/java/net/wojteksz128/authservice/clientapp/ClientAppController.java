@@ -8,59 +8,70 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
+@SuppressWarnings("unused")
 @Component
 public class ClientAppController {
 
     @Autowired
     private ClientAppRepository clientAppRepository;
 
-    public List<ClientApp> getAllApps() {
-        return clientAppRepository.findAllApps();
+    @Autowired
+    private CreateDtoToClientAppConverter createDtoToClientAppConverter;
+
+    @Autowired
+    private DtoToClientAppConverter dtoToClientAppConverter;
+
+    @Autowired
+    private ClientAppToDtoConverter clientAppToDtoConverter;
+
+    public List<ClientAppDto> getAllApps() {
+        return clientAppRepository.findAllApps()
+                .stream()
+                .map(clientAppToDtoConverter::convert)
+                .collect(Collectors.toList());
     }
 
-    public ClientApp createNew(ClientApp app) throws EmptyObjectException {
+    public ClientAppDto createNew(CreateClientAppDto app) throws EmptyObjectException {
         if (app == null) {
             throw new EmptyObjectException("Attempt to save a null object.");
         }
 
-        return clientAppRepository.save(app);
+        return clientAppToDtoConverter.convert(clientAppRepository.save(createDtoToClientAppConverter.convert(app)));
     }
 
-    public Optional<ClientApp> getAppById(Long appId) {
-        return clientAppRepository.findById(appId);
+    public ClientAppDto getAppById(Long appId) throws InvalidRequestException, ObjectNotFoundException {
+        return clientAppToDtoConverter.convert(clientAppRepository.findById(appId));
     }
 
-    public Optional<ClientApp> getAppByGuid(String appGuid) {
-        return clientAppRepository.findByGuid(appGuid);
+    public ClientAppDto getAppByGuid(String appGuid) throws InvalidRequestException, ObjectNotFoundException {
+        return clientAppToDtoConverter.convert(clientAppRepository.findByGuid(appGuid));
     }
 
-    public void updateApp(String appGuid, ClientApp app) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException, ObjectNotFoundException {
+    public void updateApp(String appGuid, ClientAppDto app) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException, ObjectNotFoundException {
         checkValidity(appGuid, app);
-        clientAppRepository.update(app);
+        clientAppRepository.update(dtoToClientAppConverter.convert(app));
     }
 
-    public void deleteApp(String appGuid, ClientApp app) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException, ObjectNotFoundException {
+    public void deleteApp(String appGuid, ClientAppDto app) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException, ObjectNotFoundException {
         checkValidity(appGuid, app);
-        clientAppRepository.delete(app);
+        clientAppRepository.delete(dtoToClientAppConverter.convert(app));
     }
 
-    private void checkValidity(String appGuid, ClientApp app) throws EmptyObjectException, InvalidRequestException, ObjectNotCorrespondingException, ObjectNotFoundException {
+    private void checkValidity(String appGuid, ClientAppDto app) throws EmptyObjectException, InvalidRequestException, ObjectNotCorrespondingException, ObjectNotFoundException {
         if (app == null) {
-            throw new EmptyObjectException("Attempt to save a null object.");
+            throw new EmptyObjectException("Attempt to use a null object.");
         }
 
         if (appGuid == null) {
             throw new InvalidRequestException("App guid is null.");
         }
 
-        if (! appGuid.equals(app.getGuid())) {
+        if (!appGuid.equals(app.getGuid())) {
             throw new ObjectNotCorrespondingException("Object is not requested object.");
         }
 
-        if (! clientAppRepository.findByGuid(appGuid).isPresent()) {
-            throw new ObjectNotFoundException("App is not finded.");
-        }
+        clientAppRepository.findByGuid(appGuid);
     }
 }

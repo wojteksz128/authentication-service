@@ -11,8 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.Optional;
-
+@SuppressWarnings("MVCPathVariableInspection")
 @Component
 class ClientAppEndpointImpl implements ClientAppEndpoint {
 
@@ -25,7 +24,7 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
     }
 
     @Override
-    public ResponseEntity<?> addNewClientApp(@RequestBody ClientApp app) {
+    public ResponseEntity<?> addNewClientApp(@RequestBody CreateClientAppDto app) {
         ResponseEntity<?> response;
 
         try {
@@ -38,15 +37,15 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
     }
 
     @Override
-    public ResponseEntity<?> getApp(@PathVariable("guid") String appGuid) {
-        Optional<ClientApp> findApp = clientAppController.getAppByGuid(appGuid);
-
-        return findApp.<ResponseEntity<?>>map(app -> new ResponseEntity<>(app, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>("App not found.", HttpStatus.NOT_FOUND));
+    public ResponseEntity<?> getApp(@PathVariable("guid") String appGuid) throws InvalidRequestException, ObjectNotFoundException {
+        ClientAppDto findApp = clientAppController.getAppByGuid(appGuid);
+        return new ResponseEntity<>(findApp, HttpStatus.OK);
+//        return findApp.<ResponseEntity<?>>map(app -> new ResponseEntity<>(app, HttpStatus.OK))
+//                .orElseGet(() -> new ResponseEntity<>("App not found.", HttpStatus.NOT_FOUND));
     }
 
     @Override
-    public ResponseEntity<?> updateApp(@PathVariable("guid") String appGuid, @RequestBody ClientApp app) {
+    public ResponseEntity<?> updateApp(@PathVariable("guid") String appGuid, @RequestBody ClientAppDto app) {
         ResponseEntity<?> response;
 
         try {
@@ -62,7 +61,7 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
     }
 
     @Override
-    public ResponseEntity<?> deleteApp(@PathVariable("guid") String appGuid, @RequestBody ClientApp app) {
+    public ResponseEntity<?> deleteApp(@PathVariable("guid") String appGuid, @RequestBody ClientAppDto app) {
         ResponseEntity<?> response;
 
         try {

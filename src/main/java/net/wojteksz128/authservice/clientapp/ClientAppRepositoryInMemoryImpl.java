@@ -1,5 +1,7 @@
 package net.wojteksz128.authservice.clientapp;
 
+import net.wojteksz128.authservice.exception.InvalidRequestException;
+import net.wojteksz128.authservice.exception.ObjectNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -13,12 +15,13 @@ class ClientAppRepositoryInMemoryImpl implements ClientAppRepository {
     private final Map<String, ClientApp> clientApps = new HashMap<>();
 
     @Override
-    public Optional<ClientApp> findByGuid(String guid) {
+    public ClientApp findByGuid(String guid) throws InvalidRequestException, ObjectNotFoundException {
         if (guid == null) {
-            return Optional.empty();
+            throw new InvalidRequestException("App guid is null.");
         }
 
-        return Optional.ofNullable(clientApps.get(guid));
+        return Optional.ofNullable(clientApps.get(guid))
+                .orElseThrow(() -> new ObjectNotFoundException(String.format("App with guid %s not found.", guid)));
     }
 
     @Override
@@ -44,16 +47,17 @@ class ClientAppRepositoryInMemoryImpl implements ClientAppRepository {
     }
 
     @Override
-    public Optional<ClientApp> findById(Long id) {
+    public ClientApp findById(Long id) throws InvalidRequestException, ObjectNotFoundException {
         if (id == null) {
-            return Optional.empty();
+            throw new InvalidRequestException("App id is null.");
         }
 
         return clientApps.entrySet()
                 .stream()
                 .map(Map.Entry::getValue)
                 .filter(app -> app.getId().equals(id))
-                .findFirst();
+                .findFirst()
+                .orElseThrow(() -> new ObjectNotFoundException(String.format("App with id %d not found.", id)));
     }
 
     @Override

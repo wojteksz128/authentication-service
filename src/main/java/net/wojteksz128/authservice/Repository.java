@@ -1,10 +1,11 @@
 package net.wojteksz128.authservice;
 
-import java.util.Optional;
+import net.wojteksz128.authservice.exception.InvalidRequestException;
+import net.wojteksz128.authservice.exception.ObjectNotFoundException;
 
 public interface Repository<T> {
 
-    Optional<T> findById(Long id);
+    T findById(Long id) throws InvalidRequestException, ObjectNotFoundException;
 
     T save(T obj);
 
