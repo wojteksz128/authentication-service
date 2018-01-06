@@ -16,4 +16,9 @@ class WebAppController {
         model.addAttribute("message_show", true);
         return "login";
     }
+
+    @RequestMapping("/devApp")
+    public String devapp(Model model) {
+        return "devApp";
+    }
 }
