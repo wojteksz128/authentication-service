@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+    </head>
+    <body>
+        <div th:fragment="message(type, title, message)">
+            <div class="alert alert-dismissable fade in" th:classappend="${
+                        type.toString() == 'INFO' ? 'alert-success' :
+                        type.toString() == 'WARNING' ? 'alert-warning' :
+                        type.toString() == 'ERROR' ? 'alert-danger' : ''
+                     }">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong th:text="${title}"></strong>
+                <p th:text="${message}"></p>
+            </div>
+        </div>
+    </body>
+</html>

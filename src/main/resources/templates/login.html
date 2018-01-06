@@ -9,10 +9,8 @@
         <div th:replace="fragments/header :: header-css"></div>
     </head>
     <body>
-        <div class="alert alert-danger alert-dismissable fade in">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>Błąd!</strong>
-            <p>Podano nieprawidłowy e-mail lub hasło.</p>
+        <div th:if="${ message_show }">
+            <div th:replace="fragments/message :: message(${ message_type }, ${ message_title }, ${ message_content })"></div>
         </div>
         <div class="container">
             <h1>Logowanie</h1>
