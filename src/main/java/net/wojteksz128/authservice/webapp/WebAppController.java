@@ -13,9 +13,13 @@ class WebAppController {
         return "index";
     }
 
+    @RequestMapping("/signUp")
+    public String signUp(Model model) {
+        return "register";
+    }
+
     @RequestMapping("/signIn")
-    public String greeting(Model model) {
-        model.addAttribute("message_show", false);
+    public String signIn(Model model) {
         return "login";
     }
 

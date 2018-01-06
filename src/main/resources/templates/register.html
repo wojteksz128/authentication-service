@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Logowanie</title>
+
+        <script th:replace="fragments/header :: header-css"></script>
+    </head>
+    <body>
+        <div th:replace="fragments/header :: header"></div>
+        <div class="container">
+            <h1>Rejestracja</h1>
+            <form class="form-login">
+                <fieldset>
+                    <div th:if="${ param.error }">
+                        <div th:replace="fragments/message :: message(${ T(net.wojteksz128.authservice.MessageType).ERROR }, 'Błąd!', 'Podano nieprawidłowy e-mail lub hasło.')"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Adres e-mail:</label>
+                        <input type="email" class="form-control" id="email" name="email" required="required"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Hasło:</label>
+                        <input type="password" class="form-control" id="password" name="password" required="required"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="rPassword">Powtórz hasło:</label>
+                        <input type="password" class="form-control" id="rPassword" name="rPassword" required="required"/>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary" data-dismiss="modal">Zarejestruj</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div th:replace="fragments/header :: footer"></div>
+    </body>
+</html>
