@@ -5,15 +5,36 @@
             <script src="webjars/jquery/3.2.1/jquery.min.js"></script>
             <script src="webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
             <script src="webjars/jquery-ui/1.12.1/jquery-ui.min.js"></script>
+            <script src="js/header.js"></script>
             <link rel="stylesheet" href="webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
             <link rel="stylesheet" href="webjars/bootstrap/3.3.7-1/css/bootstrap-theme.min.css"/>
             <link rel="stylesheet" href="webjars/jquery-ui/1.12.1/jquery-ui.min.css"/>
         </div>
     </head>
     <body>
+        <div th:fragment="header">
+            <nav class="navbar navbar-inverse">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" th:href="@{/}">AuthService</a>
+                    </div>
+                    <ul class="nav navbar-nav">
+                        <li><a th:href="@{/}">Strona główna</a></li>
+                        <li><a th:href="@{/devApp}">Lista zarejestrowanych aplikacji</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Zarejestruj</a></li>
+                        <li><a th:href="@{/signIn}"><span class="glyphicon glyphicon-log-in"></span> Zaloguj</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
         <div th:fragment="footer">
-            <div class="container">
-                &copy; 2018 Wojciech Szczepaniak
+            <div class="navbar navbar-fixed-bottom navbar-light">
+                <div class="container">
+                    <span>&copy; 2018 Wojciech Szczepaniak</span>
+                </div>
             </div>
         </div>
     </body>

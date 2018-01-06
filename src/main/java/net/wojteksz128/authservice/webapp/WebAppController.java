@@ -8,17 +8,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 class WebAppController {
 
+    @RequestMapping({ "/", "/index" })
+    public String mainScreen(Model model) {
+        return "index";
+    }
+
     @RequestMapping("/signIn")
     public String greeting(Model model) {
-        model.addAttribute("message_type", MessageType.ERROR);
-        model.addAttribute("message_title", "Błąd!");
-        model.addAttribute("message_content", "Podano nieprawidłowy e-mail lub hasło.");
-        model.addAttribute("message_show", true);
+        model.addAttribute("message_show", false);
         return "login";
     }
 
     @RequestMapping("/devApp")
     public String devapp(Model model) {
-        return "devApp";
+        return "developer/index";
     }
 }

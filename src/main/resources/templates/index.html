@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Strona główna</title>
+
+        <script th:replace="fragments/header :: header-css"></script>
+    </head>
+    <body>
+        <div th:replace="fragments/header :: header"></div>
+        <div class="container">
+            <h1>AuthService</h1>
+            <p>Przykładowa treść powitania...</p>
+        </div>
+        <div th:replace="fragments/header :: footer"></div>
+    </body>
+</html>
