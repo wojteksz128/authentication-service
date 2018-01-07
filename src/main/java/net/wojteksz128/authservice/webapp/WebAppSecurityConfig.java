@@ -14,7 +14,8 @@ class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/index", "/**").permitAll()
+                .antMatchers("/", "/index", "/**/css/**", "/**/js/**", "/webjars/**").permitAll()
+                .antMatchers("/devApp").hasAnyRole("DEVELOPER")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
