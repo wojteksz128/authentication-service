@@ -23,7 +23,7 @@ class WebAppController {
     }
 
     @RequestMapping("/devApp")
-    public String devapp(Model model) {
-        return "developer/index";
+    public String devApp(Model model) {
+        return "developer/devApps";
     }
 }
