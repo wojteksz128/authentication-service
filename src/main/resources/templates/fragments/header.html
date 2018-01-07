@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
     <head>
         <div th:fragment="header-css">
             <script src="webjars/jquery/3.2.1/jquery.min.js"></script>
@@ -22,10 +22,18 @@
                         <li><a th:href="@{/}">Strona główna</a></li>
                         <li><a th:href="@{/devApp}">Lista zarejestrowanych aplikacji</a></li>
                     </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a th:href="@{/signUp}"><span class="glyphicon glyphicon-user"></span> Zarejestruj</a></li>
-                        <li><a th:href="@{/signIn}"><span class="glyphicon glyphicon-log-in"></span> Zaloguj</a></li>
-                    </ul>
+                    <div sec:authorize="isAnonymous()">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a th:href="@{/signUp}"><span class="glyphicon glyphicon-user"></span> Zarejestruj</a></li>
+                            <li><a th:href="@{/signIn}"><span class="glyphicon glyphicon-log-in"></span> Zaloguj</a></li>
+                        </ul>
+                    </div>
+                    <div sec:authorize="isAuthenticated()">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="#"><span class="glyphicon glyphicon-user"></span> <span sec:authentication="name"></span></a></li>
+                            <li><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-out"></span> Wyloguj</a></li>
+                        </ul>
+                    </div>
                 </div>
             </nav>
         </div>
@@ -34,6 +42,11 @@
             <div class="navbar navbar-fixed-bottom navbar-light">
                 <div class="container">
                     <span>&copy; 2018 Wojciech Szczepaniak</span>
+                    <span sec:authorize="isAuthenticated()">
+                        | Logged user: <span sec:authentication="name"></span> |
+                        Roles: <span sec:authentication="principal.authorities"></span> |
+                        <a th:href="@{/logout}">Sign Out</a>
+                    </span>
                 </div>
             </div>
         </div>

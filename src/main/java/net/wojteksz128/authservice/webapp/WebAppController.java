@@ -24,6 +24,6 @@ class WebAppController {
 
     @RequestMapping("/devApp")
     public String devapp(Model model) {
-        return "developer/index";
+        return "developer/devApps";
     }
 }
