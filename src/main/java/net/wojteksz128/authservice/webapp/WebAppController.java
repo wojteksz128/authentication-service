@@ -1,6 +1,5 @@
 package net.wojteksz128.authservice.webapp;
 
-import net.wojteksz128.authservice.MessageType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;

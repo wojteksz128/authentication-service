@@ -8,6 +8,7 @@
         <title>Zarejestrowane aplikacje</title>
 
         <script th:replace="fragments/header :: header-css"></script>
+        <script th:replace="developer/fragments/appKeyInfo :: app-key-info-header"></script>
         <link rel="stylesheet" type="text/css" media="screen" href="developer/css/main.css"/>
         <script src="developer/js/main.js" defer="defer"></script>
     </head>
@@ -15,28 +16,13 @@
     <body>
         <div th:replace="fragments/header :: header"></div>
         <!-- Komunikaty -->
-        <div class="alert alert-success alert-dismissable fade in">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>Sukces!</strong>
-            <p>Akcja została zakończona pomyślnie.</p>
-            <form class="form-inline">
-                <div class="form-group">
-                    <label for="alert-app-key">Aplikacji nadano klucz aplikacji:</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="alert-app-key" readonly="readonly"/>
-                        <span class="input-group-btn">
-                            <button class="btn btn-primary btn-copy-key" data-toggle="popover">Kopiuj</button>
-                        </span>
-                    </div>
-                </div>
-            </form>
+        <div th:if="${param.appAdded}">
+            <div th:replace="fragments/message :: message(type=${ T(net.wojteksz128.authservice.MessageType).INFO }, title='Sukces!', message='Nowa aplikacja została dodana.', addFragmentFile='developer/fragments/appKeyInfo', addFragmentName='app-key-info')"></div>
+        </div>
+        <div th:if="${param.error}">
+            <div th:replace="fragments/message :: message(${ T(net.wojteksz128.authservice.MessageType).ERROR }, 'Błąd!', 'Akcja nie powiodła się.')"></div>
         </div>
 
-        <div class="alert alert-danger alert-dismissable fade in">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>Błąd!</strong>
-            <p>Akcja nie powiodła się.</p>
-        </div>
         <div class="container">
             <h1>Zarejestrowane aplikacje</h1>
             <!-- Tabela -->

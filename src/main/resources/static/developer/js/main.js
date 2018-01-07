@@ -21,13 +21,6 @@ function copyToClipboard(text) {
     return returned;
  }
 
- function showPopover(obj) {
-    obj.popover('show');
-    setTimeout(function () {
-        obj.popover('hide');
-    }, 1000);
- }
-
 $('body').on('show.bs.modal', function(e) {
     if (modal_lv > 0) {
         $('.modal-backdrop:last').css('zIndex', 1049 + (modal_lv++ * 2));
@@ -42,19 +35,6 @@ $('body').on('show.bs.modal', function(e) {
             $('.modal-backdrop.fade.in:eq(' + i + ')').css('zIndex', 1049 + (i * 2));
         }
 });
-
-$('.btn-copy-key').popover({
-    content: "Klucz aplikacji został skopiowany.",
-    trigger: 'manual',
-    placement: 'bottom'
-}).click(function (obj) {
-    var jObj = $(obj.target);
-
-    if (copyToClipboard(jObj.parent().parent().children("input").val()))
-        showPopover(jObj);
-});
-
-//$('[data-toggle="popover"]').popover();
 
 $('#modal-delete-question').on('show.bs.modal', function(e) {
     $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
