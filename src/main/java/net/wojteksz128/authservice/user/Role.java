@@ -1,11 +1,13 @@
 package net.wojteksz128.authservice.user;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "Roles")
 class Role {
 

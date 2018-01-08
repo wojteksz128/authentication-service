@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 class WebAppController {
 
-    @RequestMapping({ "/", "/index" })
+    @RequestMapping({"/", "/index"})
     public String mainScreen(Model model) {
         return "index";
     }
