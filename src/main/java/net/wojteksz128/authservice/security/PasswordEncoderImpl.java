@@ -1,4 +1,4 @@
-package net.wojteksz128.authservice.user;
+package net.wojteksz128.authservice.security;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
