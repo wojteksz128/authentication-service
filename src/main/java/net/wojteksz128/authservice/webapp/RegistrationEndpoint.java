@@ -1,6 +1,5 @@
 package net.wojteksz128.authservice.webapp;
 
-import net.wojteksz128.authservice.user.UserDto;
 import net.wojteksz128.authservice.user.UserRegistrationDto;
 import net.wojteksz128.authservice.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/signUp")
+@SuppressWarnings("unused")
 class RegistrationEndpoint {
 
     @Autowired
@@ -36,8 +36,12 @@ class RegistrationEndpoint {
     @PreAuthorize("isAnonymous()")
     @PostMapping
     public String register(@ModelAttribute("user") @Valid UserRegistrationDto user, BindingResult result) {
-        if (userService.findByEmail(user.getEmail()).isPresent()){
+        if (userService.findByEmail(user.getEmail()).isPresent()) {
             result.rejectValue("email", null, "There is already an account registered with that email");
+        }
+
+        if (!user.getPassword().equals(user.getConfirmPassword())) {
+            result.rejectValue("confirmPassword", null, "The password fields must match");
         }
 
         if (result.hasErrors()) {

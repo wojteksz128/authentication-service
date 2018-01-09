@@ -2,13 +2,11 @@ package net.wojteksz128.authservice.user;
 
 import lombok.Data;
 
-import java.util.Set;
 
 @Data
 @SuppressWarnings("WeakerAccess")
-public class UserDto {
+public class RoleDto {
 
     private Long id;
-    private String email;
-    private Set<RoleDto> roles;
+    private String code;
 }

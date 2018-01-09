@@ -12,22 +12,40 @@
         <div th:replace="fragments/header :: header"></div>
         <div class="container">
             <h1>Rejestracja</h1>
-            <form class="form-login">
+            <form th:action="@{/signUp}" method="post" th:object="${user}" class="form-login">
                 <fieldset>
-                    <div th:if="${ param.error }">
-                        <div th:replace="fragments/message :: message(${ T(net.wojteksz128.authservice.MessageType).ERROR }, 'Błąd!', 'Podano nieprawidłowy e-mail lub hasło.')"></div>
+                    <div th:if="${ #fields.hasGlobalErrors() }" th:each="error: ${#fields.errors('global')}">
+                        <div th:replace="fragments/message :: message(${ T(net.wojteksz128.authservice.MessageType).ERROR }, 'Błąd!', ${error})"></div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" th:classappend="${#fields.hasErrors('email')} ? 'has-error' : ''">
                         <label for="email">Adres e-mail:</label>
-                        <input type="email" class="form-control" id="email" name="email" required="required"/>
+                        <input type="email" class="form-control" id="email" th:field="*{email}" required="required"/>
+                        <div th:if="${ #fields.hasErrors('email') }" th:each="error: ${#fields.errors('email')}">
+                            <div th:replace="fragments/message :: message(${ T(net.wojteksz128.authservice.MessageType).ERROR }, 'Błąd!', ${error})"></div>
+                        </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" th:classappend="${#fields.hasErrors('password')} ? 'has-error' : ''">
                         <label for="password">Hasło:</label>
-                        <input type="password" class="form-control" id="password" name="password" required="required"/>
+                        <input type="password" class="form-control" id="password" th:field="*{password}" required="required"/>
+                        <div th:if="${ #fields.hasErrors('password') }" th:each="error: ${#fields.errors('password')}">
+                            <div th:replace="fragments/message :: message(${ T(net.wojteksz128.authservice.MessageType).ERROR }, 'Błąd!', ${error})"></div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="rPassword">Powtórz hasło:</label>
-                        <input type="password" class="form-control" id="rPassword" name="rPassword" required="required"/>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('confirmPassword')} ? 'has-error' : ''">
+                        <label for="confirmPassword">Powtórz hasło:</label>
+                        <input type="password" class="form-control" id="confirmPassword" th:field="*{confirmPassword}"
+                               required="required"/>
+                        <div th:if="${ #fields.hasErrors('confirmPassword') }" th:each="error: ${#fields.errors('confirmPassword')}">
+                            <div th:replace="fragments/message :: message(${ T(net.wojteksz128.authservice.MessageType).ERROR }, 'Błąd!', ${error})"></div>
+                        </div>
+                    </div>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('terms')} ? 'has-error' : ''">
+                        <div class="checkbox">
+                            <label><input type="checkbox" th:field="*{terms}"/>Akceptuje <a>Warunki korzystania z usługi</a>.</label>
+                        </div>
+                        <div th:if="${ #fields.hasErrors('terms') }" th:each="error: ${#fields.errors('terms')}">
+                            <div th:replace="fragments/message :: message(${ T(net.wojteksz128.authservice.MessageType).ERROR }, 'Błąd!', ${error})"></div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary" data-dismiss="modal">Zarejestruj</button>
