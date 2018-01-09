@@ -1,27 +1,19 @@
 package net.wojteksz128.authservice.webapp;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-class WebAppController {
+class WebAppEndpoint {
 
-    @RequestMapping({ "/", "/index" })
+    @RequestMapping({"/", "/index"})
     public String mainScreen(Model model) {
         return "index";
     }
 
-    @RequestMapping("/signUp")
-    public String signUp(Model model) {
-        return "register";
-    }
-
-    @RequestMapping("/signIn")
-    public String signIn(Model model) {
-        return "login";
-    }
-
+    @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
     @RequestMapping("/devApp")
     public String devApp(Model model) {
         return "developer/devApps";

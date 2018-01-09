@@ -20,6 +20,9 @@
                     <div th:if="${ param.logout }">
                         <div th:replace="fragments/message :: message(${ T(net.wojteksz128.authservice.MessageType).INFO }, 'Wylogowano.', 'Użytkownik został wylogowany.')"></div>
                     </div>
+                    <div th:if="${ param.registered }">
+                        <div th:replace="fragments/message :: message(${ T(net.wojteksz128.authservice.MessageType).INFO }, 'Zarejestrowano.', 'Nowy użytkownik został zarejestrowany. Teraz możesz się zalogować.')"></div>
+                    </div>
                     <div class="form-group">
                         <label for="email">Adres e-mail:</label>
                         <input type="email" class="form-control" id="email" name="username" required="required"/>
