@@ -1,18 +1,25 @@
 package net.wojteksz128.authservice.security;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 class PasswordEncoderImpl implements PasswordEncoder {
 
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public PasswordEncoderImpl() {
+        bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    }
+
     @Override
     public String encode(CharSequence rawPassword) {
-        return rawPassword.toString();
+        return bCryptPasswordEncoder.encode(rawPassword);
     }
 
     @Override
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
-        return rawPassword.equals(encodedPassword);
+        return bCryptPasswordEncoder.matches(rawPassword, encodedPassword);
     }
 }
