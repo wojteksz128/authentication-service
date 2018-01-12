@@ -11,6 +11,7 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @Table(name = "Users")
+@SecondaryTable(name = "ClientApps", pkJoinColumns = @PrimaryKeyJoinColumn(name = "user_id", referencedColumnName = "id"))
 class User implements Serializable {
 
     @Id
