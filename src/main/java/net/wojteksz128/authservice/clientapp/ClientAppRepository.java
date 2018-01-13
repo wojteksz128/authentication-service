@@ -15,4 +15,6 @@ interface ClientAppRepository extends Repository<ClientApp> {
     List<ClientApp> findByNameContains(String value);
 
     List<ClientApp> findAllApps();
+
+    List<ClientApp> findByUserId(Long userId);
 }

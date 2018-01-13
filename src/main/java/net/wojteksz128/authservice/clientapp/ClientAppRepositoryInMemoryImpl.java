@@ -47,6 +47,15 @@ class ClientAppRepositoryInMemoryImpl implements ClientAppRepository {
     }
 
     @Override
+    public List<ClientApp> findByUserId(Long userId) {
+        return clientApps.entrySet()
+                .stream()
+                .map(Map.Entry::getValue)
+                .filter(v -> v.getUserId().equals(userId))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public ClientApp findById(Long id) throws InvalidRequestException, ObjectNotFoundException {
         if (id == null) {
             throw new InvalidRequestException("App id is null.");

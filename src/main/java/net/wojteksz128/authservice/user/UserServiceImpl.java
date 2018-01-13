@@ -46,7 +46,7 @@ class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> optionalUser = userRepository.findByEmail(username);
-        return new CustomUserDetails(optionalUser
+        return new UserDetailsImpl(optionalUser
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User with email '%s' not exists", username))));
     }
 }

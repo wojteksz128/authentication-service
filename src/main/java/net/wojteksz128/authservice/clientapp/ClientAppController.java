@@ -59,6 +59,13 @@ public class ClientAppController {
         clientAppRepository.delete(dtoToClientAppConverter.convert(app));
     }
 
+    public List<ClientAppDto> getAllUserApps(Long userId) {
+        return clientAppRepository.findByUserId(userId)
+                .stream()
+                .map(clientAppToDtoConverter::convert)
+                .collect(Collectors.toList());
+    }
+
     private void checkValidity(String appGuid, ClientAppDto app) throws EmptyObjectException, InvalidRequestException, ObjectNotCorrespondingException, ObjectNotFoundException {
         if (app == null) {
             throw new EmptyObjectException("Attempt to use a null object.");
