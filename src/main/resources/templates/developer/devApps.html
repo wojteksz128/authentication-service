@@ -37,7 +37,7 @@
                 <tbody>
                     <tr data-toggle="modal" data-target="#modal-info">
                         <td>Test</td>
-                        <td>j34tklwg8p95elbmdr9xj09se5egmd</td>
+                        <td>53333235-e4b4-4807-ad4a-5db00b0a9671</td>
                         <td>2017-12-24 00:00:00</td>
                     </tr>
                 </tbody>
@@ -94,6 +94,18 @@
                                 <textarea class="form-control" rows="5" id="app-desc"
                                           style="resize: vertical"></textarea>
                             </div>
+                            <div class="form-group">
+                                <label>Aplikacja wymaga informacji o:</label>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" disabled="disabled" checked="checked"/>Adres e-mail i hasło</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox"/>Imię i nazwisko</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox"/>Adres</label>
+                                </div>
+                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -116,12 +128,12 @@
                         <form class="form-app">
                             <div class="form-group">
                                 <label for="app-name">Nazwa aplikacji:</label>
-                                <input type="text" class="form-control" id="app-name"/>
+                                <input type="text" class="form-control" id="app-name" value="Test"/>
                             </div>
                             <div class="form-group">
                                 <label for="app-key">Klucz aplikacji:</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="app-key" readonly="readonly"/>
+                                    <input type="text" class="form-control" id="app-key" readonly="readonly" value="53333235-e4b4-4807-ad4a-5db00b0a9671"/>
                                     <span class="input-group-btn">
                                         <button class="btn btn-primary btn-copy-key"
                                                 data-toggle="popover">Kopiuj</button>
@@ -130,12 +142,24 @@
                             </div>
                             <div class="form-group">
                                 <label for="app-reg-date">Data rejestracji:</label>
-                                <input type="text" class="form-control" id="app-reg-date" readonly="readonly"/>
+                                <input type="date" class="form-control" id="app-reg-date" readonly="readonly" value="2017-12-24"/>
                             </div>
                             <div class="form-group">
                                 <label for="app-desc">Opis:</label>
                                 <textarea class="form-control" rows="5" id="app-desc"
-                                          style="resize: vertical"></textarea>
+                                          style="resize: vertical">Testowy opis aplikacji zewnętrznej.</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Aplikacja wymaga informacji o:</label>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" disabled="disabled" checked="checked"/>Adres e-mail i hasło</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox"/>Imię i nazwisko</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox"/>Adres</label>
+                                </div>
                             </div>
                         </form>
                     </div>
