@@ -9,7 +9,9 @@
 
         <script th:replace="fragments/header :: header-css"></script>
         <script th:replace="developer/fragments/appKeyInfo :: app-key-info-header"></script>
-        <script th:fragment="developer/fragments/modalDelete :: modal-delete-header"></script>
+        <!--<script th:replace="developer/fragments/modalDelete :: modal-delete-header"></script>-->
+        <!--<script th:replace="developer/fragments/modalCreate :: modal-create-header"></script>-->
+        <!--<script th:replace="developer/fragments/modalInfo :: modal-info-header"></script>-->
         <link rel="stylesheet" type="text/css" media="screen" href="developer/css/main.css"/>
         <script src="developer/js/main.js" defer="defer"></script>
     </head>
@@ -56,51 +58,9 @@
         </div>
         <div th:replace="fragments/header :: footer"></div>
 
-        <!-- Okno usuwania aplikacji -->
+        <!-- Okna modalne -->
         <div th:replace="developer/fragments/modalDelete :: modal-delete"></div>
-
-        <!-- Okno tworzenia nowej aplikacji -->
-        <div id="modal-create" class="modal fade" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <a href="#" class="close" data-dismiss="modal" aria-label="close">&times;</a>
-                        <h4 class="modal-title">Dodawanie nowej aplikacji</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form class="form-app">
-                            <div class="form-group">
-                                <label for="app-name">Nazwa aplikacji:</label>
-                                <input type="text" class="form-control" id="app-name"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="app-desc">Opis:</label>
-                                <textarea class="form-control" rows="5" id="app-desc"
-                                          style="resize: vertical"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Aplikacja wymaga informacji o:</label>
-                                <div class="checkbox">
-                                    <label><input type="checkbox" disabled="disabled" checked="checked"/>Adres e-mail i hasło</label>
-                                </div>
-                                <div class="checkbox">
-                                    <label><input type="checkbox"/>Imię i nazwisko</label>
-                                </div>
-                                <div class="checkbox">
-                                    <label><input type="checkbox"/>Adres</label>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <a class="btn btn-success btn-ok">Zapisz</a>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Okno informacji / edycji aplikacji -->
+        <div th:replace="developer/fragments/modalCreate :: modal-create"></div>
         <div th:replace="developer/fragments/modalInfo :: modal-info"></div>
     </body>
 

@@ -35,9 +35,3 @@ $('body').on('show.bs.modal', function(e) {
             $('.modal-backdrop.fade.in:eq(' + i + ')').css('zIndex', 1049 + (i * 2));
         }
 });
-
-$('#modal-create').on('show.bs.modal', function(e) {
-    $(this).find('.modal-content').draggable({
-        handle: '.modal-header'
-    });
-});
