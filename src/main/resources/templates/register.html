@@ -9,7 +9,9 @@
         <script th:replace="fragments/header :: header-css"></script>
     </head>
     <body>
-        <div th:replace="fragments/header :: header"></div>
+        <div th:if="${ param.apiKey == null }">
+            <div th:replace="fragments/header :: header"></div>
+        </div>
         <div class="container">
             <h1>Rejestracja</h1>
             <form th:action="@{/signUp}" method="post" th:object="${user}" class="form-login">
@@ -38,6 +40,14 @@
                         <div th:if="${ #fields.hasErrors('confirmPassword') }" th:each="error: ${#fields.errors('confirmPassword')}">
                             <div th:replace="fragments/message :: message(${ T(net.wojteksz128.authservice.MessageType).ERROR }, 'Błąd!', ${error})"></div>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstName">Imię:</label>
+                        <input type="text" class="form-control" id="firstName"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Nazwisko:</label>
+                        <input type="text" class="form-control" id="lastName"/>
                     </div>
                     <div class="form-group" th:classappend="${#fields.hasErrors('terms')} ? 'has-error' : ''">
                         <div class="checkbox">
