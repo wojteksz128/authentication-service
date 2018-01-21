@@ -101,63 +101,7 @@
         </div>
 
         <!-- Okno informacji / edycji aplikacji -->
-        <div id="modal-info" class="modal fade" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <a href="#" class="close" data-dismiss="modal" aria-label="close">&times;</a>
-                        <h4 class="modal-title">Informacje o aplikacji</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form class="form-app">
-                            <div class="form-group">
-                                <label for="app-name">Nazwa aplikacji:</label>
-                                <input type="text" class="form-control" id="app-name" value="Test"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="app-key">Klucz aplikacji:</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="app-key" readonly="readonly" value="53333235-e4b4-4807-ad4a-5db00b0a9671"/>
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-primary btn-copy-key"
-                                                data-toggle="popover">Kopiuj</button>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="app-reg-date">Data rejestracji:</label>
-                                <input type="date" class="form-control" id="app-reg-date" readonly="readonly" value="2017-12-24"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="app-desc">Opis:</label>
-                                <textarea class="form-control" rows="5" id="app-desc"
-                                          style="resize: vertical">Testowy opis aplikacji zewnętrznej.</textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Aplikacja wymaga informacji o:</label>
-                                <div class="checkbox">
-                                    <label><input type="checkbox" disabled="disabled" checked="checked"/>Adres e-mail i hasło</label>
-                                </div>
-                                <div class="checkbox">
-                                    <label><input type="checkbox"/>Imię i nazwisko</label>
-                                </div>
-                                <div class="checkbox">
-                                    <label><input type="checkbox"/>Adres</label>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <a class="btn btn-success btn-ok">
-                            <span class="glyphicon glyphicon-edit"></span> Zapisz</a>
-                        <button type="button" class="btn btn-danger" data-toggle="modal"
-                                data-target="#modal-delete-question">
-                            <span class="glyphicon glyphicon-remove"></span> Usuń
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div th:replace="developer/fragments/modalInfo :: modal-info"></div>
     </body>
 
 </html>

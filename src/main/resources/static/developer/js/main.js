@@ -41,9 +41,3 @@ $('#modal-create').on('show.bs.modal', function(e) {
         handle: '.modal-header'
     });
 });
-
-$('#modal-info').on('show.bs.modal', function(e) {
-    $(this).find('.modal-content').draggable({
-        handle: '.modal-header'
-    });
-});
