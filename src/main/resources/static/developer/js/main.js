@@ -36,13 +36,6 @@ $('body').on('show.bs.modal', function(e) {
         }
 });
 
-$('#modal-delete-question').on('show.bs.modal', function(e) {
-    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
-    $(this).find('.modal-content').draggable({
-        handle: '.modal-header'
-    });
-});
-
 $('#modal-create').on('show.bs.modal', function(e) {
     $(this).find('.modal-content').draggable({
         handle: '.modal-header'
