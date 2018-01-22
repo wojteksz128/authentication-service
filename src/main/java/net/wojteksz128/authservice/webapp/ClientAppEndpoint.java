@@ -13,9 +13,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @Controller
 class ClientAppEndpoint {
@@ -25,12 +27,76 @@ class ClientAppEndpoint {
 
     @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
     @RequestMapping("/devApp")
-    public String getDevApp(Authentication authentication, Model model) {
+    public String getDevApp(Authentication authentication, @RequestParam Map<String, String> params, Model model) {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
         model.addAttribute("apps", clientAppController.getAllUserApps(userDetails.getId()));
-        model.addAttribute("devApp", new CreateClientAppDto());
+        if (params.containsKey("error")) {
+            if (params.containsKey("add")) {
+                model.addAttribute("add", "");
+            }
+            else if (params.containsKey("info")) {
+                model.addAttribute("info", "");
+            }
+            else if (params.containsKey("delete")) {
+                model.addAttribute("delete", "");
+            }
+        }
+
         return "developer/devApps";
     }
+
+    @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
+    @RequestMapping(value = "/devApp", method = RequestMethod.POST)
+    public String addDevApp(@ModelAttribute("devApp") @Valid CreateClientAppDto appDto, BindingResult result) {
+        final ClientAppDto clientAppControllerNew;
+
+        if (result.hasErrors()) {
+            return "redirect:/devApp?error&add";
+        }
+
+        try {
+            clientAppControllerNew = clientAppController.createNew(appDto);
+        } catch (EmptyObjectException e) {
+            return "redirect:/devApp?error&add";
+        }
+
+        return "redirect:/devApp?appAdded&appkey=" + clientAppControllerNew.getGuid();
+    }
+
+    @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
+    @RequestMapping(value = "/devApp/{guid}", method = RequestMethod.POST)
+    public String updateApp(@PathVariable("guid") String guid, @ModelAttribute("app") @Valid ClientAppDto appDto, BindingResult result) {
+        if (result.hasErrors()) {
+            return "redirect:/devApp?error&info";
+        }
+
+        try {
+            clientAppController.updateApp(guid, appDto);
+        } catch (ObjectNotCorrespondingException | InvalidRequestException | EmptyObjectException | ObjectNotFoundException e) {
+            return "redirect:/devApp?error&info";
+        }
+
+        return "redirect:/devApp?success";
+    }
+
+    @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
+    @RequestMapping(value = "/devApp/{guid}/delete", method = RequestMethod.POST)
+    public String deleteDevApp(@PathVariable("guid") String guid, @ModelAttribute("app") @Valid ClientAppDto appDto, BindingResult result) {
+        if (result.hasErrors()) {
+            return "redirect:/devApp?error&delete";
+        }
+
+        try {
+            clientAppController.deleteApp(guid, appDto);
+        } catch (InvalidRequestException | ObjectNotFoundException | ObjectNotCorrespondingException | EmptyObjectException e) {
+            return "redirect:/devApp?error&delete";
+        }
+
+        return "redirect:/devApp?success";
+    }
+
+    //----- Modal windows ----------------------------------------------------------------------------------------------
 
     @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
     @RequestMapping(value = "/devApp/new")
@@ -38,44 +104,6 @@ class ClientAppEndpoint {
         model.addAttribute("devApp", new CreateClientAppDto());
 
         return "developer/fragments/modalCreate";
-    }
-
-    @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
-    @RequestMapping(value = "/devApp", method = RequestMethod.POST)
-    public String addDevApp(@ModelAttribute("devApp") @Valid CreateClientAppDto appDto) {
-        final ClientAppDto clientAppControllerNew;
-
-        try {
-            clientAppControllerNew = clientAppController.createNew(appDto);
-        } catch (EmptyObjectException e) {
-            return "redirect:/devApp?error";
-        }
-
-        return "redirect:/devApp?appAdded&appkey=" + clientAppControllerNew.getGuid();
-    }
-
-    @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
-    @RequestMapping("/devApp/{guid}")
-    public String getApp(@PathVariable("guid") String guid, Model model) {
-        try {
-            model.addAttribute("app", clientAppController.getAppByGuid(guid));
-        } catch (InvalidRequestException | ObjectNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        return "developer/fragments/modalInfo";
-    }
-
-    @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
-    @RequestMapping(value = "/devApp/{guid}", method = RequestMethod.POST)
-    public String updateApp(@PathVariable("guid") String guid, @ModelAttribute("app") ClientAppDto appDto) {
-        try {
-            clientAppController.updateApp(guid, appDto);
-        } catch (ObjectNotCorrespondingException | InvalidRequestException | EmptyObjectException | ObjectNotFoundException e) {
-            return "redirect:/devApp?error";
-        }
-
-        return "redirect:/devApp?success";
     }
 
     @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
@@ -91,14 +119,14 @@ class ClientAppEndpoint {
     }
 
     @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
-    @RequestMapping(value = "/devApp/{guid}/delete", method = RequestMethod.POST)
-    public String deleteDevApp(@PathVariable("guid") String guid, @ModelAttribute("app") ClientAppDto appDto) {
+    @RequestMapping("/devApp/{guid}")
+    public String getApp(@PathVariable("guid") String guid, Model model) {
         try {
-            clientAppController.deleteApp(guid, appDto);
-        } catch (InvalidRequestException | ObjectNotFoundException | ObjectNotCorrespondingException | EmptyObjectException e) {
-            return "redirect:/devApp?error";
+            model.addAttribute("app", clientAppController.getAppByGuid(guid));
+        } catch (InvalidRequestException | ObjectNotFoundException e) {
+            e.printStackTrace();
         }
 
-        return "redirect:/devApp?success";
+        return "developer/fragments/modalInfo";
     }
 }
