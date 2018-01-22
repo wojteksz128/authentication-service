@@ -9,6 +9,9 @@
 
         <script th:replace="fragments/header :: header-css"></script>
         <script th:replace="developer/fragments/appKeyInfo :: app-key-info-header"></script>
+        <script th:replace="developer/fragments/modalCreate :: modal-create-header"></script>
+        <script th:replace="developer/fragments/modalDelete :: modal-delete-header"></script>
+        <script th:replace="developer/fragments/modalInfo :: modal-info-header"></script>
         <link rel="stylesheet" type="text/css" media="screen" th:href="@{/developer/css/main.css}"/>
         <script th:src="@{developer/js/main.js}" defer="defer"></script>
     </head>
@@ -34,11 +37,11 @@
                         <th>Data rejestracji</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody th:each="app : ${apps}">
                     <tr data-toggle="modal" data-target="#modal-info">
-                        <td>Test</td>
-                        <td>53333235-e4b4-4807-ad4a-5db00b0a9671</td>
-                        <td>2017-12-24 00:00:00</td>
+                        <td th:text="${app.name}">Test</td>
+                        <td th:text="${app.guid}">53333235-e4b4-4807-ad4a-5db00b0a9671</td>
+                        <td th:text="${app.description}">2017-12-24 00:00:00</td>
                     </tr>
                 </tbody>
                 <tfoot>

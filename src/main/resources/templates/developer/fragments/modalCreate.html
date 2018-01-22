@@ -11,16 +11,16 @@
                         <a href="#" class="close" data-dismiss="modal" aria-label="close">&times;</a>
                         <h4 class="modal-title">Dodawanie nowej aplikacji</h4>
                     </div>
-                    <div class="modal-body">
-                        <form class="form-app">
+                    <form th:action="@{/devApp}" method="post" th:object="${devApp}" class="form-app">
+                        <div class="modal-body">
                             <div class="form-group">
                                 <label for="app-name">Nazwa aplikacji:</label>
-                                <input type="text" class="form-control" id="app-name"/>
+                                <input type="text" class="form-control" id="app-name" th:field="*{name}"/>
                             </div>
                             <div class="form-group">
                                 <label for="app-desc">Opis:</label>
                                 <textarea class="form-control" rows="5" id="app-desc"
-                                          style="resize: vertical"></textarea>
+                                          style="resize: vertical" th:field="*{description}"></textarea>
                             </div>
                             <div class="form-group">
                                 <label>Aplikacja wymaga informacji o:</label>
@@ -34,12 +34,12 @@
                                     <label><input type="checkbox"/>Adres</label>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <a class="btn btn-success btn-ok">Zapisz</a>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
-                    </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success btn-ok">Zapisz</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
