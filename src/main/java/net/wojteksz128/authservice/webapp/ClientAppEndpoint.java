@@ -5,6 +5,7 @@ import net.wojteksz128.authservice.clientapp.ClientAppDto;
 import net.wojteksz128.authservice.clientapp.CreateClientAppDto;
 import net.wojteksz128.authservice.exception.EmptyObjectException;
 import net.wojteksz128.authservice.exception.InvalidRequestException;
+import net.wojteksz128.authservice.exception.ObjectNotCorrespondingException;
 import net.wojteksz128.authservice.exception.ObjectNotFoundException;
 import net.wojteksz128.authservice.user.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,19 @@ class ClientAppEndpoint {
         }
 
         return "developer/fragments/modalInfo";
+    }
+
+    @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
+    @RequestMapping(value = "/devApp/{guid}", method = RequestMethod.POST)
+    public String updateApp(@PathVariable("guid") String guid, @ModelAttribute("app") ClientAppDto appDto) {
+        try {
+            clientAppController.updateApp(guid, appDto);
+        } catch (ObjectNotCorrespondingException | InvalidRequestException | EmptyObjectException | ObjectNotFoundException e) {
+            return "redirect:/devApp?error";
+        }
+
+
+        return "redirect:/devApp?success";
     }
 
     @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")

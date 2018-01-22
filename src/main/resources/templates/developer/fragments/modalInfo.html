@@ -11,11 +11,11 @@
                         <a href="#" class="close" data-dismiss="modal" aria-label="close">&times;</a>
                         <h4 class="modal-title">Informacje o aplikacji</h4>
                     </div>
-                    <div class="modal-body">
-                        <form class="form-app" onsubmit="return false">
+                    <form class="form-app" th:action="'/devApp/' + ${app.guid}" method="post" th:object="${app}">
+                        <div class="modal-body">
                             <div class="form-group">
                                 <label for="app-name">Nazwa aplikacji:</label>
-                                <input type="text" class="form-control" id="app-name" th:value="${app.name}"/>
+                                <input type="text" class="form-control" id="app-name" th:field="*{name}"/>
                             </div>
                             <div class="form-group">
                                 <label for="app-key">Klucz aplikacji:</label>
@@ -36,7 +36,7 @@
                             <div class="form-group">
                                 <label for="app-desc">Opis:</label>
                                 <textarea class="form-control" rows="5" id="app-desc"
-                                          style="resize: vertical" th:text="${app.description}"></textarea>
+                                          style="resize: vertical" th:field="*{description}"></textarea>
                             </div>
                             <div class="form-group">
                                 <label>Aplikacja wymaga informacji o:</label>
@@ -51,16 +51,15 @@
                                     <label><input type="checkbox"/>Adres</label>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <a class="btn btn-success btn-ok">
-                            <span class="glyphicon glyphicon-edit"></span> Zapisz</a>
-                        <button type="button" class="btn btn-danger" data-toggle="modal"
-                                data-target="#modal-delete-question"  th:onclick="'javascript:openDeleteAppModal(\'' + ${app.guid} + '\');'">
-                            <span class="glyphicon glyphicon-remove"></span> Usuń
-                        </button>
-                    </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success btn-ok">
+                                <span class="glyphicon glyphicon-edit"></span> Zapisz</button>
+                            <button type="button" class="btn btn-danger" th:onclick="'javascript:openDeleteAppModal(\'' + ${app.guid} + '\');'">
+                                <span class="glyphicon glyphicon-remove"></span> Usuń
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

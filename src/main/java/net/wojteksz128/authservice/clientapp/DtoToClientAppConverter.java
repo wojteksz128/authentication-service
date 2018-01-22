@@ -14,15 +14,14 @@ class DtoToClientAppConverter implements Converter<ClientAppDto, ClientApp> {
 
     @Override
     public ClientApp convert(ClientAppDto clientAppDto) {
-        ClientApp clientApp = new ClientApp();
-
+        ClientApp clientApp;
 
         try {
-            clientApp.setId(clientAppRepository.findByGuid(clientAppDto.getGuid()).getId());
+            clientApp = clientAppRepository.findByGuid(clientAppDto.getGuid());
         } catch (InvalidRequestException | ObjectNotFoundException e) {
+            clientApp = new ClientApp();
             clientApp.setId(null);
         }
-        clientApp.setGuid(clientAppDto.getGuid());
         clientApp.setName(clientAppDto.getName());
         clientApp.setDescription(clientAppDto.getDescription());
 

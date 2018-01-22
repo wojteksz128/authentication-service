@@ -15,6 +15,7 @@ $('body').on('show.bs.modal', function(e) {
         }
 });
 
+var txt;
 function openAppInfoModal(guid) {
     $.ajax({
         url: "/devApp/" + guid,
@@ -22,6 +23,7 @@ function openAppInfoModal(guid) {
             $('#modal-info-holder').html("");
             $('#modal-info-holder').html(data);
             $('#modal-info').modal("show");
+            console.log(txt = $(data));
         }
     });
 }
