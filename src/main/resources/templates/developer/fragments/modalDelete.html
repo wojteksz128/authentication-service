@@ -14,10 +14,10 @@
                         Czy na pewno chcesz usunąć aplikację z listy zarejestrowanych? Po usunięciu nie klucz stanie
                         się nieaktualny i nie będzie można go wykorzystać w dalszej komunikacji.
                     </div>
-                    <div class="modal-footer">
+                    <form class="modal-footer" th:action="'/devApp/' + ${devApp.guid} + '/delete'" method="post">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
-                        <a class="btn btn-danger btn-ok">Usuń</a>
-                    </div>
+                        <button type="submit" class="btn btn-danger btn-ok">Usuń</button>
+                    </form>
                 </div>
             </div>
         </div>

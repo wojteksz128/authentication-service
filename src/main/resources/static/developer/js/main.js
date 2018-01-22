@@ -20,8 +20,7 @@ function openAppInfoModal(guid) {
     $.ajax({
         url: "/devApp/" + guid,
         success: function (data) {
-            $('#modal-info-holder').html("");
-            $('#modal-info-holder').html(data);
+            $('#modal-info-holder').replaceWith(data);
             $('#modal-info').modal("show");
             console.log(txt = $(data));
         }
@@ -32,8 +31,7 @@ function openNewAppModal() {
     $.ajax({
         url: "/devApp/new",
         success: function (data) {
-            $('#modal-create-holder').html("");
-            $('#modal-create-holder').html(data);
+            $('#modal-create-holder').replaceWith(data);
             $('#modal-create').modal("show");
         }
     });

@@ -75,7 +75,6 @@ class ClientAppEndpoint {
             return "redirect:/devApp?error";
         }
 
-
         return "redirect:/devApp?success";
     }
 
@@ -89,5 +88,17 @@ class ClientAppEndpoint {
         }
 
         return "developer/fragments/modalDelete";
+    }
+
+    @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
+    @RequestMapping(value = "/devApp/{guid}/delete", method = RequestMethod.POST)
+    public String deleteDevApp(@PathVariable("guid") String guid, @ModelAttribute("app") ClientAppDto appDto) {
+        try {
+            clientAppController.deleteApp(guid, appDto);
+        } catch (InvalidRequestException | ObjectNotFoundException | ObjectNotCorrespondingException | EmptyObjectException e) {
+            return "redirect:/devApp?error";
+        }
+
+        return "redirect:/devApp?success";
     }
 }
