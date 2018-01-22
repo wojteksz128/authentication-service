@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head th:fragment="modal-delete-header">
+    <head>
         <script th:src="@{/developer/js/modalDelete.js}"></script>
     </head>
-    <body th:fragment="modal-delete">
-        <div id="modal-delete-question" class="modal fade" tabindex="-1" role="dialog">
+    <body>
+        <div id="modal-delete-question" class="modal fade" tabindex="-1" role="dialog" th:fragment="modal-delete">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">

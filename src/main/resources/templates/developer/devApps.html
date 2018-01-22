@@ -9,9 +9,9 @@
 
         <script th:replace="fragments/header :: header-css"></script>
         <script th:replace="developer/fragments/appKeyInfo :: app-key-info-header"></script>
-        <script th:replace="developer/fragments/modalCreate :: modal-create-header"></script>
-        <script th:replace="developer/fragments/modalDelete :: modal-delete-header"></script>
-        <script th:replace="developer/fragments/modalInfo :: modal-info-header"></script>
+        <!--<script th:replace="developer/fragments/modalCreate :: modal-create-header"></script>-->
+        <!--<script th:replace="developer/fragments/modalDelete :: modal-delete-header"></script>-->
+        <!--<script th:replace="developer/fragments/modalInfo :: modal-info-header"></script>-->
         <link rel="stylesheet" type="text/css" media="screen" th:href="@{/developer/css/main.css}"/>
         <script th:src="@{developer/js/main.js}" defer="defer"></script>
     </head>
@@ -47,8 +47,7 @@
                 <tfoot>
                     <tr>
                         <td colspan="3">
-                            <button class="btn btn-primary btn-new" data-href="http://localhost/#" data-toggle="modal"
-                                    data-target="#modal-create">
+                            <button class="btn btn-primary btn-new" onclick="openNewAppModal()">
                                 <span class="glyphicon glyphicon-plus"></span> Dodaj nową aplikację
                             </button>
                         </td>
@@ -62,10 +61,6 @@
         <div id="modal-info-holder"></div>
         <div id="modal-delete-holder"></div>
         <div id="modal-create-holder"></div>
-
-        <div th:replace="developer/fragments/modalCreate :: modal-create"></div>
-        <div th:replace="developer/fragments/modalDelete :: modal-delete"></div>
-        <!--<div th:replace="developer/fragments/modalInfo :: modal-info"></div>-->
     </body>
 
 </html>

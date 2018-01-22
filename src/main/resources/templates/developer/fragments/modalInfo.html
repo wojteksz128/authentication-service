@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head th:fragment="modal-info-header">
+    <head>
         <script th:src="@{/developer/js/modalInfo.js}"></script>
     </head>
     <body>
@@ -57,7 +57,7 @@
                         <a class="btn btn-success btn-ok">
                             <span class="glyphicon glyphicon-edit"></span> Zapisz</a>
                         <button type="button" class="btn btn-danger" data-toggle="modal"
-                                data-target="#modal-delete-question">
+                                data-target="#modal-delete-question"  th:onclick="'javascript:openDeleteAppModal(\'' + ${app.guid} + '\');'">
                             <span class="glyphicon glyphicon-remove"></span> Usuń
                         </button>
                     </div>

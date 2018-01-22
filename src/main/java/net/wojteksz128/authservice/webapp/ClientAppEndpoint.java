@@ -32,6 +32,14 @@ class ClientAppEndpoint {
     }
 
     @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
+    @RequestMapping(value = "/devApp/new")
+    public String showNewDevAppForm(Model model) {
+        model.addAttribute("devApp", new CreateClientAppDto());
+
+        return "developer/fragments/modalCreate";
+    }
+
+    @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
     @RequestMapping(value = "/devApp", method = RequestMethod.POST)
     public String addDevApp(@ModelAttribute("devApp") @Valid CreateClientAppDto appDto) {
         final ClientAppDto clientAppControllerNew;
@@ -54,6 +62,18 @@ class ClientAppEndpoint {
             e.printStackTrace();
         }
 
-        return "developer/fragments/modalInfo :: modal-info";
+        return "developer/fragments/modalInfo";
+    }
+
+    @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
+    @RequestMapping(value = "/devApp/{guid}/delete")
+    public String showDeleteDevAppForm(@PathVariable("guid") String guid, Model model) {
+        try {
+            model.addAttribute("devApp", clientAppController.getAppByGuid(guid));
+        } catch (InvalidRequestException | ObjectNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return "developer/fragments/modalDelete";
     }
 }
