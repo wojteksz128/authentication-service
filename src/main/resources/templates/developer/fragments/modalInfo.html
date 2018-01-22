@@ -11,6 +11,7 @@
                         <a href="#" class="close" data-dismiss="modal" aria-label="close">&times;</a>
                         <h4 class="modal-title">Informacje o aplikacji</h4>
                     </div>
+                    <!--/*@thymesVar id="app" type="net.wojteksz128.authservice.clientapp.ClientAppDto"*/-->
                     <form class="form-app" th:action="'/devApp/' + ${app.guid}" method="post" th:object="${app}">
                         <div class="modal-body">
                             <div class="form-group">
@@ -30,8 +31,9 @@
                             </div>
                             <div class="form-group">
                                 <label for="app-reg-date">Data rejestracji:</label>
-                                <input type="date" class="form-control" id="app-reg-date" readonly="readonly"
-                                       value="2017-12-24"/>
+                                <!--/*@thymesVar id="formatter" type="java.time.format.DateTimeFormatter"*/-->
+                                <input type="text" class="form-control" id="app-reg-date" readonly="readonly"
+                                       th:value="${formatter.format(app.createDate)}"/>
                             </div>
                             <div class="form-group">
                                 <label for="app-desc">Opis:</label>

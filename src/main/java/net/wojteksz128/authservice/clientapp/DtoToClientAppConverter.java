@@ -16,9 +16,8 @@ class DtoToClientAppConverter implements Converter<ClientAppDto, ClientApp> {
 
     @Override
     public ClientApp convert(ClientAppDto clientAppDto) {
-        ClientApp clientApp;
+        ClientApp clientApp = clientAppRepository.findByGuid(clientAppDto.getGuid());
 
-        clientApp = clientAppRepository.findByGuid(clientAppDto.getGuid());
         clientApp.setName(clientAppDto.getName());
         clientApp.setDescription(clientAppDto.getDescription());
 

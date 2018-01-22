@@ -34,11 +34,13 @@
                         <th>Data rejestracji</th>
                     </tr>
                 </thead>
-                <tbody th:each="app : ${apps}">
-                    <tr th:onclick="'javascript:openAppInfoModal(\'' + ${app.guid} + '\');'">
+                <!--/*@thymesVar id="apps" type="java.util.List<net.wojteksz128.authservice.clientapp.ClientAppDto>"*/-->
+                <tbody>
+                    <tr th:each="app : ${apps}" th:onclick="'javascript:openAppInfoModal(\'' + ${app.guid} + '\');'">
                         <td th:text="${app.name}">Test</td>
                         <td th:text="${app.guid}">53333235-e4b4-4807-ad4a-5db00b0a9671</td>
-                        <td th:text="${app.description}">2017-12-24 00:00:00</td>
+                        <!--/*@thymesVar id="formatter" type="java.time.format.DateTimeFormatter"*/-->
+                        <td th:text="${formatter.format(app.createDate)}">2017-12-24 00:00:00</td>
                     </tr>
                 </tbody>
                 <tfoot>

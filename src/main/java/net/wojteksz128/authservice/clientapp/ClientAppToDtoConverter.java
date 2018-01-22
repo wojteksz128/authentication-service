@@ -13,6 +13,7 @@ class ClientAppToDtoConverter implements Converter<ClientApp, ClientAppDto> {
         clientAppDto.setGuid(clientApp.getGuid());
         clientAppDto.setName(clientApp.getName());
         clientAppDto.setDescription(clientApp.getDescription());
+        clientAppDto.setCreateDate(clientApp.getCreateDate());
 
         return clientAppDto;
     }

@@ -3,6 +3,8 @@ package net.wojteksz128.authservice.clientapp;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import java.time.LocalDateTime;
+
 @SuppressWarnings("WeakerAccess")
 @Data
 public class ClientAppDto {
@@ -13,4 +15,6 @@ public class ClientAppDto {
     private String name;
 
     private String description;
+
+    private LocalDateTime createDate;
 }

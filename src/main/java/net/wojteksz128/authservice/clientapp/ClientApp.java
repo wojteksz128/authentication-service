@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -22,6 +23,9 @@ class ClientApp implements Serializable {
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "createDate", nullable = false)
+    private LocalDateTime createDate;
 
     @Column(name = "user_id", nullable = false)
     private Long userId;

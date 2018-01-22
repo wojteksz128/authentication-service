@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 @Controller
@@ -23,6 +24,8 @@ class ClientAppEndpoint {
 
     @Autowired
     private ClientAppController clientAppController;
+
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
     @RequestMapping("/devApp")
@@ -39,6 +42,7 @@ class ClientAppEndpoint {
                 model.addAttribute("delete", "");
             }
         }
+        model.addAttribute("formatter", formatter);
 
         return "developer/devApps";
     }
@@ -115,6 +119,7 @@ class ClientAppEndpoint {
     @RequestMapping("/devApp/{guid}")
     public String getApp(@PathVariable("guid") String guid, Model model) {
         model.addAttribute("app", clientAppController.getAppByGuid(guid));
+        model.addAttribute("formatter", formatter);
 
         return "developer/fragments/modalInfo";
     }
