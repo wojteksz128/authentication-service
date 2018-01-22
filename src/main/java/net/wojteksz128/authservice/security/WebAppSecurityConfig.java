@@ -17,14 +17,18 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
+
+    private final PasswordEncoder passwordEncoder;
+
+    private final AccessDeniedHandler accessDeniedHandler;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private AccessDeniedHandler accessDeniedHandler;
+    public WebAppSecurityConfig(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, AccessDeniedHandler accessDeniedHandler) {
+        this.userDetailsService = userDetailsService;
+        this.passwordEncoder = passwordEncoder;
+        this.accessDeniedHandler = accessDeniedHandler;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -35,7 +39,7 @@ class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/**/css/**", "/**/js/**", "/webjars/**");
     }
 

@@ -6,7 +6,6 @@ import net.wojteksz128.authservice.clientapp.CreateClientAppDto;
 import net.wojteksz128.authservice.exception.EmptyObjectException;
 import net.wojteksz128.authservice.exception.InvalidRequestException;
 import net.wojteksz128.authservice.exception.ObjectNotCorrespondingException;
-import net.wojteksz128.authservice.exception.ObjectNotFoundException;
 import net.wojteksz128.authservice.user.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,11 +33,9 @@ class ClientAppEndpoint {
         if (params.containsKey("error")) {
             if (params.containsKey("add")) {
                 model.addAttribute("add", "");
-            }
-            else if (params.containsKey("info")) {
+            } else if (params.containsKey("info")) {
                 model.addAttribute("info", "");
-            }
-            else if (params.containsKey("delete")) {
+            } else if (params.containsKey("delete")) {
                 model.addAttribute("delete", "");
             }
         }
@@ -73,7 +70,7 @@ class ClientAppEndpoint {
 
         try {
             clientAppController.updateApp(guid, appDto);
-        } catch (ObjectNotCorrespondingException | InvalidRequestException | EmptyObjectException | ObjectNotFoundException e) {
+        } catch (ObjectNotCorrespondingException | InvalidRequestException | EmptyObjectException e) {
             return "redirect:/devApp?error&info";
         }
 
@@ -89,7 +86,7 @@ class ClientAppEndpoint {
 
         try {
             clientAppController.deleteApp(guid, appDto);
-        } catch (InvalidRequestException | ObjectNotFoundException | ObjectNotCorrespondingException | EmptyObjectException e) {
+        } catch (InvalidRequestException | ObjectNotCorrespondingException | EmptyObjectException e) {
             return "redirect:/devApp?error&delete";
         }
 
@@ -109,11 +106,7 @@ class ClientAppEndpoint {
     @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
     @RequestMapping(value = "/devApp/{guid}/delete")
     public String showDeleteDevAppForm(@PathVariable("guid") String guid, Model model) {
-        try {
-            model.addAttribute("devApp", clientAppController.getAppByGuid(guid));
-        } catch (InvalidRequestException | ObjectNotFoundException e) {
-            e.printStackTrace();
-        }
+        model.addAttribute("devApp", clientAppController.getAppByGuid(guid));
 
         return "developer/fragments/modalDelete";
     }
@@ -121,11 +114,7 @@ class ClientAppEndpoint {
     @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
     @RequestMapping("/devApp/{guid}")
     public String getApp(@PathVariable("guid") String guid, Model model) {
-        try {
-            model.addAttribute("app", clientAppController.getAppByGuid(guid));
-        } catch (InvalidRequestException | ObjectNotFoundException e) {
-            e.printStackTrace();
-        }
+        model.addAttribute("app", clientAppController.getAppByGuid(guid));
 
         return "developer/fragments/modalInfo";
     }

@@ -1,20 +1,15 @@
 package net.wojteksz128.authservice.clientapp;
 
-import net.wojteksz128.authservice.Repository;
-import net.wojteksz128.authservice.exception.InvalidRequestException;
-import net.wojteksz128.authservice.exception.ObjectNotFoundException;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
 @SuppressWarnings("unused")
-@org.springframework.stereotype.Repository
-interface ClientAppRepository extends Repository<ClientApp> {
+interface ClientAppRepository extends JpaRepository<ClientApp, Long> {
 
-    ClientApp findByGuid(String guid) throws InvalidRequestException, ObjectNotFoundException;
+    ClientApp findByGuid(String guid);
 
-    List<ClientApp> findByNameContains(String value);
+    List<ClientApp> findAllByNameContains(String name);
 
-    List<ClientApp> findAllApps();
-
-    List<ClientApp> findByUserId(Long userId);
+    List<ClientApp> findAllByUserId(Long id);
 }

@@ -5,6 +5,8 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 class CreateDtoToClientAppConverter implements Converter<CreateClientAppDto, ClientApp> {
 
@@ -13,6 +15,7 @@ class CreateDtoToClientAppConverter implements Converter<CreateClientAppDto, Cli
         ClientApp clientApp = new ClientApp();
         final UserDetailsImpl user = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
+        clientApp.setGuid(UUID.randomUUID().toString());
         clientApp.setName(createClientAppDto.getName());
         clientApp.setDescription(createClientAppDto.getDescription());
         clientApp.setUserId(user.getId());

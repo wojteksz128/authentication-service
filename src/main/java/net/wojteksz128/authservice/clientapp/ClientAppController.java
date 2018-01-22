@@ -3,7 +3,6 @@ package net.wojteksz128.authservice.clientapp;
 import net.wojteksz128.authservice.exception.EmptyObjectException;
 import net.wojteksz128.authservice.exception.InvalidRequestException;
 import net.wojteksz128.authservice.exception.ObjectNotCorrespondingException;
-import net.wojteksz128.authservice.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,23 +13,20 @@ import java.util.stream.Collectors;
 @Component
 public class ClientAppController {
 
-    @Autowired
-    private ClientAppRepository clientAppRepository;
+    private final ClientAppRepository clientAppRepository;
+
+    private final CreateDtoToClientAppConverter createDtoToClientAppConverter;
+
+    private final DtoToClientAppConverter dtoToClientAppConverter;
+
+    private final ClientAppToDtoConverter clientAppToDtoConverter;
 
     @Autowired
-    private CreateDtoToClientAppConverter createDtoToClientAppConverter;
-
-    @Autowired
-    private DtoToClientAppConverter dtoToClientAppConverter;
-
-    @Autowired
-    private ClientAppToDtoConverter clientAppToDtoConverter;
-
-    public List<ClientAppDto> getAllApps() {
-        return clientAppRepository.findAllApps()
-                .stream()
-                .map(clientAppToDtoConverter::convert)
-                .collect(Collectors.toList());
+    public ClientAppController(ClientAppRepository clientAppRepository, CreateDtoToClientAppConverter createDtoToClientAppConverter, DtoToClientAppConverter dtoToClientAppConverter, ClientAppToDtoConverter clientAppToDtoConverter) {
+        this.clientAppRepository = clientAppRepository;
+        this.createDtoToClientAppConverter = createDtoToClientAppConverter;
+        this.dtoToClientAppConverter = dtoToClientAppConverter;
+        this.clientAppToDtoConverter = clientAppToDtoConverter;
     }
 
     public ClientAppDto createNew(CreateClientAppDto app) throws EmptyObjectException {
@@ -41,32 +37,28 @@ public class ClientAppController {
         return clientAppToDtoConverter.convert(clientAppRepository.save(createDtoToClientAppConverter.convert(app)));
     }
 
-    public ClientAppDto getAppById(Long appId) throws InvalidRequestException, ObjectNotFoundException {
-        return clientAppToDtoConverter.convert(clientAppRepository.findById(appId));
-    }
-
-    public ClientAppDto getAppByGuid(String appGuid) throws InvalidRequestException, ObjectNotFoundException {
+    public ClientAppDto getAppByGuid(String appGuid) {
         return clientAppToDtoConverter.convert(clientAppRepository.findByGuid(appGuid));
     }
 
-    public void updateApp(String appGuid, ClientAppDto app) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException, ObjectNotFoundException {
+    public void updateApp(String appGuid, ClientAppDto app) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException {
         checkValidity(appGuid, app);
-        clientAppRepository.update(dtoToClientAppConverter.convert(app));
+        clientAppRepository.save(dtoToClientAppConverter.convert(app));
     }
 
-    public void deleteApp(String appGuid, ClientAppDto app) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException, ObjectNotFoundException {
+    public void deleteApp(String appGuid, ClientAppDto app) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException {
         checkValidity(appGuid, app);
         clientAppRepository.delete(dtoToClientAppConverter.convert(app));
     }
 
     public List<ClientAppDto> getAllUserApps(Long userId) {
-        return clientAppRepository.findByUserId(userId)
+        return clientAppRepository.findAllByUserId(userId)
                 .stream()
                 .map(clientAppToDtoConverter::convert)
                 .collect(Collectors.toList());
     }
 
-    private void checkValidity(String appGuid, ClientAppDto app) throws EmptyObjectException, InvalidRequestException, ObjectNotCorrespondingException, ObjectNotFoundException {
+    private void checkValidity(String appGuid, ClientAppDto app) throws EmptyObjectException, InvalidRequestException, ObjectNotCorrespondingException {
         if (app == null) {
             throw new EmptyObjectException("Attempt to use a null object.");
         }

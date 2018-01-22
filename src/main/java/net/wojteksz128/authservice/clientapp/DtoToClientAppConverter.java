@@ -1,7 +1,5 @@
 package net.wojteksz128.authservice.clientapp;
 
-import net.wojteksz128.authservice.exception.InvalidRequestException;
-import net.wojteksz128.authservice.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -9,19 +7,18 @@ import org.springframework.stereotype.Component;
 @Component
 class DtoToClientAppConverter implements Converter<ClientAppDto, ClientApp> {
 
+    private final ClientAppRepository clientAppRepository;
+
     @Autowired
-    private ClientAppRepository clientAppRepository;
+    public DtoToClientAppConverter(ClientAppRepository clientAppRepository) {
+        this.clientAppRepository = clientAppRepository;
+    }
 
     @Override
     public ClientApp convert(ClientAppDto clientAppDto) {
         ClientApp clientApp;
 
-        try {
-            clientApp = clientAppRepository.findByGuid(clientAppDto.getGuid());
-        } catch (InvalidRequestException | ObjectNotFoundException e) {
-            clientApp = new ClientApp();
-            clientApp.setId(null);
-        }
+        clientApp = clientAppRepository.findByGuid(clientAppDto.getGuid());
         clientApp.setName(clientAppDto.getName());
         clientApp.setDescription(clientAppDto.getDescription());
 

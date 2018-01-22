@@ -23,6 +23,6 @@ class ClientApp implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "user_id")
+    @Column(name = "user_id", nullable = false)
     private Long userId;
 }

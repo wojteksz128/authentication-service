@@ -11,6 +11,7 @@ public class AuthenticationServiceApplicationTests {
 
 	@Test
 	public void contextLoads() {
+		return;
 	}
 
 }
