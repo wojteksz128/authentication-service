@@ -14,3 +14,13 @@ $('body').on('show.bs.modal', function(e) {
             $('.modal-backdrop.fade.in:eq(' + i + ')').css('zIndex', 1049 + (i * 2));
         }
 });
+
+function openAppInfoModal(guid) {
+    $.ajax({
+        url: "/devApp/" + guid,
+        success: function (data) {
+            $('#modal-info-holder').html(data);
+            $('#modal-info').modal("show");
+        }
+    });
+}

@@ -4,16 +4,15 @@ import net.wojteksz128.authservice.clientapp.ClientAppController;
 import net.wojteksz128.authservice.clientapp.ClientAppDto;
 import net.wojteksz128.authservice.clientapp.CreateClientAppDto;
 import net.wojteksz128.authservice.exception.EmptyObjectException;
+import net.wojteksz128.authservice.exception.InvalidRequestException;
+import net.wojteksz128.authservice.exception.ObjectNotFoundException;
 import net.wojteksz128.authservice.user.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -44,5 +43,17 @@ class ClientAppEndpoint {
         }
 
         return "redirect:/devApp?appAdded&appkey=" + clientAppControllerNew.getGuid();
+    }
+
+    @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
+    @RequestMapping("/devApp/{guid}")
+    public String getApp(@PathVariable("guid") String guid, Model model) {
+        try {
+            model.addAttribute("app", clientAppController.getAppByGuid(guid));
+        } catch (InvalidRequestException | ObjectNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return "developer/fragments/modalInfo :: modal-info";
     }
 }

@@ -38,7 +38,7 @@
                     </tr>
                 </thead>
                 <tbody th:each="app : ${apps}">
-                    <tr data-toggle="modal" data-target="#modal-info">
+                    <tr th:onclick="'javascript:openAppInfoModal(\'' + ${app.guid} + '\');'">
                         <td th:text="${app.name}">Test</td>
                         <td th:text="${app.guid}">53333235-e4b4-4807-ad4a-5db00b0a9671</td>
                         <td th:text="${app.description}">2017-12-24 00:00:00</td>
@@ -59,9 +59,13 @@
         <div th:replace="fragments/header :: footer"></div>
 
         <!-- Okna modalne -->
-        <div th:replace="developer/fragments/modalDelete :: modal-delete"></div>
+        <div id="modal-info-holder"></div>
+        <div id="modal-delete-holder"></div>
+        <div id="modal-create-holder"></div>
+
         <div th:replace="developer/fragments/modalCreate :: modal-create"></div>
-        <div th:replace="developer/fragments/modalInfo :: modal-info"></div>
+        <div th:replace="developer/fragments/modalDelete :: modal-delete"></div>
+        <!--<div th:replace="developer/fragments/modalInfo :: modal-info"></div>-->
     </body>
 
 </html>
