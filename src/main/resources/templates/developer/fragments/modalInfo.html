@@ -24,7 +24,7 @@
                                     <input type="text" class="form-control" id="app-key" readonly="readonly"
                                            th:value="${app.guid}"/>
                                     <span class="input-group-btn">
-                                        <button class="btn btn-primary btn-copy-key"
+                                        <button type="button" class="btn btn-primary btn-copy-key"
                                                 data-toggle="popover">Kopiuj</button>
                                     </span>
                                 </div>
@@ -57,7 +57,7 @@
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-success btn-ok">
                                 <span class="glyphicon glyphicon-edit"></span> Zapisz</button>
-                            <button type="button" class="btn btn-danger" th:onclick="'javascript:openDeleteAppModal(\'' + ${app.guid} + '\');'">
+                            <button type="button" class="btn btn-danger" th:onclick="'javascript:openModal(\'/devApp/' + ${app.guid} + '/delete\', \'#modal-delete-holder\', \'#modal-delete-question\');'">
                                 <span class="glyphicon glyphicon-remove"></span> Usuń
                             </button>
                         </div>

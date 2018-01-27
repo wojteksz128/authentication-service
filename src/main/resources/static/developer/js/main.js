@@ -15,24 +15,29 @@ $('body').on('show.bs.modal', function(e) {
         }
 });
 
-var txt;
-function openAppInfoModal(guid) {
-    $.ajax({
-        url: "/devApp/" + guid,
-        success: function (data) {
-            $('#modal-info-holder').replaceWith(data);
-            $('#modal-info').modal("show");
-            console.log(txt = $(data));
-        }
-    });
+function copyToClipboard(textInput) {
+    textInput.select();
+
+    var returned = false;
+
+    try {
+        returned = document.execCommand( 'copy' );
+        var msg = returned ? 'successful' : 'unsuccessful';
+        console.log('Copying text command was ' + msg);
+    } catch (err) {
+        console.log('Oops, unable to copy');
+    }
+
+    return returned;
 }
 
-function openNewAppModal() {
+function openModal(url, modalHolderId, modalId) {
     $.ajax({
-        url: "/devApp/new",
+        url: url,
         success: function (data) {
-            $('#modal-create-holder').replaceWith(data);
-            $('#modal-create').modal("show");
+            $(modalHolderId).html("");
+            $(modalHolderId).html(data);
+            $(modalId).modal("show");
         }
-    });
+    })
 }
