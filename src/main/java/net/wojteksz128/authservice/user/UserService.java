@@ -9,4 +9,6 @@ public interface UserService extends UserDetailsService {
     Optional<UserDto> findByEmail(String email);
 
     void save(UserRegistrationDto user);
+
+    void addRole(UserDto user, RoleDto role);
 }
