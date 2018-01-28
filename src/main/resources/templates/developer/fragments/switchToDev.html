@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+    </head>
+    <body th:fragment="switch-to-dev">
+        <form th:action="@{/user/switchToDev}" method="post"><!-- th:object="${switch}">-->
+            <fieldset>
+                <div class="checkbox">
+                    <label><input type="checkbox"/><!-- th:field="*{terms}"/>-->Akceptuje <a>Warunki korzystania z usługi</a>.</label>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" data-dismiss="modal">Zmień na konto developera</button>
+                </div>
+            </fieldset>
+        </form>
+    </body>
+</html>

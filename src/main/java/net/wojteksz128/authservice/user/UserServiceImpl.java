@@ -1,5 +1,6 @@
 package net.wojteksz128.authservice.user;
 
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,6 +40,15 @@ class UserServiceImpl implements UserService {
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setRoles(roleRepository.findByCode("USER").map(v -> new HashSet<>(Collections.singletonList(v))).orElse(null));
+
+        userRepository.save(user);
+    }
+
+    @Override
+    public void addRole(UserDto userDto, RoleDto roleDto) {
+        User user = userRepository.findById(userDto.getId()).orElseThrow(() -> new ObjectNotFoundException(userDto.getId(), "User"));
+        Role role = roleRepository.findByCode(roleDto.getCode()).orElseThrow(() -> new ObjectNotFoundException(roleDto.getCode(), "Role"));
+        user.getRoles().add(role);
 
         userRepository.save(user);
     }
