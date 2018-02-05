@@ -1,5 +1,6 @@
-package net.wojteksz128.authservice.user;
+package net.wojteksz128.authservice.user.impl;
 
+import net.wojteksz128.authservice.user.RoleDto;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

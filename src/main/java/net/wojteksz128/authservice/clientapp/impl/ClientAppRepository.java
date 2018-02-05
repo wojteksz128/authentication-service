@@ -1,4 +1,4 @@
-package net.wojteksz128.authservice.clientapp;
+package net.wojteksz128.authservice.clientapp.impl;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

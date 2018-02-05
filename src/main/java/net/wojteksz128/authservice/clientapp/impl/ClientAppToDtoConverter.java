@@ -1,5 +1,6 @@
-package net.wojteksz128.authservice.clientapp;
+package net.wojteksz128.authservice.clientapp.impl;
 
+import net.wojteksz128.authservice.clientapp.ClientAppDto;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

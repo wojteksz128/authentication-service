@@ -1,5 +1,6 @@
-package net.wojteksz128.authservice.user;
+package net.wojteksz128.authservice.user.impl;
 
+import net.wojteksz128.authservice.user.*;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -16,17 +17,18 @@ import java.util.Optional;
 @EnableJpaRepositories(basePackageClasses = {UserRepository.class, RoleRepository.class})
 class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final UserToDtoConverter userToDtoConverter;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private UserToDtoConverter userToDtoConverter;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, UserToDtoConverter userToDtoConverter, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.userToDtoConverter = userToDtoConverter;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public Optional<UserDto> findByEmail(String email) {

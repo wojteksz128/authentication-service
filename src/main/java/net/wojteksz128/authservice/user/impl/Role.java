@@ -1,4 +1,4 @@
-package net.wojteksz128.authservice.user;
+package net.wojteksz128.authservice.user.impl;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
