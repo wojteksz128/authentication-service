@@ -33,7 +33,7 @@ class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
-                .and().formLogin().loginPage("/signIn").permitAll()
+                .and().formLogin()/*.loginPage("/signIn")*/.permitAll()
                 .and().logout().permitAll()
                 .and().exceptionHandling().accessDeniedPage("/403").accessDeniedHandler(accessDeniedHandler);
     }
