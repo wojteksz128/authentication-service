@@ -22,7 +22,6 @@ class UserServiceImpl implements UserService {
     private final UserToDtoConverter userToDtoConverter;
     private final PasswordEncoder passwordEncoder;
 
-    @Autowired
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, UserToDtoConverter userToDtoConverter, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;

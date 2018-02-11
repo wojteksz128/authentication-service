@@ -7,6 +7,7 @@ import net.wojteksz128.authservice.service.exception.EmptyObjectException;
 import net.wojteksz128.authservice.service.exception.InvalidRequestException;
 import net.wojteksz128.authservice.service.exception.ObjectNotCorrespondingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
 @Component
+@EnableJpaRepositories(basePackageClasses = {ClientAppRepository.class})
 class ClientAppControllerImpl implements ClientAppController {
 
     private final ClientAppRepository clientAppRepository;
@@ -58,9 +60,9 @@ class ClientAppControllerImpl implements ClientAppController {
     @Override
     public List<ClientAppDto> getAllUserApps(Long userId) {
         return clientAppRepository.findAllByUserId(userId)
-                .stream()
-                .map(clientAppToDtoConverter::convert)
-                .collect(Collectors.toList());
+            .stream()
+            .map(clientAppToDtoConverter::convert)
+            .collect(Collectors.toList());
     }
 
     private void checkValidity(String appGuid, ClientAppDto app) throws EmptyObjectException, InvalidRequestException, ObjectNotCorrespondingException {
