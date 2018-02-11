@@ -1,7 +1,7 @@
 package net.wojteksz128.authservice.webapp.impl;
 
-import net.wojteksz128.authservice.user.UserRegistrationDto;
-import net.wojteksz128.authservice.user.UserService;
+import net.wojteksz128.authservice.service.user.UserRegistrationDto;
+import net.wojteksz128.authservice.service.user.UserService;
 import net.wojteksz128.authservice.webapp.RegistrationEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

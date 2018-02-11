@@ -1,7 +1,7 @@
 package net.wojteksz128.authservice.webapp;
 
-import net.wojteksz128.authservice.clientapp.ClientAppDto;
-import net.wojteksz128.authservice.clientapp.CreateClientAppDto;
+import net.wojteksz128.authservice.service.clientapp.ClientAppDto;
+import net.wojteksz128.authservice.service.clientapp.CreateClientAppDto;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;

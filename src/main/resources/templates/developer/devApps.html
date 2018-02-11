@@ -34,7 +34,7 @@
                         <th>Data rejestracji</th>
                     </tr>
                 </thead>
-                <!--/*@thymesVar id="apps" type="java.util.List<net.wojteksz128.authservice.clientapp.ClientAppDto>"*/-->
+                <!--/*@thymesVar id="apps" type="java.util.List<net.wojteksz128.authservice.service.clientapp.ClientAppDto>"*/-->
                 <tbody>
                     <tr th:each="app : ${apps}" th:onclick="'javascript:openModal(\'/devApp/' + ${app.guid} + '\', \'#modal-info-holder\', \'#modal-info\');'">
                         <td th:text="${app.name}">Test</td>

@@ -1,12 +1,12 @@
 package net.wojteksz128.authservice.webapp.impl;
 
-import net.wojteksz128.authservice.clientapp.ClientAppController;
-import net.wojteksz128.authservice.clientapp.ClientAppDto;
-import net.wojteksz128.authservice.clientapp.CreateClientAppDto;
-import net.wojteksz128.authservice.exception.EmptyObjectException;
-import net.wojteksz128.authservice.exception.InvalidRequestException;
-import net.wojteksz128.authservice.exception.ObjectNotCorrespondingException;
-import net.wojteksz128.authservice.user.impl.UserDetailsImpl;
+import net.wojteksz128.authservice.service.clientapp.ClientAppController;
+import net.wojteksz128.authservice.service.clientapp.ClientAppDto;
+import net.wojteksz128.authservice.service.clientapp.CreateClientAppDto;
+import net.wojteksz128.authservice.service.exception.EmptyObjectException;
+import net.wojteksz128.authservice.service.exception.InvalidRequestException;
+import net.wojteksz128.authservice.service.exception.ObjectNotCorrespondingException;
+import net.wojteksz128.authservice.service.user.impl.UserDetailsImpl;
 import net.wojteksz128.authservice.webapp.ClientAppEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;

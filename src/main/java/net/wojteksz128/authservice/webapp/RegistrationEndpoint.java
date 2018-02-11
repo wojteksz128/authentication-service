@@ -1,6 +1,6 @@
 package net.wojteksz128.authservice.webapp;
 
-import net.wojteksz128.authservice.user.UserRegistrationDto;
+import net.wojteksz128.authservice.service.user.UserRegistrationDto;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

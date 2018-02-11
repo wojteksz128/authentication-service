@@ -11,7 +11,7 @@
                         <a href="#" class="close" data-dismiss="modal" aria-label="close">&times;</a>
                         <h4 class="modal-title">Informacje o aplikacji</h4>
                     </div>
-                    <!--/*@thymesVar id="app" type="net.wojteksz128.authservice.clientapp.ClientAppDto"*/-->
+                    <!--/*@thymesVar id="app" type="net.wojteksz128.authservice.service.clientapp.ClientAppDto"*/-->
                     <form class="form-app" th:action="'/devApp/' + ${app.guid}" method="post" th:object="${app}">
                         <div class="modal-body">
                             <div class="form-group">
