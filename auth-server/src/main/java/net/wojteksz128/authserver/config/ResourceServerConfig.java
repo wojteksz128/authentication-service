@@ -22,15 +22,13 @@ class ResourceServerConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.requestMatchers()
-            .antMatchers("/login", "/oauth/authorize")
+        http.requestMatchers().antMatchers("/login", "/oauth/authorize", "/loginPage")
             .and()
             .authorizeRequests()
-            .anyRequest()
-            .authenticated()
+            .antMatchers("/js/**", "/css/**", "/img/**", "/webjars/**").permitAll()
+            .anyRequest().authenticated()
             .and()
-            .formLogin()
-            .permitAll();
+            .formLogin().loginPage("/login").permitAll();
     }
 
     @Override
