@@ -7,5 +7,5 @@ import java.security.Principal;
 
 public interface WebAppEndpoint {
     @RequestMapping({"/", "/index"})
-    String mainScreen(Principal principal, Model model);
+    String mainScreen(Model model);
 }

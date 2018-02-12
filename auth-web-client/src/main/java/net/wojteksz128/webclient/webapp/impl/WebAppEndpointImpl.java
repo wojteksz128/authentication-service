@@ -12,7 +12,7 @@ class WebAppEndpointImpl implements WebAppEndpoint {
 
     @Override
     @RequestMapping({"/", "/index"})
-    public String mainScreen(Principal principal, Model model) {
+    public String mainScreen(Model model) {
         return "index";
     }
 }
