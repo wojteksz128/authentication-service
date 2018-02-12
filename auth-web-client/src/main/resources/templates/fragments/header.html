@@ -25,7 +25,7 @@
                     <div sec:authorize="isAnonymous()">
                         <ul class="nav navbar-nav navbar-right">
                             <li><a th:href="@{/signUp}"><span class="glyphicon glyphicon-user"></span> Zarejestruj</a></li>
-                            <li><a th:href="@{/signIn}"><span class="glyphicon glyphicon-log-in"></span> Zaloguj</a></li>
+                            <li><a th:href="@{/login}"><span class="glyphicon glyphicon-log-in"></span> Zaloguj</a></li>
                         </ul>
                     </div>
                     <div sec:authorize="isAuthenticated()">

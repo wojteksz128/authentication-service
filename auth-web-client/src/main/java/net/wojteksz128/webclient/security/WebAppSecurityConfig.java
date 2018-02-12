@@ -24,7 +24,7 @@ class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
         http.antMatcher("/**").authorizeRequests()
             .antMatchers("/", "/login**").permitAll()
             .anyRequest().authenticated()
-            .and().formLogin().permitAll()
+//            .and().formLogin().permitAll()
             .and().logout().logoutSuccessUrl("/").permitAll()
             .and().exceptionHandling().accessDeniedPage("/403").accessDeniedHandler(accessDeniedHandler);
     }

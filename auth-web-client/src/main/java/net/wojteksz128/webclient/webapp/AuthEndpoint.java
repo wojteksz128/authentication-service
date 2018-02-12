@@ -7,9 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 public interface AuthEndpoint {
-    @PreAuthorize("isAnonymous()")
-    @RequestMapping("/signIn")
-    String signIn(Model model);
+//    @RequestMapping("/signIn")
+//    String signIn(Model model);
 
     @PreAuthorize("isAuthenticated() and not hasRole(\"ROLE_DEVELOPER\")")
     @RequestMapping(value = "/user/switchToDev", method = RequestMethod.POST)

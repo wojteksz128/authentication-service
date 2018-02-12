@@ -24,10 +24,10 @@ class AuthEndpointImpl implements AuthEndpoint {
         this.roleFinder = roleFinder;
     }
 
-    @Override
-    public String signIn(Model model) {
-        return "login";
-    }
+//    @Override
+//    public String signIn(Model model) {
+//        return "login";
+//    }
 
     @Override
     public String switchToDev(Authentication authentication) {
