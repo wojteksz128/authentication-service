@@ -12,9 +12,9 @@ import org.springframework.context.annotation.ComponentScans;
     @ComponentScan("net.wojteksz128.webclient")
 })
 @EntityScan("net.wojteksz128.authservice.service")
-public class AuthenticationServiceApplication {
+public class WebClientApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(AuthenticationServiceApplication.class, args);
+        SpringApplication.run(WebClientApplication.class, args);
     }
 }

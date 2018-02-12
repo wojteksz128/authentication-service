@@ -44,7 +44,7 @@
                     <span>&copy; 2018 Wojciech Szczepaniak</span>
                     <span sec:authorize="isAuthenticated()">
                         | Logged user: <span sec:authentication="name"></span> |
-                        Roles: <span sec:authentication="principal"></span> |
+                        Roles: <span sec:authentication="authorities"></span> |
                         <a th:href="@{/logout}">Sign Out</a>
                     </span>
                 </div>
