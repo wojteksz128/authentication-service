@@ -1,4 +1,4 @@
-package net.wojteksz128.authserver;
+package net.wojteksz128.authserver.endpoint;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

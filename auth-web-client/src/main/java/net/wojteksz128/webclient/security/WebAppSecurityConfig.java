@@ -10,7 +10,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 @EnableOAuth2Sso
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final AccessDeniedHandler accessDeniedHandler;
@@ -24,7 +24,7 @@ class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
         http.antMatcher("/**").authorizeRequests()
             .antMatchers("/", "/login**").permitAll()
             .anyRequest().authenticated()
-            /*.and().exceptionHandling().accessDeniedPage("/403").accessDeniedHandler(accessDeniedHandler)*/;
+            .and().exceptionHandling().accessDeniedPage("/403").accessDeniedHandler(accessDeniedHandler);
     }
 
     @Override
