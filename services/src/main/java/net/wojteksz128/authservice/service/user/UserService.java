@@ -11,4 +11,6 @@ public interface UserService extends UserDetailsService {
     void save(UserRegistrationDto user);
 
     void addRole(UserDto user, RoleDto role);
+
+    Optional<UserDto> getCurrentLoggedUser();
 }

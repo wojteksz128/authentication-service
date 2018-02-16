@@ -31,11 +31,10 @@ class AuthEndpointImpl implements AuthEndpoint {
 
     @Override
     public String switchToDev(Authentication authentication) {
-        String username = ((UserDetailsImpl) authentication.getPrincipal()).getUsername();
-        Optional<UserDto> userDto = userService.findByEmail(username);
+        Optional<UserDto> userDto = userService.getCurrentLoggedUser();
         Optional<RoleDto> roleDto = roleFinder.findByCode("DEVELOPER");
 
-        userService.addRole(userDto.orElseThrow(() -> new ObjectNotFoundException(username, "User")),
+        userService.addRole(userDto.orElseThrow(() -> new ObjectNotFoundException("user", "User")),
                 roleDto.orElseThrow(() -> new ObjectNotFoundException("DEVELOPER", "Role")));
         return "redirect:/?switchToDev";
     }

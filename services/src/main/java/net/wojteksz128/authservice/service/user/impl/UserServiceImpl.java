@@ -1,12 +1,17 @@
 package net.wojteksz128.authservice.service.user.impl;
 
-import net.wojteksz128.authservice.service.user.*;
+import net.wojteksz128.authservice.service.user.RoleDto;
+import net.wojteksz128.authservice.service.user.UserDto;
+import net.wojteksz128.authservice.service.user.UserRegistrationDto;
+import net.wojteksz128.authservice.service.user.UserService;
 import org.hibernate.ObjectNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -55,9 +60,21 @@ class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<UserDto> getCurrentLoggedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Optional<UserDto> currentLoggedUser = Optional.empty();
+
+        if (authentication instanceof OAuth2Authentication) {
+            currentLoggedUser = userRepository.findByEmail((String) authentication.getPrincipal()).map(userToDtoConverter::convert);
+        }
+
+        return currentLoggedUser;
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> optionalUser = userRepository.findByEmail(username);
         return new UserDetailsImpl(optionalUser
-                .orElseThrow(() -> new UsernameNotFoundException(String.format("User with email '%s' not exists", username))));
+            .orElseThrow(() -> new UsernameNotFoundException(String.format("User with email '%s' not exists", username))));
     }
 }
