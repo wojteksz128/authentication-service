@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <script th:src="@{/developer/js/modalInfo.js}"></script>
+    </head>
+    <body>
+        <div id="modal-info" class="modal fade" tabindex="-1" role="dialog" th:fragment="modal-info">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <a href="#" class="close" data-dismiss="modal" aria-label="close">&times;</a>
+                        <h4 class="modal-title">Informacje o aplikacji</h4>
+                    </div>
+                    <!--/*@thymesVar id="app" type="net.wojteksz128.authservice.service.clientapp.ClientAppDto"*/-->
+                    <form class="form-app" th:action="'/devApp/' + ${app.guid}" method="post" th:object="${app}">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="app-name">Nazwa aplikacji:</label>
+                                <input type="text" class="form-control" id="app-name" th:field="*{name}"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="app-key">Klucz aplikacji:</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="app-key" readonly="readonly"
+                                           th:value="${app.guid}"/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-primary btn-copy-key"
+                                                data-toggle="popover">Kopiuj</button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="app-reg-date">Data rejestracji:</label>
+                                <!--/*@thymesVar id="formatter" type="java.time.format.DateTimeFormatter"*/-->
+                                <input type="text" class="form-control" id="app-reg-date" readonly="readonly"
+                                       th:value="${formatter.format(app.createDate)}"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="app-desc">Opis:</label>
+                                <textarea class="form-control" rows="5" id="app-desc"
+                                          style="resize: vertical" th:field="*{description}"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Aplikacja wymaga informacji o:</label>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" disabled="disabled" checked="checked"/>Adres e-mail i
+                                        hasło</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox"/>Imię i nazwisko</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox"/>Adres</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success btn-ok">
+                                <span class="glyphicon glyphicon-edit"></span> Zapisz</button>
+                            <button type="button" class="btn btn-danger" th:onclick="'javascript:openModal(\'/devApp/' + ${app.guid} + '/delete\', \'#modal-delete-holder\', \'#modal-delete-question\');'">
+                                <span class="glyphicon glyphicon-remove"></span> Usuń
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
