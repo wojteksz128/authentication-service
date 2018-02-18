@@ -1,13 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
     <head>
-        <meta charset="UTF-8"/>
         <title>Strona główna</title>
-
-        <script th:replace="fragments/header :: header-css"></script>
     </head>
-    <body>
-        <div th:replace="fragments/header :: header"></div>
+    <body th:fragment="content">
         <div class="container">
             <h1>AuthService</h1>
             <p>Przykładowa treść powitania...</p>
@@ -15,6 +11,5 @@
                 <div th:replace="developer/fragments/switchToDev :: switch-to-dev"></div>
             </div>
         </div>
-        <div th:replace="fragments/header :: footer"></div>
     </body>
 </html>

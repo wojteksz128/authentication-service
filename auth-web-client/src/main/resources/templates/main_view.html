@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8"/>
+        <!--/*@thymesVar id="view" type="java.lang.String"*/-->
+        <title th:replace="${view} :: title"></title>
+
+        <script th:replace="fragments/header :: header-css"></script>
+    </head>
+    <body>
+        <div th:replace="fragments/header :: header">Header</div>
+        <!--/*@thymesVar id="view" type="java.lang.String"*/-->
+        <div th:replace="${view} :: content">Page Content</div>
+        <div th:replace="fragments/header :: footer">Footer</div>
+    </body>
+</html>
