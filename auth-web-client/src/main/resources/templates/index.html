@@ -5,6 +5,9 @@
     </head>
     <body th:fragment="content">
         <div class="container">
+            <div th:if="${ param.logout }">
+                <div th:replace="fragments/message :: message(${ T(net.wojteksz128.webclient.MessageType).INFO }, 'Wylogowano.', 'Użytkownik został wylogowany.')"></div>
+            </div>
             <div th:if="${ param.switchToDev }">
                 <div th:replace="fragments/message :: message(${ T(net.wojteksz128.webclient.MessageType).INFO }, 'Zarejestrowano jako developer.', 'Zostałeś zarejestrowany jako developer. Po ponownym zalogowaniu będzie możliwe dodawanie własnych aplikacji do systemu.')"></div>
             </div>
