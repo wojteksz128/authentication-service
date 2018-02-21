@@ -8,6 +8,7 @@ import net.wojteksz128.authservice.service.exception.InvalidRequestException;
 import net.wojteksz128.authservice.service.exception.ObjectNotCorrespondingException;
 import net.wojteksz128.authservice.service.user.UserDto;
 import net.wojteksz128.authservice.service.user.UserService;
+import net.wojteksz128.authservice.service.webapp.WebsiteBuilder;
 import net.wojteksz128.webclient.webapp.ClientAppEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AuthorizationServiceException;
@@ -56,7 +57,7 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
         }
         model.addAttribute("formatter", formatter);
 
-        return "developer/devApps";
+        return WebsiteBuilder.create(model).withContent("developer/devApps").build();
     }
 
     @Override
