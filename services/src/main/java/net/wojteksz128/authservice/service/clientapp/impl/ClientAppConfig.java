@@ -1,6 +1,7 @@
 package net.wojteksz128.authservice.service.clientapp.impl;
 
 import net.wojteksz128.authservice.service.clientapp.ClientAppController;
+import net.wojteksz128.authservice.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,9 +11,12 @@ class ClientAppConfig {
 
     private final ClientAppRepository clientAppRepository;
 
+    private final UserService userService;
+
     @Autowired
-    public ClientAppConfig(ClientAppRepository clientAppRepository) {
+    public ClientAppConfig(ClientAppRepository clientAppRepository, UserService userService) {
         this.clientAppRepository = clientAppRepository;
+        this.userService = userService;
     }
 
     @Bean
@@ -23,7 +27,7 @@ class ClientAppConfig {
 
     @Bean
     public CreateDtoToClientAppConverter createDtoToClientAppConverter() {
-        return new CreateDtoToClientAppConverter();
+        return new CreateDtoToClientAppConverter(userService);
     }
 
     @Bean
