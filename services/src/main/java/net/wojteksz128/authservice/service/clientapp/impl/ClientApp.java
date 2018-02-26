@@ -28,5 +28,6 @@ class ClientApp implements Serializable {
     private LocalDateTime createDate;
 
     @Column(name = "user_id", nullable = false)
+    @JoinColumn(table = "Users", foreignKey = @ForeignKey(name = "id"))
     private Long userId;
 }

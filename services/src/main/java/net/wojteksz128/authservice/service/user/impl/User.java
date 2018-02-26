@@ -11,7 +11,6 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @Table(name = "Users")
-@SecondaryTable(name = "ClientApps", foreignKey = @ForeignKey(name = "user_id"))
 class User implements Serializable {
 
     @Id
