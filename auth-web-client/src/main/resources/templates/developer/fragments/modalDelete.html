@@ -14,7 +14,11 @@
                         Czy na pewno chcesz usunąć aplikację z listy zarejestrowanych? Po usunięciu nie klucz stanie
                         się nieaktualny i nie będzie można go wykorzystać w dalszej komunikacji.
                     </div>
-                    <form class="modal-footer" th:action="'/devApp/' + ${devApp.guid} + '/delete'" method="post">
+                    <!--/*@thymesVar id="devApp" type="net.wojteksz128.authservice.service.clientapp.ClientAppDto"*/-->
+                    <form class="modal-footer" th:action="'/devApp/' + *{guid} + '/delete'"
+                          th:object="${devApp}" method="post">
+                        <input type="hidden" th:field="*{name}"/>
+                        <input type="hidden" th:field="*{description}"/>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
                         <button type="submit" class="btn btn-danger btn-ok">Usuń</button>
                     </form>

@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
     <head>
-        <meta charset="UTF-8"/>
         <title>Strona główna</title>
-
-        <script th:replace="fragments/header :: header-css"></script>
     </head>
-    <body>
-        <div th:replace="fragments/header :: header"></div>
+    <body th:fragment="content">
         <div class="container">
+            <div th:if="${ param.logout }">
+                <div th:replace="fragments/message :: message(${ T(net.wojteksz128.webclient.MessageType).INFO }, 'Wylogowano.', 'Użytkownik został wylogowany.')"></div>
+            </div>
+            <div th:if="${ param.switchToDev }">
+                <div th:replace="fragments/message :: message(${ T(net.wojteksz128.webclient.MessageType).INFO }, 'Zarejestrowano jako developer.', 'Zostałeś zarejestrowany jako developer. Po ponownym zalogowaniu będzie możliwe dodawanie własnych aplikacji do systemu.')"></div>
+            </div>
             <h1>AuthService</h1>
             <p>Przykładowa treść powitania...</p>
             <div sec:authorize="isAuthenticated() and !hasRole('ROLE_DEVELOPER')">
                 <div th:replace="developer/fragments/switchToDev :: switch-to-dev"></div>
             </div>
         </div>
-        <div th:replace="fragments/header :: footer"></div>
     </body>
 </html>

@@ -6,11 +6,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 public interface AuthEndpoint {
 
     @PreAuthorize("isAuthenticated() and not hasRole(\"ROLE_DEVELOPER\")")
     @RequestMapping(value = "/user/switchToDev", method = RequestMethod.POST)
     String switchToDev(Authentication authentication);
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    String logout();
 
     @RequestMapping("/403")
     String error403(Model model);
