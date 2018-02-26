@@ -93,7 +93,7 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
     }
 
     @Override
-    public String deleteDevApp(@PathVariable("guid") String guid, @ModelAttribute("app") @Valid ClientAppDto appDto, BindingResult result) {
+    public String deleteDevApp(@PathVariable("guid") String guid, @ModelAttribute("devApp") @Valid ClientAppDto appDto, BindingResult result) {
         if (result.hasErrors()) {
             return "redirect:/devApp?error&delete";
         }
