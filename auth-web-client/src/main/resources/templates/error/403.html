@@ -15,7 +15,7 @@
 
             <p><a th:href="@{/}">Wróć do strony głównej</a></p>
             <div sec:authorize="isAuthenticated()">
-                <p><a th:href="@{/logout}">Wyloguj</a></p>
+                <p><a onclick="$('#logout-form').submit()">Wyloguj</a></p>
             </div>
         </div>
         <div th:replace="fragments/header :: footer"></div>

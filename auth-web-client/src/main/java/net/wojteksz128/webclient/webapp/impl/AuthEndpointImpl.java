@@ -37,12 +37,12 @@ class AuthEndpointImpl implements AuthEndpoint {
         return "redirect:/?switchToDev";
     }
 
-    @Override
-    public String logout() {
-        SecurityContextHolder.clearContext();
-
-        return "redirect:/?logout";
-    }
+//    @Override
+//    public String logout() {
+//        SecurityContextHolder.clearContext();
+//
+//        return "redirect:/?logout";
+//    }
 
     @Override
     public String error403(Model model) {

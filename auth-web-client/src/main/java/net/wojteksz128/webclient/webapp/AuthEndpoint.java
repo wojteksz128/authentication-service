@@ -15,8 +15,8 @@ public interface AuthEndpoint {
     @RequestMapping(value = "/user/switchToDev", method = RequestMethod.POST)
     String switchToDev(Authentication authentication);
 
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    String logout();
+//    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+//    String logout();
 
     @RequestMapping("/403")
     String error403(Model model);
