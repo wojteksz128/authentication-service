@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 @Configuration
 @EnableOAuth2Sso
@@ -16,12 +15,10 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final AccessDeniedHandler accessDeniedHandler;
-    private final LogoutSuccessHandler logoutSuccessHandler;
 
     @Autowired
-    public WebAppSecurityConfig(AccessDeniedHandler accessDeniedHandler, LogoutSuccessHandler logoutSuccessHandler) {
+    public WebAppSecurityConfig(AccessDeniedHandler accessDeniedHandler) {
         this.accessDeniedHandler = accessDeniedHandler;
-        this.logoutSuccessHandler = logoutSuccessHandler;
     }
 
     @Override
@@ -29,7 +26,7 @@ class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
         http.antMatcher("/**").authorizeRequests()
             .antMatchers("/", "/login**").permitAll()
             .anyRequest().authenticated()
-            .and().logout().logoutSuccessHandler(logoutSuccessHandler).logoutSuccessUrl("/?logout").clearAuthentication(true).deleteCookies().permitAll()
+            .and().logout().logoutSuccessUrl("http://localhost:8081/auth/logout").permitAll()
             .and().exceptionHandling().accessDeniedPage("/403").accessDeniedHandler(accessDeniedHandler);
     }
 

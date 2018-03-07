@@ -8,7 +8,6 @@ import net.wojteksz128.webclient.webapp.AuthEndpoint;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -18,7 +17,6 @@ import java.util.Optional;
 class AuthEndpointImpl implements AuthEndpoint {
 
     private final UserService userService;
-
     private final RoleFinder roleFinder;
 
     @Autowired
@@ -36,13 +34,6 @@ class AuthEndpointImpl implements AuthEndpoint {
             roleDto.orElseThrow(() -> new ObjectNotFoundException("DEVELOPER", "Role")));
         return "redirect:/?switchToDev";
     }
-
-//    @Override
-//    public String logout() {
-//        SecurityContextHolder.clearContext();
-//
-//        return "redirect:/?logout";
-//    }
 
     @Override
     public String error403(Model model) {
