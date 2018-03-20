@@ -1,21 +1,19 @@
 package net.wojteksz128.authserver.endpoint;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/me")
 class UserInfoEndpoint {
 
-    @GetMapping("/principal")
+    @GetMapping("/me/principal")
     Principal getPrincipal(Principal principal) {
         return principal;
     }
 
-    @GetMapping
+    @GetMapping("/me")
     String getUsername(Principal principal) {
         return principal.getName();
     }

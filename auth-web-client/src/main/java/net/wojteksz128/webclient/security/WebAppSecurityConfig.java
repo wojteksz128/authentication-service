@@ -26,7 +26,7 @@ class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
         http.antMatcher("/**").authorizeRequests()
             .antMatchers("/", "/login**").permitAll()
             .anyRequest().authenticated()
-            .and().logout().logoutSuccessUrl("http://localhost:8081/auth/logout").permitAll()
+            .and().logout().logoutSuccessUrl("http://localhost:8081/auth/logout?redirect_uri=http://localhost:8080/").permitAll()
             .and().exceptionHandling().accessDeniedPage("/403").accessDeniedHandler(accessDeniedHandler);
     }
 
