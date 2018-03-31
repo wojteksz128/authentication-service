@@ -3,6 +3,8 @@ package net.wojteksz128.webclient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
 import org.springframework.context.annotation.PropertySource;
@@ -15,7 +17,12 @@ import org.springframework.context.annotation.PropertySources;
 })
 @PropertySources({@PropertySource("classpath:services.properties")})
 @EntityScan("net.wojteksz128.authservice.service")
-public class WebClientApplication {
+public class WebClientApplication extends SpringBootServletInitializer {
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(WebClientApplication.class);
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(WebClientApplication.class, args);
