@@ -1,5 +1,6 @@
 package net.wojteksz128.webclient.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -15,6 +16,7 @@ class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final AccessDeniedHandler accessDeniedHandler;
 
+    @Autowired
     public WebAppSecurityConfig(AccessDeniedHandler accessDeniedHandler) {
         this.accessDeniedHandler = accessDeniedHandler;
     }
@@ -24,7 +26,7 @@ class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
         http.antMatcher("/**").authorizeRequests()
             .antMatchers("/", "/login**").permitAll()
             .anyRequest().authenticated()
-//            .and().logout().logoutSuccessUrl("/?logout").clearAuthentication(true).deleteCookies().permitAll()
+            .and().logout().logoutSuccessUrl("/?logout").permitAll()
             .and().exceptionHandling().accessDeniedPage("/403").accessDeniedHandler(accessDeniedHandler);
     }
 
