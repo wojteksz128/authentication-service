@@ -14,31 +14,30 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     private final AuthenticationManager authenticationManager;
+    private final OAuthDbConfig dbConfig;
 
 
     @Autowired
-    public AuthorizationServerConfig(AuthenticationManager authenticationManager) {
+    public AuthorizationServerConfig(AuthenticationManager authenticationManager, OAuthDbConfig dbConfig) {
         this.authenticationManager = authenticationManager;
+        this.dbConfig = dbConfig;
+    }
+
+    @Override
+    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        clients.jdbc(dbConfig.dataSource());
     }
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
         security.tokenKeyAccess("permitAll()")
-            .checkTokenAccess("isAuthenticated()");
-    }
-
-    @Override
-    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory()
-            .withClient("ClientId")
-            .secret("secret")
-            .authorizedGrantTypes("authorization_code")
-            .scopes("user_info")
-            .autoApprove(true);
+            .checkTokenAccess("permitAll()");
     }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-        endpoints.authenticationManager(authenticationManager);
+        endpoints.authenticationManager(authenticationManager)
+            .tokenStore(dbConfig.tokenStore())
+            .approvalStore(dbConfig.approvalStore());
     }
 }

@@ -23,3 +23,9 @@ INSERT INTO users(email, password) VALUES ('wojteksz128@o2.pl', '$2a$10$e1I46ftn
 INSERT INTO user_roles ( SELECT u.id, r.id FROM users u, roles r WHERE u.email = 'dev@t.t' );
 INSERT INTO user_roles ( SELECT u.id, r.id FROM users u, roles r WHERE u.email = 'user@t.t' AND r.code = 'USER' );
 INSERT INTO user_roles ( SELECT u.id, r.id FROM users u, roles r WHERE u.email = 'wojteksz128@o2.pl' AND r.code = 'USER' );
+
+------------------------------------------------------------------------------------------------------------------------
+--  Dodanie aplikacji do oauth_client_details
+------------------------------------------------------------------------------------------------------------------------
+INSERT INTO oauth_client_details (client_id, client_secret, scope, authorized_grant_types, autoapprove)
+VALUES ('AuthService', 'devAppSecret', 'devApp', 'authorization_code', true);

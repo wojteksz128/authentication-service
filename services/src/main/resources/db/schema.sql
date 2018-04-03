@@ -3,11 +3,11 @@
 ########################################################################################################################
 
 ALTER TABLE client_apps
-  DROP FOREIGN KEY client_apps_user_fk;
+DROP FOREIGN KEY client_apps_user_fk;
 ALTER TABLE user_roles
-  DROP FOREIGN KEY user_roles_role_fk;
+DROP FOREIGN KEY user_roles_role_fk;
 ALTER TABLE user_roles
-  DROP FOREIGN KEY user_roles_user;
+DROP FOREIGN KEY user_roles_user;
 
 ########################################################################################################################
 # Remove all tables
@@ -17,59 +17,46 @@ DROP TABLE IF EXISTS client_apps;
 DROP TABLE IF EXISTS roles;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS oauth_client_details;
+DROP TABLE IF EXISTS oauth_client_token;
+DROP TABLE IF EXISTS oauth_access_token;
+DROP TABLE IF EXISTS oauth_refresh_token;
+DROP TABLE IF EXISTS oauth_code;
+DROP TABLE IF EXISTS oauth_approvals;
 
 ########################################################################################################################
 # Create all tables
 ########################################################################################################################
 
 CREATE TABLE client_apps (
-  id          BIGINT       NOT NULL AUTO_INCREMENT,
-  create_date TINYBLOB     NOT NULL,
-  description VARCHAR(255),
-  guid        VARCHAR(255) NOT NULL,
-  name        VARCHAR(255) NOT NULL,
-  user_id     BIGINT       NOT NULL,
-  PRIMARY KEY (id)
+id          BIGINT       NOT NULL AUTO_INCREMENT,
+create_date TINYBLOB     NOT NULL,
+description VARCHAR(255),
+guid        VARCHAR(255) NOT NULL,
+name        VARCHAR(255) NOT NULL,
+user_id     BIGINT       NOT NULL,
+PRIMARY KEY (id)
 );
+
 CREATE TABLE roles (
-  id   BIGINT       NOT NULL AUTO_INCREMENT,
-  code VARCHAR(255) NOT NULL,
-  PRIMARY KEY (id)
+id   BIGINT       NOT NULL AUTO_INCREMENT,
+code VARCHAR(255) NOT NULL,
+PRIMARY KEY (id)
 );
+
 CREATE TABLE user_roles (
-  user_id BIGINT NOT NULL,
-  role_id BIGINT NOT NULL,
-  PRIMARY KEY (user_id, role_id)
+user_id BIGINT NOT NULL,
+role_id BIGINT NOT NULL,
+PRIMARY KEY (user_id, role_id)
 );
+
 CREATE TABLE users (
-  id       BIGINT       NOT NULL AUTO_INCREMENT,
-  email    VARCHAR(255) NOT NULL,
-  password VARCHAR(255) NOT NULL,
-  PRIMARY KEY (id)
+id       BIGINT       NOT NULL AUTO_INCREMENT,
+email    VARCHAR(255) NOT NULL,
+password VARCHAR(255) NOT NULL,
+PRIMARY KEY (id)
 );
 
-########################################################################################################################
-# Add all constraints
-########################################################################################################################
-
-ALTER TABLE client_apps
-  ADD CONSTRAINT client_apps_unique_guid UNIQUE (guid);
-ALTER TABLE roles
-  ADD CONSTRAINT roles_unique_code UNIQUE (code);
-ALTER TABLE users
-  ADD CONSTRAINT users_unique_email UNIQUE (email);
-ALTER TABLE client_apps
-  ADD CONSTRAINT client_apps_user_fk FOREIGN KEY (user_id) REFERENCES users (id);
-ALTER TABLE user_roles
-  ADD CONSTRAINT user_roles_role_fk FOREIGN KEY (role_id) REFERENCES roles (id);
-ALTER TABLE user_roles
-  ADD CONSTRAINT user_roles_user FOREIGN KEY (user_id) REFERENCES users (id);
-
-########################################################################################################################
-# OAuth 2 std tables
-########################################################################################################################
-
-DROP TABLE IF EXISTS oauth_client_details;
 CREATE TABLE oauth_client_details (
   client_id               VARCHAR(255) PRIMARY KEY,
   resource_ids            VARCHAR(255),
@@ -84,7 +71,6 @@ CREATE TABLE oauth_client_details (
   autoapprove             VARCHAR(255)
 );
 
-DROP TABLE IF EXISTS oauth_client_token;
 CREATE TABLE oauth_client_token (
   token_id          VARCHAR(255),
   token             LONG VARBINARY,
@@ -93,7 +79,6 @@ CREATE TABLE oauth_client_token (
   client_id         VARCHAR(255)
 );
 
-DROP TABLE IF EXISTS oauth_access_token;
 CREATE TABLE oauth_access_token (
   token_id          VARCHAR(255),
   token             LONG VARBINARY,
@@ -104,20 +89,17 @@ CREATE TABLE oauth_access_token (
   refresh_token     VARCHAR(255)
 );
 
-DROP TABLE IF EXISTS oauth_refresh_token;
 CREATE TABLE oauth_refresh_token (
   token_id       VARCHAR(255),
   token          LONG VARBINARY,
   authentication LONG VARBINARY
 );
 
-DROP TABLE IF EXISTS oauth_code;
 CREATE TABLE oauth_code (
   code           VARCHAR(255),
   authentication LONG VARBINARY
 );
 
-DROP TABLE IF EXISTS oauth_approvals;
 CREATE TABLE oauth_approvals (
   userId         VARCHAR(255),
   clientId       VARCHAR(255),
@@ -127,7 +109,30 @@ CREATE TABLE oauth_approvals (
   lastModifiedAt TIMESTAMP
 );
 
-DROP TABLE IF EXISTS ClientDetails;
+########################################################################################################################
+# Add all constraints
+########################################################################################################################
+
+ALTER TABLE client_apps
+ADD CONSTRAINT client_apps_unique_guid UNIQUE (guid);
+ALTER TABLE roles
+ADD CONSTRAINT roles_unique_code UNIQUE (code);
+ALTER TABLE users
+ADD CONSTRAINT users_unique_email UNIQUE (email);
+ALTER TABLE client_apps
+ADD CONSTRAINT client_apps_user_fk FOREIGN KEY (user_id) REFERENCES users (id);
+ALTER TABLE user_roles
+ADD CONSTRAINT user_roles_role_fk FOREIGN KEY (role_id) REFERENCES roles (id);
+ALTER TABLE user_roles
+ADD CONSTRAINT user_roles_user FOREIGN KEY (user_id) REFERENCES users (id);
+
+########################################################################################################################
+# OAuth 2 std tables
+########################################################################################################################
+
+
+-- TODO: No to ja nie wiem co to ma być...
+/*DROP TABLE IF EXISTS ClientDetails;
 CREATE TABLE ClientDetails (
   appId                  VARCHAR(255) PRIMARY KEY,
   resourceIds            VARCHAR(255),
@@ -140,4 +145,4 @@ CREATE TABLE ClientDetails (
   refresh_token_validity INTEGER,
   additionalInformation  VARCHAR(4096),
   autoApproveScopes      VARCHAR(255)
-);
+);*/
