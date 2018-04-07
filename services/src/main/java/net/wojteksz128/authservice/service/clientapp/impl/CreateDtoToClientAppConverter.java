@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.UUID;
 
 @Component
 class CreateDtoToClientAppConverter implements Converter<CreateClientAppDto, ClientApp> {
@@ -28,10 +27,9 @@ class CreateDtoToClientAppConverter implements Converter<CreateClientAppDto, Cli
         final UserDto currentLoggedUser = userService.getCurrentLoggedUser()
             .orElseThrow(() -> new UsernameNotFoundException("Current logged user not found"));
 
-        clientApp.setGuid(UUID.randomUUID().toString());
-        clientApp.setName(createClientAppDto.getName());
-        clientApp.setDescription(createClientAppDto.getDescription());
+        clientApp.setClientId(createClientAppDto.getClientDetailsDto().getClientId());
         clientApp.setCreateDate(LocalDateTime.now(ZoneId.systemDefault()));
+        clientApp.setDescription(createClientAppDto.getDescription());
         clientApp.setUserId(currentLoggedUser.getId());
 
         return clientApp;

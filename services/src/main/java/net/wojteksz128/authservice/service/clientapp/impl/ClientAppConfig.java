@@ -31,8 +31,8 @@ class ClientAppConfig {
     }
 
     @Bean
-    public DtoToClientAppConverter dtoToClientAppConverter() {
-        return new DtoToClientAppConverter(clientAppRepository);
+    public ClientAppDtoToEntityConverter dtoToClientAppConverter() {
+        return new ClientAppDtoToEntityConverter(clientAppRepository);
     }
 
     @Bean

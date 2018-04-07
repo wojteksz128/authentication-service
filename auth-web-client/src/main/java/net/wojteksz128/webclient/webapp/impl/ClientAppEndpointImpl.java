@@ -74,7 +74,7 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
             return "redirect:/devApp?error&add";
         }
 
-        return "redirect:/devApp?appAdded&appkey=" + clientAppControllerNew.getGuid();
+        return "redirect:/devApp?appAdded&appkey=" + clientAppControllerNew.getClientDetailsDto().getClientId();
     }
 
     @Override
@@ -118,14 +118,14 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
 
     @Override
     public String showDeleteDevAppForm(@PathVariable("guid") String guid, Model model) {
-        model.addAttribute("devApp", clientAppController.getAppByGuid(guid));
+        model.addAttribute("devApp", clientAppController.getAppByClientId(guid));
 
         return "developer/fragments/modalDelete";
     }
 
     @Override
     public String getApp(@PathVariable("guid") String guid, Model model) {
-        model.addAttribute("app", clientAppController.getAppByGuid(guid));
+        model.addAttribute("app", clientAppController.getAppByClientId(guid));
         model.addAttribute("formatter", formatter);
 
         return "developer/fragments/modalInfo";

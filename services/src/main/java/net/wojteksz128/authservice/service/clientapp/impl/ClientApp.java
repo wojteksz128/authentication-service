@@ -15,11 +15,9 @@ class ClientApp implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "guid", unique = true, nullable = false)
-    private String guid;
-
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "client_id", unique = true, nullable = false)
+    @JoinColumn(table = "oauth_client_details", foreignKey = @ForeignKey(name = "client_id"))
+    private String clientId;
 
     @Column(name = "description")
     private String description;

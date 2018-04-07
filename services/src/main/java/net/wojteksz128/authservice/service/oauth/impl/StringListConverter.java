@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Converter
-class StringListConverter implements AttributeConverter<List<String>, String> {
+public class StringListConverter implements AttributeConverter<List<String>, String> {
 
     private final String DELIMITER = ",";
 

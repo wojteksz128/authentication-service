@@ -19,12 +19,12 @@ import org.springframework.context.annotation.PropertySources;
 @EntityScan("net.wojteksz128.authservice.service")
 public class WebClientApplication extends SpringBootServletInitializer {
 
+    public static void main(String[] args) {
+        SpringApplication.run(WebClientApplication.class, args);
+    }
+
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
         return builder.sources(WebClientApplication.class);
-    }
-
-    public static void main(String[] args) {
-        SpringApplication.run(WebClientApplication.class, args);
     }
 }

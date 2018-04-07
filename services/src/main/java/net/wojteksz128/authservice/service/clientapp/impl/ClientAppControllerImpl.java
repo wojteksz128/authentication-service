@@ -20,11 +20,11 @@ class ClientAppControllerImpl implements ClientAppController {
 
     private final ClientAppRepository clientAppRepository;
     private final CreateDtoToClientAppConverter createDtoToClientAppConverter;
-    private final DtoToClientAppConverter dtoToClientAppConverter;
+    private final ClientAppDtoToEntityConverter dtoToClientAppConverter;
     private final ClientAppToDtoConverter clientAppToDtoConverter;
 
     @Autowired
-    public ClientAppControllerImpl(ClientAppRepository clientAppRepository, CreateDtoToClientAppConverter createDtoToClientAppConverter, DtoToClientAppConverter dtoToClientAppConverter, ClientAppToDtoConverter clientAppToDtoConverter) {
+    public ClientAppControllerImpl(ClientAppRepository clientAppRepository, CreateDtoToClientAppConverter createDtoToClientAppConverter, ClientAppDtoToEntityConverter dtoToClientAppConverter, ClientAppToDtoConverter clientAppToDtoConverter) {
         this.clientAppRepository = clientAppRepository;
         this.createDtoToClientAppConverter = createDtoToClientAppConverter;
         this.dtoToClientAppConverter = dtoToClientAppConverter;
@@ -41,8 +41,8 @@ class ClientAppControllerImpl implements ClientAppController {
     }
 
     @Override
-    public ClientAppDto getAppByGuid(String appGuid) {
-        return clientAppToDtoConverter.convert(clientAppRepository.findByGuid(appGuid));
+    public ClientAppDto getAppByClientId(String clientId) {
+        return clientAppToDtoConverter.convert(clientAppRepository.findByClientId(clientId));
     }
 
     @Override
@@ -65,19 +65,28 @@ class ClientAppControllerImpl implements ClientAppController {
             .collect(Collectors.toList());
     }
 
-    private void checkValidity(String appGuid, ClientAppDto app) throws EmptyObjectException, InvalidRequestException, ObjectNotCorrespondingException {
+    /**
+     * Throw exception, when request data aren't correct.
+     *
+     * @param clientId requested client app identifier
+     * @param app information about client app
+     * @throws EmptyObjectException client app information is null
+     * @throws InvalidRequestException client app identifier is null
+     * @throws ObjectNotCorrespondingException clientId in dto and request aren't the same
+     */
+    private void checkValidity(String clientId, ClientAppDto app) throws EmptyObjectException, InvalidRequestException, ObjectNotCorrespondingException {
         if (app == null) {
             throw new EmptyObjectException("Attempt to use a null object.");
         }
 
-        if (appGuid == null) {
+        if (clientId == null) {
             throw new InvalidRequestException("App guid is null.");
         }
 
-        if (!appGuid.equals(app.getGuid())) {
+        if (!clientId.equals(app.getClientDetailsDto().getClientId())) {
             throw new ObjectNotCorrespondingException("Object is not requested object.");
         }
 
-        clientAppRepository.findByGuid(appGuid);
+        clientAppRepository.findByClientId(clientId);
     }
 }

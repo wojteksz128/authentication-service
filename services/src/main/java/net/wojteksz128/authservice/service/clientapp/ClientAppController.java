@@ -10,7 +10,7 @@ public interface ClientAppController {
 
     ClientAppDto createNew(CreateClientAppDto app) throws EmptyObjectException;
 
-    ClientAppDto getAppByGuid(String appGuid);
+    ClientAppDto getAppByClientId(String clientId);
 
     void updateApp(String appGuid, ClientAppDto app) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException;
 

@@ -1,20 +1,16 @@
 package net.wojteksz128.authservice.service.clientapp;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.NotEmpty;
+import net.wojteksz128.authservice.service.oauth.OAuthClientDetailsDto;
 
 import java.time.LocalDateTime;
 
 @SuppressWarnings("WeakerAccess")
 @Data
 public class ClientAppDto {
-    @NotEmpty
-    private String guid;
 
-    @NotEmpty
-    private String name;
-
+    private Long id;
+    private OAuthClientDetailsDto clientDetailsDto;
     private String description;
-
     private LocalDateTime createDate;
 }

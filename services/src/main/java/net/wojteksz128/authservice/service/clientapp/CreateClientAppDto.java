@@ -1,6 +1,7 @@
 package net.wojteksz128.authservice.service.clientapp;
 
 import lombok.Data;
+import net.wojteksz128.authservice.service.oauth.OAuthClientDetailsDto;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @SuppressWarnings("WeakerAccess")
@@ -8,6 +9,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class CreateClientAppDto {
 
     @NotEmpty
-    private String name;
+    private OAuthClientDetailsDto clientDetailsDto;
+
     private String description;
 }
