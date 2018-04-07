@@ -1,4 +1,4 @@
-package net.wojteksz128.webclient;
+package net.wojteksz128.authservice.service;
 
 @SuppressWarnings("unused")
 public enum MessageType {

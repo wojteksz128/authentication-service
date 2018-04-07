@@ -11,10 +11,10 @@
     <body th:fragment="content">
         <!-- Komunikaty -->
         <div th:if="${param.appAdded}">
-            <div th:replace="fragments/message :: message(type=${ T(net.wojteksz128.webclient.MessageType).INFO }, title='Sukces!', message='Nowa aplikacja została dodana.', addFragmentFile='developer/fragments/appKeyInfo', addFragmentName='app-key-info')"></div>
+            <div th:replace="fragments/message :: message(type=${ T(net.wojteksz128.authservice.service.MessageType).INFO }, title='Sukces!', message='Nowa aplikacja została dodana.', addFragmentFile='developer/fragments/appKeyInfo', addFragmentName='app-key-info')"></div>
         </div>
         <div th:if="${param.error}">
-            <div th:replace="fragments/message :: message(${ T(net.wojteksz128.webclient.MessageType).ERROR }, 'Błąd!', 'Akcja nie powiodła się.')"></div>
+            <div th:replace="fragments/message :: message(${ T(net.wojteksz128.authservice.service.MessageType).ERROR }, 'Błąd!', 'Akcja nie powiodła się.')"></div>
         </div>
 
         <div class="container">
