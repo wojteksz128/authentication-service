@@ -69,21 +69,21 @@ class ClientAppControllerImpl implements ClientAppController {
      * Throw exception, when request data aren't correct.
      *
      * @param clientId requested client app identifier
-     * @param app information about client app
+     * @param dto information about client app
      * @throws EmptyObjectException client app information is null
      * @throws InvalidRequestException client app identifier is null
      * @throws ObjectNotCorrespondingException clientId in dto and request aren't the same
      */
-    private void checkValidity(String clientId, ClientAppDto app) throws EmptyObjectException, InvalidRequestException, ObjectNotCorrespondingException {
-        if (app == null) {
+    private void checkValidity(String clientId, ClientAppDto dto) throws EmptyObjectException, InvalidRequestException, ObjectNotCorrespondingException {
+        if (dto == null) {
             throw new EmptyObjectException("Attempt to use a null object.");
         }
 
         if (clientId == null) {
-            throw new InvalidRequestException("App guid is null.");
+            throw new InvalidRequestException("");
         }
 
-        if (!clientId.equals(app.getClientDetailsDto().getClientId())) {
+        if (!clientId.equals(dto.getClientDetailsDto().getClientId())) {
             throw new ObjectNotCorrespondingException("Object is not requested object.");
         }
 

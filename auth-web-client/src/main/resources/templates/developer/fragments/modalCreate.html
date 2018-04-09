@@ -11,28 +11,50 @@
                         <a href="#" class="close" data-dismiss="modal" aria-label="close">&times;</a>
                         <h4 class="modal-title">Dodawanie nowej aplikacji</h4>
                     </div>
+                    <!--/*@thymesVar id="devApp" type="net.wojteksz128.authservice.service.clientapp.CreateClientAppDto"*/-->
                     <form th:action="@{/devApp}" method="post" th:object="${devApp}" class="form-app">
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="app-name">Nazwa aplikacji:</label>
-                                <input type="text" class="form-control" id="app-name" th:field="*{name}"/>
+                                <label for="app-client-id">Client Id:</label>
+                                <input type="text" class="form-control" id="app-client-id" th:field="*{clientDetailsDto.clientId}"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="app-client-secret">Client Secret:</label>
+                                <input type="text" class="form-control" id="app-client-secret" th:field="*{clientDetailsDto.clientSecret}"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="app-scope">Scope:</label>
+                                <input type="text" class="form-control" id="app-scope" th:field="*{clientDetailsDto.scope}"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="app-authorized-grant-types">Authorized grant types:</label>
+                                <select id="app-authorized-grant-types" class="form-control" th:field="*{clientDetailsDto.authorizedGrantTypes}" multiple="multiple">
+                                    <option th:value="refresh_token">refresh_token</option>
+                                    <option th:value="authorization_code">authorization_code</option>
+                                    <option th:value="implicit">implicit</option>
+                                    <option th:value="password">password</option>
+                                    <option th:value="client_credentials">client_credentials</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="app-web-server-redirect-uri">Web server redirect URI:</label>
+                                <input type="text" class="form-control" id="app-web-server-redirect-uri" th:field="*{clientDetailsDto.webServerRedirectUri}"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="app-access-token-validity">Access token validity (ms):</label>
+                                <input type="number" class="form-control" id="app-access-token-validity" th:field="*{clientDetailsDto.accessTokenValidity}"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="app-refresh-token-validity">Refresh token validity (ms):</label>
+                                <input type="number" class="form-control" id="app-refresh-token-validity" th:field="*{clientDetailsDto.refreshTokenValidity}"/>
+                            </div>
+                            <div class="checkbox">
+                                <label><input type="checkbox"/>Auto approve</label>
                             </div>
                             <div class="form-group">
                                 <label for="app-desc">Opis:</label>
                                 <textarea class="form-control" rows="5" id="app-desc"
                                           style="resize: vertical" th:field="*{description}"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Aplikacja wymaga informacji o:</label>
-                                <div class="checkbox">
-                                    <label><input type="checkbox" disabled="disabled" checked="checked"/>Adres e-mail i hasło</label>
-                                </div>
-                                <div class="checkbox">
-                                    <label><input type="checkbox"/>Imię i nazwisko</label>
-                                </div>
-                                <div class="checkbox">
-                                    <label><input type="checkbox"/>Adres</label>
-                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">

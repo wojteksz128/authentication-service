@@ -1,7 +1,6 @@
 package net.wojteksz128.authservice.service.clientapp;
 
 import lombok.Data;
-import net.wojteksz128.authservice.service.oauth.OAuthClientDetailsDto;
 
 import java.time.LocalDateTime;
 

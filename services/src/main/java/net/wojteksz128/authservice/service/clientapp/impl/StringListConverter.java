@@ -1,4 +1,4 @@
-package net.wojteksz128.authservice.service.oauth.impl;
+package net.wojteksz128.authservice.service.clientapp.impl;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

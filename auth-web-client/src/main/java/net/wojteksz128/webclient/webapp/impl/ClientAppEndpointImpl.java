@@ -1,11 +1,13 @@
 package net.wojteksz128.webclient.webapp.impl;
 
+import net.wojteksz128.authservice.service.MessageType;
 import net.wojteksz128.authservice.service.clientapp.ClientAppController;
 import net.wojteksz128.authservice.service.clientapp.ClientAppDto;
 import net.wojteksz128.authservice.service.clientapp.CreateClientAppDto;
 import net.wojteksz128.authservice.service.exception.EmptyObjectException;
 import net.wojteksz128.authservice.service.exception.InvalidRequestException;
 import net.wojteksz128.authservice.service.exception.ObjectNotCorrespondingException;
+import net.wojteksz128.authservice.service.clientapp.OAuthClientDetailsController;
 import net.wojteksz128.authservice.service.user.UserDto;
 import net.wojteksz128.authservice.service.user.UserService;
 import net.wojteksz128.authservice.service.webapp.WebsiteBuilder;
@@ -29,35 +31,44 @@ import java.util.Optional;
 class ClientAppEndpointImpl implements ClientAppEndpoint {
 
     private final ClientAppController clientAppController;
-
     private final UserService userService;
-
+    private final OAuthClientDetailsController clientDetailsController;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Autowired
-    public ClientAppEndpointImpl(ClientAppController clientAppController, UserService userService) {
+    public ClientAppEndpointImpl(ClientAppController clientAppController, UserService userService, OAuthClientDetailsController clientDetailsController) {
         this.clientAppController = clientAppController;
         this.userService = userService;
+        this.clientDetailsController = clientDetailsController;
     }
 
     @Override
     public String getDevApp(Authentication authentication, @RequestParam Map<String, String> params, Model model) {
+        final WebsiteBuilder websiteBuilder = WebsiteBuilder.create(model).withContent("developer/devApps");
         String username = (String) authentication.getPrincipal();
         final Optional<UserDto> optionalUser = userService.findByEmail(username);
 
         model.addAttribute("apps", clientAppController.getAllUserApps(optionalUser.map(UserDto::getId).orElseThrow(() -> new AuthorizationServiceException("User not logged."))));
+
+        if (params.containsKey("appAdded")) {
+            websiteBuilder.withMessage(MessageType.INFO, "Sukces!", "Aplikacja\"" + params.get("clientId") + "\" została zarejestrowana.");
+        }
+
         if (params.containsKey("error")) {
+            final String ERROR_TITLE = "Błąd!";
             if (params.containsKey("add")) {
-                model.addAttribute("add", "");
+                websiteBuilder.withMessage(MessageType.ERROR, ERROR_TITLE, "Próba dodania nowej aplikacji nie powiodła się.");
             } else if (params.containsKey("info")) {
-                model.addAttribute("info", "");
+                websiteBuilder.withMessage(MessageType.ERROR, ERROR_TITLE, "Próba wyświetlenia informacji o aplikacji nie powiodła się.");
             } else if (params.containsKey("delete")) {
-                model.addAttribute("delete", "");
+                websiteBuilder.withMessage(MessageType.ERROR, ERROR_TITLE, "Próba usunięcia aplikacji nie powiodła się.");
+            } else {
+                websiteBuilder.withMessage(MessageType.ERROR, ERROR_TITLE, "Wystąpił nieoczekiwany błąd. Skontaktuj się z administratorem w celu rozwiązania problemów.");
             }
         }
         model.addAttribute("formatter", formatter);
 
-        return WebsiteBuilder.create(model).withContent("developer/devApps").build();
+        return websiteBuilder.build();
     }
 
     @Override
@@ -70,11 +81,12 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
 
         try {
             clientAppControllerNew = clientAppController.createNew(appDto);
+            clientAppControllerNew.setClientDetailsDto(clientDetailsController.createNew(appDto.getClientDetailsDto()));
         } catch (EmptyObjectException e) {
             return "redirect:/devApp?error&add";
         }
 
-        return "redirect:/devApp?appAdded&appkey=" + clientAppControllerNew.getClientDetailsDto().getClientId();
+        return "redirect:/devApp?appAdded&clientId=" + clientAppControllerNew.getClientDetailsDto().getClientId();
     }
 
     @Override

@@ -15,9 +15,9 @@ class ClientApp implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "client_id", unique = true, nullable = false)
-    @JoinColumn(table = "oauth_client_details", foreignKey = @ForeignKey(name = "client_id"))
-    private String clientId;
+    @OneToOne(targetEntity = OAuthClientDetails.class)
+    @JoinColumn(name = "client_id")
+    private OAuthClientDetails clientDetails;
 
     @Column(name = "description")
     private String description;

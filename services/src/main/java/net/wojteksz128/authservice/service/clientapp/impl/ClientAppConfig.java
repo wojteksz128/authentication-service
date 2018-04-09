@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Configuration;
 class ClientAppConfig {
 
     private final ClientAppRepository clientAppRepository;
-
     private final UserService userService;
+
 
     @Autowired
     public ClientAppConfig(ClientAppRepository clientAppRepository, UserService userService) {
@@ -32,7 +32,7 @@ class ClientAppConfig {
 
     @Bean
     public ClientAppDtoToEntityConverter dtoToClientAppConverter() {
-        return new ClientAppDtoToEntityConverter(clientAppRepository);
+        return new ClientAppDtoToEntityConverter(clientAppRepository, clientDetailsController);
     }
 
     @Bean
