@@ -15,23 +15,28 @@ import java.time.ZoneId;
 class CreateDtoToClientAppConverter implements Converter<CreateClientAppDto, ClientApp> {
 
     private final UserService userService;
+    private final OAuthClientDetailsDtoToEntityConverter clientDetailsDtoToEntityConverter;
 
     @Autowired
-    public CreateDtoToClientAppConverter(UserService userService) {
+    public CreateDtoToClientAppConverter(UserService userService, OAuthClientDetailsDtoToEntityConverter clientDetailsDtoToEntityConverter) {
         this.userService = userService;
+        this.clientDetailsDtoToEntityConverter = clientDetailsDtoToEntityConverter;
     }
 
     @Override
     public ClientApp convert(CreateClientAppDto createClientAppDto) {
         ClientApp clientApp = new ClientApp();
+        prepareEntity(createClientAppDto, clientApp);
+        return clientApp;
+    }
+
+    private void prepareEntity(CreateClientAppDto createClientAppDto, ClientApp clientApp) {
         final UserDto currentLoggedUser = userService.getCurrentLoggedUser()
             .orElseThrow(() -> new UsernameNotFoundException("Current logged user not found"));
 
-        clientApp.setClientId(createClientAppDto.getClientDetailsDto().getClientId());
+        clientApp.setClientDetails(clientDetailsDtoToEntityConverter.convert(createClientAppDto.getClientDetailsDto()));
         clientApp.setCreateDate(LocalDateTime.now(ZoneId.systemDefault()));
         clientApp.setDescription(createClientAppDto.getDescription());
         clientApp.setUserId(currentLoggedUser.getId());
-
-        return clientApp;
     }
 }

@@ -1,3 +1,4 @@
+/*
 package net.wojteksz128.authservice.service.clientapp.impl;
 
 import net.wojteksz128.authservice.service.clientapp.ClientAppController;
@@ -40,3 +41,4 @@ class ClientAppConfig {
         return new ClientAppToDtoConverter();
     }
 }
+*/

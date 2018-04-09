@@ -11,6 +11,13 @@ class OAuthClientDetailsToDtoConverter implements Converter<OAuthClientDetails, 
     public OAuthClientDetailsDto convert(OAuthClientDetails clientDetails) {
         final OAuthClientDetailsDto dto = new OAuthClientDetailsDto();
 
+        prepareDto(clientDetails, dto);
+
+        return dto;
+    }
+
+    @SuppressWarnings("Duplicates")
+    private void prepareDto(OAuthClientDetails clientDetails, OAuthClientDetailsDto dto) {
         dto.setClientId(clientDetails.getClientId());
         dto.setResourceIds(clientDetails.getResourceIds());
         dto.setClientSecret(clientDetails.getClientSecret());
@@ -21,7 +28,5 @@ class OAuthClientDetailsToDtoConverter implements Converter<OAuthClientDetails, 
         dto.setAccessTokenValidity(clientDetails.getAccessTokenValidity());
         dto.setAdditionalInformation(clientDetails.getAdditionalInformation());
         dto.setAutoApprove(clientDetails.getAutoApprove());
-
-        return dto;
     }
 }

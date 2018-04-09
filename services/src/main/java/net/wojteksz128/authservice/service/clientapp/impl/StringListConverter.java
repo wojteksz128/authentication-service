@@ -13,11 +13,11 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
 
     @Override
     public String convertToDatabaseColumn(List<String> strings) {
-        return String.join(DELIMITER, strings);
+        return strings != null ? String.join(DELIMITER, strings) : null;
     }
 
     @Override
     public List<String> convertToEntityAttribute(String dbData) {
-        return new ArrayList<>(Arrays.asList(dbData.split(DELIMITER)));
+        return dbData != null ? new ArrayList<>(Arrays.asList(dbData.split(DELIMITER))) : null;
     }
 }

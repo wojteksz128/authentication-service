@@ -10,18 +10,21 @@ class OAuthClientDetailsDtoToEntityConverter implements Converter<OAuthClientDet
     @Override
     public OAuthClientDetails convert(OAuthClientDetailsDto dto) {
         final OAuthClientDetails clientDetails = new OAuthClientDetails();
-
-        clientDetails.setClientId(dto.getClientId());
-        clientDetails.setResourceIds(dto.getResourceIds());
-        clientDetails.setClientSecret(dto.getClientSecret());
-        clientDetails.setScope(dto.getScope());
-        clientDetails.setAuthorizedGrantTypes(dto.getAuthorizedGrantTypes());
-        clientDetails.setWebServerRedirectUri(dto.getWebServerRedirectUri());
-        clientDetails.setAuthorities(dto.getAuthorities());
-        clientDetails.setAccessTokenValidity(dto.getAccessTokenValidity());
-        clientDetails.setAdditionalInformation(dto.getAdditionalInformation());
-        clientDetails.setAutoApprove(dto.getAutoApprove());
-
+        prepareEntity(dto, clientDetails);
         return clientDetails;
+    }
+
+    @SuppressWarnings("Duplicates")
+    void prepareEntity(OAuthClientDetailsDto clientDetailsDto, OAuthClientDetails clientDetails) {
+        clientDetails.setClientId(clientDetailsDto.getClientId());
+        clientDetails.setResourceIds(clientDetailsDto.getResourceIds());
+        clientDetails.setClientSecret(clientDetailsDto.getClientSecret());
+        clientDetails.setScope(clientDetailsDto.getScope());
+        clientDetails.setAuthorizedGrantTypes(clientDetailsDto.getAuthorizedGrantTypes());
+        clientDetails.setWebServerRedirectUri(clientDetailsDto.getWebServerRedirectUri());
+        clientDetails.setAuthorities(clientDetailsDto.getAuthorities());
+        clientDetails.setAccessTokenValidity(clientDetailsDto.getAccessTokenValidity());
+        clientDetails.setAdditionalInformation(clientDetailsDto.getAdditionalInformation());
+        clientDetails.setAutoApprove(clientDetailsDto.getAutoApprove());
     }
 }

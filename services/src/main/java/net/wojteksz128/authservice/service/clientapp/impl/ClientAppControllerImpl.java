@@ -42,7 +42,7 @@ class ClientAppControllerImpl implements ClientAppController {
 
     @Override
     public ClientAppDto getAppByClientId(String clientId) {
-        return clientAppToDtoConverter.convert(clientAppRepository.findByClientId(clientId));
+        return clientAppToDtoConverter.convert(clientAppRepository.findByClientDetails_ClientId(clientId));
     }
 
     @Override
@@ -87,6 +87,6 @@ class ClientAppControllerImpl implements ClientAppController {
             throw new ObjectNotCorrespondingException("Object is not requested object.");
         }
 
-        clientAppRepository.findByClientId(clientId);
+        clientAppRepository.findByClientDetails_ClientId(clientId);
     }
 }

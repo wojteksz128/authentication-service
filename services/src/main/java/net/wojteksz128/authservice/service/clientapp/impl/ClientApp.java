@@ -3,6 +3,7 @@ package net.wojteksz128.authservice.service.clientapp.impl;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -15,8 +16,8 @@ class ClientApp implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(targetEntity = OAuthClientDetails.class)
-    @JoinColumn(name = "client_id")
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "client_id", unique = true, nullable = false)
     private OAuthClientDetails clientDetails;
 
     @Column(name = "description")
