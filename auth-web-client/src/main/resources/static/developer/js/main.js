@@ -39,5 +39,5 @@ function openModal(url, modalHolderId, modalId) {
             $(modalHolderId).html(data);
             $(modalId).modal("show");
         }
-    })
+    });
 }

@@ -12,49 +12,68 @@
                         <h4 class="modal-title">Dodawanie nowej aplikacji</h4>
                     </div>
                     <!--/*@thymesVar id="devApp" type="net.wojteksz128.authservice.service.clientapp.CreateClientAppDto"*/-->
-                    <form th:action="@{/devApp}" method="post" th:object="${devApp}" class="form-app">
+                    <form th:action="@{/devApp}" method="post" th:object="${devApp}" class="form-app form-horizontal">
                         <div class="modal-body">
-                            <div class="form-group">
-                                <label for="app-client-id">Client Id:</label>
-                                <input type="text" class="form-control" id="app-client-id" th:field="*{clientDetailsDto.clientId}"/>
+                            <div class="form-group form-group-sm">
+                                <label for="app-client-id" class="control-label col-sm-4">Client Id:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control input-sm" id="app-client-id" th:field="*{clientDetailsDto.clientId}"/>
+                                </div>
+                            </div>
+                            <div class="form-group form-group-sm">
+                                <label for="app-client-secret" class="control-label col-sm-4">Client Secret:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control input-sm" id="app-client-secret" th:field="*{clientDetailsDto.clientSecret}"/>
+                                </div>
+                            </div>
+                            <div class="form-group form-group-sm">
+                                <label for="app-scope" class="control-label col-sm-4">Scope:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control input-sm" id="app-scope" th:field="*{clientDetailsDto.scope}"/>
+                                </div>
+                            </div>
+                            <div class="form-group form-group-sm">
+                                <label for="app-authorized-grant-types" class="control-label col-sm-4">Authorized grant types:</label>
+                                <div class="col-sm-8">
+                                    <select id="app-authorized-grant-types" class="form-control input-sm" th:field="*{clientDetailsDto.authorizedGrantTypes}" multiple="multiple">
+                                        <option th:value="refresh_token">refresh_token</option>
+                                        <option th:value="authorization_code">authorization_code</option>
+                                        <option th:value="implicit">implicit</option>
+                                        <option th:value="password">password</option>
+                                        <option th:value="client_credentials">client_credentials</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group form-group-sm">
+                                <label for="app-web-server-redirect-uri" class="control-label col-sm-4">Web server redirect URI:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control input-sm" id="app-web-server-redirect-uri" th:field="*{clientDetailsDto.webServerRedirectUri}"/>
+                                </div>
+                            </div>
+                            <div class="form-group form-group-sm">
+                                <label for="app-access-token-validity" class="control-label col-sm-4">Access token validity (ms):</label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control input-sm" id="app-access-token-validity" th:field="*{clientDetailsDto.accessTokenValidity}"/>
+                                </div>
+                            </div>
+                            <div class="form-group form-group-sm">
+                                <label for="app-refresh-token-validity" class="control-label col-sm-4">Refresh token validity (ms):</label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control input-sm" id="app-refresh-token-validity" th:field="*{clientDetailsDto.refreshTokenValidity}"/>
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label for="app-client-secret">Client Secret:</label>
-                                <input type="text" class="form-control" id="app-client-secret" th:field="*{clientDetailsDto.clientSecret}"/>
+                                <div class="col-sm-offset-4 col-sm-8">
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" th:field="*{clientDetailsDto.autoApprove}"/> Auto approve</label>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="app-scope">Scope:</label>
-                                <input type="text" class="form-control" id="app-scope" th:field="*{clientDetailsDto.scope}"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="app-authorized-grant-types">Authorized grant types:</label>
-                                <select id="app-authorized-grant-types" class="form-control" th:field="*{clientDetailsDto.authorizedGrantTypes}" multiple="multiple">
-                                    <option th:value="refresh_token">refresh_token</option>
-                                    <option th:value="authorization_code">authorization_code</option>
-                                    <option th:value="implicit">implicit</option>
-                                    <option th:value="password">password</option>
-                                    <option th:value="client_credentials">client_credentials</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="app-web-server-redirect-uri">Web server redirect URI:</label>
-                                <input type="text" class="form-control" id="app-web-server-redirect-uri" th:field="*{clientDetailsDto.webServerRedirectUri}"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="app-access-token-validity">Access token validity (ms):</label>
-                                <input type="number" class="form-control" id="app-access-token-validity" th:field="*{clientDetailsDto.accessTokenValidity}"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="app-refresh-token-validity">Refresh token validity (ms):</label>
-                                <input type="number" class="form-control" id="app-refresh-token-validity" th:field="*{clientDetailsDto.refreshTokenValidity}"/>
-                            </div>
-                            <div class="checkbox">
-                                <label><input type="checkbox"/>Auto approve</label>
-                            </div>
-                            <div class="form-group">
-                                <label for="app-desc">Opis:</label>
-                                <textarea class="form-control" rows="5" id="app-desc"
-                                          style="resize: vertical" th:field="*{description}"></textarea>
+                            <div class="form-group form-group-sm">
+                                <label for="app-desc" class="control-label col-sm-4">Opis:</label>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control input-sm" rows="5" id="app-desc" style="resize: vertical" th:field="*{description}"></textarea>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
