@@ -4,6 +4,9 @@
         <script th:src="@{/developer/js/modalCreate.js}"></script>
     </head>
     <body>
+        <script>
+            $('#modal-create').modal("show");
+        </script>
         <div id="modal-create" class="modal fade" tabindex="-1" role="dialog" th:fragment="modal-create">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

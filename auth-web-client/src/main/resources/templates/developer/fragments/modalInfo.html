@@ -4,6 +4,9 @@
         <script th:src="@{/developer/js/modalInfo.js}"></script>
     </head>
     <body>
+        <script>
+            $('#modal-info').modal("show");
+        </script>
         <div id="modal-info" class="modal fade" tabindex="-1" role="dialog" th:fragment="modal-info">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

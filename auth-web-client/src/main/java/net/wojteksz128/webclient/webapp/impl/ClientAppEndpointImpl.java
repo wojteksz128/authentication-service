@@ -51,7 +51,7 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
         model.addAttribute("apps", clientAppController.getAllUserApps(optionalUser.map(UserDto::getId).orElseThrow(() -> new AuthorizationServiceException("User not logged."))));
 
         if (params.containsKey("appAdded")) {
-            websiteBuilder.withMessage(MessageType.INFO, "Sukces!", "Aplikacja\"" + params.get("clientId") + "\" została zarejestrowana.");
+            websiteBuilder.withMessage(MessageType.INFO, "Sukces!", "Aplikacja \"" + params.get("clientId") + "\" została zarejestrowana.");
         }
 
         if (params.containsKey("error")) {

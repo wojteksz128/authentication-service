@@ -4,6 +4,9 @@
         <script th:src="@{/developer/js/modalDelete.js}"></script>
     </head>
     <body>
+        <script>
+            $('#modal-delete-question').modal("show");
+        </script>
         <div id="modal-delete-question" class="modal fade" tabindex="-1" role="dialog" th:fragment="modal-delete">
             <div class="modal-dialog">
                 <div class="modal-content">

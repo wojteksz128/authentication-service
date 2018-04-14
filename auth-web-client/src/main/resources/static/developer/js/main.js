@@ -31,13 +31,6 @@ function copyToClipboard(textInput) {
     return returned;
 }
 
-function openModal(url, modalHolderId, modalId) {
-    $.ajax({
-        url: url,
-        success: function (data) {
-            $(modalHolderId).html("");
-            $(modalHolderId).html(data);
-            $(modalId).modal("show");
-        }
-    });
+function openModal(url, modalHolderId) {
+    $(modalHolderId).load(url);
 }
