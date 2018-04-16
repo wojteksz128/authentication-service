@@ -34,3 +34,8 @@ function copyToClipboard(textInput) {
 function openModal(url, modalHolderId) {
     $(modalHolderId).load(url);
 }
+
+function updateContent(response) {
+    $('#dev-apps-content').replaceWith($(response).filter('#dev-apps-content'));
+    $('#message-container').replaceWith($(response).filter('#message-container'));
+}

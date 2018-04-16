@@ -4,10 +4,10 @@ import net.wojteksz128.authservice.service.MessageType;
 import net.wojteksz128.authservice.service.clientapp.ClientAppController;
 import net.wojteksz128.authservice.service.clientapp.ClientAppDto;
 import net.wojteksz128.authservice.service.clientapp.CreateClientAppDto;
+import net.wojteksz128.authservice.service.clientapp.OAuthClientDetailsController;
 import net.wojteksz128.authservice.service.exception.EmptyObjectException;
 import net.wojteksz128.authservice.service.exception.InvalidRequestException;
 import net.wojteksz128.authservice.service.exception.ObjectNotCorrespondingException;
-import net.wojteksz128.authservice.service.clientapp.OAuthClientDetailsController;
 import net.wojteksz128.authservice.service.user.UserDto;
 import net.wojteksz128.authservice.service.user.UserService;
 import net.wojteksz128.authservice.service.webapp.WebsiteBuilder;
@@ -86,41 +86,40 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
             return "redirect:/devApp?error&add";
         }
 
-        return "redirect:/devApp?appAdded&clientId=" + clientAppControllerNew.getClientDetailsDto().getClientId();
+        return "redirect:/devApp?add=" + clientAppControllerNew.getClientDetailsDto().getClientId();
     }
 
     @Override
-    public String updateApp(@PathVariable("guid") String guid, @ModelAttribute("app") @Valid ClientAppDto appDto, BindingResult result) {
+    public String updateApp(@PathVariable String clientApp, @ModelAttribute("app") @Valid ClientAppDto appDto, BindingResult result) {
         if (result.hasErrors()) {
             return "redirect:/devApp?error&info";
         }
 
         try {
-            clientAppController.updateApp(guid, appDto);
+            clientAppController.updateApp(clientApp, appDto);
         } catch (ObjectNotCorrespondingException | InvalidRequestException | EmptyObjectException e) {
             return "redirect:/devApp?error&info";
         }
 
-        return "redirect:/devApp?success";
+        return "redirect:/devApp?info=" + clientApp;
     }
 
     @Override
-    public String deleteDevApp(@PathVariable("guid") String guid, @ModelAttribute("devApp") @Valid ClientAppDto appDto, BindingResult result) {
+    public String deleteDevApp(@PathVariable String clientApp, @ModelAttribute("devApp") @Valid ClientAppDto appDto, BindingResult result) {
         if (result.hasErrors()) {
             return "redirect:/devApp?error&delete";
         }
 
         try {
-            clientAppController.deleteApp(guid, appDto);
+            clientAppController.deleteApp(clientApp, appDto);
         } catch (InvalidRequestException | ObjectNotCorrespondingException | EmptyObjectException e) {
             return "redirect:/devApp?error&delete";
         }
 
-        return "redirect:/devApp?success";
+        return "redirect:/devApp?del=&success";
     }
 
-    //----- Modal windows ----------------------------------------------------------------------------------------------
-
+    //region Modal windows
     @Override
     public String showNewDevAppForm(Model model) {
         model.addAttribute("devApp", new CreateClientAppDto());
@@ -129,17 +128,18 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
     }
 
     @Override
-    public String showDeleteDevAppForm(@PathVariable("guid") String guid, Model model) {
-        model.addAttribute("devApp", clientAppController.getAppByClientId(guid));
+    public String showDeleteDevAppForm(@PathVariable String clientApp, Model model) {
+        model.addAttribute("devApp", clientAppController.getAppByClientId(clientApp));
 
         return "developer/fragments/modalDelete";
     }
 
     @Override
-    public String getApp(@PathVariable("guid") String guid, Model model) {
-        model.addAttribute("app", clientAppController.getAppByClientId(guid));
+    public String getApp(@PathVariable String clientApp, Model model) {
+        model.addAttribute("app", clientAppController.getAppByClientId(clientApp));
         model.addAttribute("formatter", formatter);
 
         return "developer/fragments/modalInfo";
     }
+    //endregion
 }

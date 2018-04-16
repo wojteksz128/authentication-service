@@ -21,22 +21,22 @@ public interface ClientAppEndpoint {
     String addDevApp(@ModelAttribute("devApp") @Valid CreateClientAppDto appDto, BindingResult result);
 
     @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
-    @RequestMapping(value = "/devApp/{guid}", method = RequestMethod.POST)
-    String updateApp(@PathVariable("guid") String guid, @ModelAttribute("app") @Valid ClientAppDto appDto, BindingResult result);
+    @RequestMapping(value = "/devApp/{clientApp}", method = RequestMethod.POST)
+    String updateApp(@PathVariable("clientApp") String guid, @ModelAttribute("app") @Valid ClientAppDto appDto, BindingResult result);
 
     @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
-    @RequestMapping(value = "/devApp/{guid}/delete", method = RequestMethod.POST)
-    String deleteDevApp(@PathVariable("guid") String guid, @ModelAttribute("app") @Valid ClientAppDto appDto, BindingResult result);
+    @RequestMapping(value = "/devApp/{clientApp}/delete", method = RequestMethod.POST)
+    String deleteDevApp(@PathVariable("clientApp") String guid, @ModelAttribute("app") @Valid ClientAppDto appDto, BindingResult result);
 
     @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
     @RequestMapping(value = "/devApp/new")
     String showNewDevAppForm(Model model);
 
     @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
-    @RequestMapping(value = "/devApp/{guid}/delete")
-    String showDeleteDevAppForm(@PathVariable("guid") String guid, Model model);
+    @RequestMapping(value = "/devApp/{clientApp}/delete")
+    String showDeleteDevAppForm(@PathVariable("clientApp") String guid, Model model);
 
     @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
-    @RequestMapping("/devApp/{guid}")
-    String getApp(@PathVariable("guid") String guid, Model model);
+    @RequestMapping("/devApp/{clientApp}")
+    String getApp(@PathVariable("clientApp") String guid, Model model);
 }
