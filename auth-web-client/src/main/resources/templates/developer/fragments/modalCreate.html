@@ -14,10 +14,16 @@
                     <!--/*@thymesVar id="devApp" type="net.wojteksz128.authservice.service.clientapp.CreateClientAppDto"*/-->
                     <form th:action="@{/devApp}" method="post" th:object="${devApp}" class="form-app form-horizontal">
                         <div class="modal-body">
+                            <div th:if="${ #fields.hasGlobalErrors() }" th:each="error: ${#fields.errors('global')}">
+                                <div th:replace="fragments/message :: message(${T(net.wojteksz128.authservice.service.MessageType).ERROR}, 'Błąd!', ${error})"></div>
+                            </div>
                             <div class="form-group form-group-sm">
                                 <label for="app-client-id" class="control-label col-sm-4">Client Id:</label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control input-sm" id="app-client-id" th:field="*{clientDetailsDto.clientId}"/>
+                                </div>
+                                <div th:if="${ #fields.hasErrors('clientDetailsDto.clientId') }" th:each="error: ${#fields.errors('clientDetailsDto.clientId')}">
+                                    <div th:replace="fragments/message :: message(${T(net.wojteksz128.authservice.service.MessageType).ERROR}, 'Błąd!', ${error})"></div>
                                 </div>
                             </div>
                             <div class="form-group form-group-sm">
@@ -25,11 +31,18 @@
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control input-sm" id="app-client-secret" th:field="*{clientDetailsDto.clientSecret}"/>
                                 </div>
+                                <div th:if="${ #fields.hasErrors('clientDetailsDto.clientSecret') }" th:each="error: ${#fields.errors('clientDetailsDto.clientSecret')}">
+                                    <div th:replace="fragments/message :: message(${T(net.wojteksz128.authservice.service.MessageType).ERROR}, 'Błąd!', ${error})"></div>
+                                </div>
+
                             </div>
                             <div class="form-group form-group-sm">
                                 <label for="app-scope" class="control-label col-sm-4">Scope:</label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control input-sm" id="app-scope" th:field="*{clientDetailsDto.scope}"/>
+                                </div>
+                                <div th:if="${ #fields.hasErrors('clientDetailsDto.scope') }" th:each="error: ${#fields.errors('clientDetailsDto.scope')}">
+                                    <div th:replace="fragments/message :: message(${T(net.wojteksz128.authservice.service.MessageType).ERROR}, 'Błąd!', ${error})"></div>
                                 </div>
                             </div>
                             <div class="form-group form-group-sm">
@@ -43,11 +56,17 @@
                                         <option th:value="client_credentials">client_credentials</option>
                                     </select>
                                 </div>
+                                <div th:if="${ #fields.hasErrors('clientDetailsDto.authorizedGrantTypes') }" th:each="error: ${#fields.errors('clientDetailsDto.authorizedGrantTypes')}">
+                                    <div th:replace="fragments/message :: message(${T(net.wojteksz128.authservice.service.MessageType).ERROR}, 'Błąd!', ${error})"></div>
+                                </div>
                             </div>
                             <div class="form-group form-group-sm">
                                 <label for="app-web-server-redirect-uri" class="control-label col-sm-4">Web server redirect URI:</label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control input-sm" id="app-web-server-redirect-uri" th:field="*{clientDetailsDto.webServerRedirectUri}"/>
+                                </div>
+                                <div th:if="${ #fields.hasErrors('clientDetailsDto.webServerRedirectUri') }" th:each="error: ${#fields.errors('clientDetailsDto.webServerRedirectUri')}">
+                                    <div th:replace="fragments/message :: message(${T(net.wojteksz128.authservice.service.MessageType).ERROR}, 'Błąd!', ${error})"></div>
                                 </div>
                             </div>
                             <div class="form-group form-group-sm">
@@ -55,11 +74,17 @@
                                 <div class="col-sm-8">
                                     <input type="number" class="form-control input-sm" id="app-access-token-validity" th:field="*{clientDetailsDto.accessTokenValidity}"/>
                                 </div>
+                                <div th:if="${ #fields.hasErrors('clientDetailsDto.accessTokenValidity') }" th:each="error: ${#fields.errors('clientDetailsDto.accessTokenValidity')}">
+                                    <div th:replace="fragments/message :: message(${T(net.wojteksz128.authservice.service.MessageType).ERROR}, 'Błąd!', ${error})"></div>
+                                </div>
                             </div>
                             <div class="form-group form-group-sm">
                                 <label for="app-refresh-token-validity" class="control-label col-sm-4">Refresh token validity (ms):</label>
                                 <div class="col-sm-8">
                                     <input type="number" class="form-control input-sm" id="app-refresh-token-validity" th:field="*{clientDetailsDto.refreshTokenValidity}"/>
+                                </div>
+                                <div th:if="${ #fields.hasErrors('clientDetailsDto.refreshTokenValidity') }" th:each="error: ${#fields.errors('clientDetailsDto.refreshTokenValidity')}">
+                                    <div th:replace="fragments/message :: message(${T(net.wojteksz128.authservice.service.MessageType).ERROR}, 'Błąd!', ${error})"></div>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -67,12 +92,18 @@
                                     <div class="checkbox">
                                         <label><input type="checkbox" th:field="*{clientDetailsDto.autoApprove}"/> Auto approve</label>
                                     </div>
+                                    <div th:if="${ #fields.hasErrors('clientDetailsDto.autoApprove') }" th:each="error: ${#fields.errors('clientDetailsDto.autoApprove')}">
+                                        <div th:replace="fragments/message :: message(${T(net.wojteksz128.authservice.service.MessageType).ERROR}, 'Błąd!', ${error})"></div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group form-group-sm">
                                 <label for="app-desc" class="control-label col-sm-4">Opis:</label>
                                 <div class="col-sm-8">
                                     <textarea class="form-control input-sm" rows="5" id="app-desc" style="resize: vertical" th:field="*{description}"></textarea>
+                                </div>
+                                <div th:if="${ #fields.hasErrors('description') }" th:each="error: ${#fields.errors('description')}">
+                                    <div th:replace="fragments/message :: message(${T(net.wojteksz128.authservice.service.MessageType).ERROR}, 'Błąd!', ${error})"></div>
                                 </div>
                             </div>
                         </div>
