@@ -18,3 +18,7 @@ $('body').on('show.bs.modal', function(e) {
 function openModal(url, modalId) {
     $('#' + modalId + '-holder').load(url);
 }
+
+function replaceModalBody(modalId, response) {
+    $('#' + modalId + ' .modal-body').replaceWith($('.modal-body', $($.parseHTML(response))));
+}

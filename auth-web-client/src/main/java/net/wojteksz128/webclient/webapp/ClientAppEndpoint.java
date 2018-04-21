@@ -22,11 +22,11 @@ public interface ClientAppEndpoint {
 
     @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
     @RequestMapping(value = "/devApp/{clientApp}", method = RequestMethod.POST)
-    String updateApp(@PathVariable("clientApp") String guid, @ModelAttribute("app") @Valid ClientAppDto appDto, BindingResult result);
+    String updateApp(@PathVariable("clientApp") String guid, @ModelAttribute("devApp") @Valid ClientAppDto appDto, BindingResult result, Model model);
 
     @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
     @RequestMapping(value = "/devApp/{clientApp}/delete", method = RequestMethod.POST)
-    String deleteDevApp(@PathVariable("clientApp") String guid, @ModelAttribute("app") @Valid ClientAppDto appDto, BindingResult result);
+    String deleteDevApp(@PathVariable("clientApp") String guid, @ModelAttribute("devApp") @Valid ClientAppDto appDto, BindingResult result);
 
     @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
     @RequestMapping(value = "/devApp/new")

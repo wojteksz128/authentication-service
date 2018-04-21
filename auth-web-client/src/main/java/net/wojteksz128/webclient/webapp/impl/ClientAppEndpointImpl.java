@@ -50,8 +50,16 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
 
         model.addAttribute("apps", clientAppController.getAllUserApps(optionalUser.map(UserDto::getId).orElseThrow(() -> new AuthorizationServiceException("User not logged."))));
 
-        if (params.containsKey("appAdded")) {
-            websiteBuilder.withMessage(MessageType.INFO, "Sukces!", "Aplikacja \"" + params.get("clientId") + "\" została zarejestrowana.");
+        if (params.containsKey("add")) {
+            websiteBuilder.withMessage(MessageType.INFO, "Sukces!", "Aplikacja \"" + params.get("add") + "\" została zarejestrowana.");
+        }
+
+        if (params.containsKey("info")) {
+            websiteBuilder.withMessage(MessageType.INFO, "Sukces!", "Informacje o aplikacji \"" + params.get("info") + "\" zostały zaktualizowane.");
+        }
+
+        if (params.containsKey("del")) {
+            websiteBuilder.withMessage(MessageType.INFO, "Sukces!", "Aplikacja \"" + params.get("del") + "\" została usunięta.");
         }
 
         if (params.containsKey("error")) {
@@ -76,29 +84,32 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
         final ClientAppDto clientAppControllerNew;
 
         if (result.hasErrors()) {
-            return "redirect:/devApp?error&add";
+            return "developer/fragments/modalCreate";
         }
 
         try {
             clientAppControllerNew = clientAppController.createNew(appDto);
             clientAppControllerNew.setClientDetailsDto(clientDetailsController.createNew(appDto.getClientDetailsDto()));
-        } catch (EmptyObjectException e) {
-            return "redirect:/devApp?error&add";
+        } catch (Exception e) {
+            result.reject("global", null, e.getLocalizedMessage());
+            return "developer/fragments/modalCreate";
         }
 
         return "redirect:/devApp?add=" + clientAppControllerNew.getClientDetailsDto().getClientId();
     }
 
     @Override
-    public String updateApp(@PathVariable String clientApp, @ModelAttribute("app") @Valid ClientAppDto appDto, BindingResult result) {
+    public String updateApp(@PathVariable String clientApp, @ModelAttribute("devApp") @Valid ClientAppDto appDto, BindingResult result, Model model) {
+        model.addAttribute("formatter", formatter);
         if (result.hasErrors()) {
-            return "redirect:/devApp?error&info";
+            return "developer/fragments/modalInfo";
         }
 
         try {
             clientAppController.updateApp(clientApp, appDto);
-        } catch (ObjectNotCorrespondingException | InvalidRequestException | EmptyObjectException e) {
-            return "redirect:/devApp?error&info";
+        } catch (Exception e) {
+            result.reject("global", null, e.getLocalizedMessage());
+            return "developer/fragments/modalInfo";
         }
 
         return "redirect:/devApp?info=" + clientApp;
@@ -107,16 +118,17 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
     @Override
     public String deleteDevApp(@PathVariable String clientApp, @ModelAttribute("devApp") @Valid ClientAppDto appDto, BindingResult result) {
         if (result.hasErrors()) {
-            return "redirect:/devApp?error&delete";
+            return "developer/fragments/modalDelete";
         }
 
         try {
             clientAppController.deleteApp(clientApp, appDto);
-        } catch (InvalidRequestException | ObjectNotCorrespondingException | EmptyObjectException e) {
-            return "redirect:/devApp?error&delete";
+        } catch (Exception e) {
+            result.reject("global", null, e.getLocalizedMessage());
+            return "developer/fragments/modalDelete";
         }
 
-        return "redirect:/devApp?del=&success";
+        return "redirect:/devApp?del=" + clientApp;
     }
 
     //region Modal windows
@@ -136,7 +148,7 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
 
     @Override
     public String getApp(@PathVariable String clientApp, Model model) {
-        model.addAttribute("app", clientAppController.getAppByClientId(clientApp));
+        model.addAttribute("devApp", clientAppController.getAppByClientId(clientApp));
         model.addAttribute("formatter", formatter);
 
         return "developer/fragments/modalInfo";

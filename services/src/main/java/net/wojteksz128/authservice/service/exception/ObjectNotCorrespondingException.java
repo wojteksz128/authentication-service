@@ -1,6 +1,6 @@
 package net.wojteksz128.authservice.service.exception;
 
-public class ObjectNotCorrespondingException extends Throwable {
+public class ObjectNotCorrespondingException extends Exception {
 
     public ObjectNotCorrespondingException() {
         super();

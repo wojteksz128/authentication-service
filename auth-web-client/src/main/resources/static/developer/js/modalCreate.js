@@ -6,7 +6,11 @@ $('#modal-create').on('show.bs.modal', function () {
 
 $('#modal-create .btn.btn-success.btn-ok').click(function () {
     $.post('/devApp', $('#modal-create form').serialize()).done(function (response) {
-        $('#modal-create').modal("hide");
-        updateContent($.parseHTML(response));
+        if ($($.parseHTML(response)).hasClass('modal')) {
+            replaceModalBody('modal-create', response);
+        } else {
+            $('#modal-create').modal("hide");
+            updateContent($.parseHTML(response));
+        }
     })
 });

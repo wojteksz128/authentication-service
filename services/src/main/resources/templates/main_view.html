@@ -21,9 +21,7 @@
 
         <div id="modal-container">
             <!--/*@thymesVar id="modals" type="java.util.List<java.lang.String>"*/-->
-            <div th:each="modal: ${modals}">
-                <div th:id="${modal + '-holder'}"></div>
-            </div>
+            <div th:each="modal: ${modals}" th:id="${modal + '-holder'}"></div>
         </div>
     </body>
 </html>

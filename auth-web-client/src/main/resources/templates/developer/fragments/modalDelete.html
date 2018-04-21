@@ -4,7 +4,7 @@
         <script th:src="@{/developer/js/modalDelete.js}"></script>
     </head>
     <body>
-        <div id="modal-delete-question" class="modal fade" tabindex="-1" role="dialog" th:fragment="modal-delete">
+        <div id="modal-delete" class="modal fade" tabindex="-1" role="dialog" th:fragment="modal-delete">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -27,7 +27,7 @@
                         <input type="hidden" th:field="*{clientDetailsDto.autoApprove}"/>
                         <input type="hidden" th:field="*{description}"/>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
-                        <button type="submit" class="btn btn-danger btn-ok">Usuń</button>
+                        <button type="button" class="btn btn-danger btn-ok">Usuń</button>
                     </form>
                 </div>
             </div>
