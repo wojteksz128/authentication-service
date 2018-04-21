@@ -9,30 +9,22 @@
     </head>
 
     <body th:fragment="content">
-        <!-- Komunikaty -->
-        <div th:if="${param.appAdded}">
-            <div th:replace="fragments/message :: message(type=${ T(net.wojteksz128.webclient.MessageType).INFO }, title='Sukces!', message='Nowa aplikacja została dodana.', addFragmentFile='developer/fragments/appKeyInfo', addFragmentName='app-key-info')"></div>
-        </div>
-        <div th:if="${param.error}">
-            <div th:replace="fragments/message :: message(${ T(net.wojteksz128.webclient.MessageType).ERROR }, 'Błąd!', 'Akcja nie powiodła się.')"></div>
-        </div>
-
-        <div class="container">
+        <div id="dev-apps-content" class="container">
             <h1>Zarejestrowane aplikacje</h1>
             <!-- Tabela -->
-            <table class="table table-striped table-hover">
+            <!--/*@thymesVar id="apps" type="java.util.List<net.wojteksz128.authservice.service.clientapp.ClientAppDto>"*/-->
+            <table class="table table-striped table-hover" th:if="${!apps.isEmpty()}">
                 <thead>
                     <tr>
-                        <th>Nazwa aplikacji</th>
-                        <th>Klucz aplikacji</th>
+                        <th>Client Id</th>
+                        <th>Opis</th>
                         <th>Data rejestracji</th>
                     </tr>
                 </thead>
-                <!--/*@thymesVar id="apps" type="java.util.List<net.wojteksz128.authservice.service.clientapp.ClientAppDto>"*/-->
                 <tbody>
-                    <tr th:each="app : ${apps}" th:onclick="'javascript:openModal(\'/devApp/' + ${app.guid} + '\', \'#modal-info-holder\', \'#modal-info\');'">
-                        <td th:text="${app.name}">Test</td>
-                        <td th:text="${app.guid}">53333235-e4b4-4807-ad4a-5db00b0a9671</td>
+                    <tr th:each="app : ${apps}" th:onclick="'javascript:openModal(\'/devApp/' + ${app.clientDetailsDto.clientId} + '\', \'modal-info\');'">
+                        <td th:text="${app.clientDetailsDto.clientId}">Test</td>
+                        <td th:text="${app.description}">53333235-e4b4-4807-ad4a-5db00b0a9671</td>
                         <!--/*@thymesVar id="formatter" type="java.time.format.DateTimeFormatter"*/-->
                         <td th:text="${formatter.format(app.createDate)}">2017-12-24 00:00:00</td>
                     </tr>
@@ -40,19 +32,21 @@
                 <tfoot>
                     <tr>
                         <td colspan="3">
-                            <button class="btn btn-primary btn-new" onclick="openModal('/devApp/new', '#modal-create-holder', '#modal-create')">
+                            <button class="btn btn-primary btn-new" onclick="openModal('/devApp/new', 'modal-create')">
                                 <span class="glyphicon glyphicon-plus"></span> Dodaj nową aplikację
                             </button>
                         </td>
                     </tr>
                 </tfoot>
             </table>
+            <div class="alert alert-info" th:if="${apps.isEmpty()}">
+                <p>Żadna aplikacja nie została jeszcze zarejestrowana.</p>
+                <br/>
+                <button class="btn btn-primary btn-new" onclick="openModal('/devApp/new', 'modal-create')">
+                    <span class="glyphicon glyphicon-plus"></span> Dodaj nową aplikację
+                </button>
+            </div>
         </div>
-
-        <!-- Okna modalne -->
-        <div id="modal-create-holder"></div>
-        <div id="modal-delete-holder"></div>
-        <div id="modal-info-holder"></div>
     </body>
 
 </html>

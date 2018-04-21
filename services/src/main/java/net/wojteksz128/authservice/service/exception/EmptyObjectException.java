@@ -1,7 +1,7 @@
 package net.wojteksz128.authservice.service.exception;
 
 @SuppressWarnings("unused")
-public class EmptyObjectException extends Throwable {
+public class EmptyObjectException extends Exception {
     public EmptyObjectException() {
         super();
     }

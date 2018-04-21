@@ -9,9 +9,9 @@ import java.util.List;
 @Repository
 interface ClientAppRepository extends JpaRepository<ClientApp, Long> {
 
-    ClientApp findByGuid(String guid);
+    ClientApp findByClientDetails_ClientId(String clientId);
 
-    List<ClientApp> findAllByNameContains(String name);
+    List<ClientApp> findAllByClientDetails_ClientId(String clientId);
 
     List<ClientApp> findAllByUserId(Long id);
 }

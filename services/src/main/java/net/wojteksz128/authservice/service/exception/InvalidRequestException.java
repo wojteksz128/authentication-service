@@ -1,6 +1,6 @@
 package net.wojteksz128.authservice.service.exception;
 
-public class InvalidRequestException extends Throwable {
+public class InvalidRequestException extends Exception {
 
     public InvalidRequestException() {
         super();

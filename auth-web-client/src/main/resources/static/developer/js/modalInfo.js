@@ -1,18 +1,17 @@
-$('#modal-info').on('show.bs.modal', function(e) {
+$('#modal-info').on('show.bs.modal', function() {
     $(this).find('.modal-content').draggable({
         handle: '.modal-header'
     });
-});
+}).modal("show");
 
-$(document).ready(function() {
-    $('.btn-copy-key').popover({
-        content: "Klucz aplikacji został skopiowany.",
-        trigger: 'manual',
-        placement: 'bottom'
-    }).click(function (obj) {
-        var jObj = $(obj.target);
-
-        if (copyToClipboard(jObj.parent().parent().children("input")))
-            showPopover(jObj);
+$('#modal-info .btn.btn-ok').click(function () {
+    var form = $('#modal-info form');
+    $.post(form.attr('action'), form.serialize()).done(function (response) {
+        if ($($.parseHTML(response)).hasClass('modal')) {
+            replaceModalBody('modal-info', response);
+        } else {
+            $('#modal-info').modal("hide");
+            updateContent($.parseHTML(response));
+        }
     });
 });

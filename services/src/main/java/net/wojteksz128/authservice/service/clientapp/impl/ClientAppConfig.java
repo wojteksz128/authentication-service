@@ -1,3 +1,4 @@
+/*
 package net.wojteksz128.authservice.service.clientapp.impl;
 
 import net.wojteksz128.authservice.service.clientapp.ClientAppController;
@@ -10,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
 class ClientAppConfig {
 
     private final ClientAppRepository clientAppRepository;
-
     private final UserService userService;
+
 
     @Autowired
     public ClientAppConfig(ClientAppRepository clientAppRepository, UserService userService) {
@@ -31,8 +32,8 @@ class ClientAppConfig {
     }
 
     @Bean
-    public DtoToClientAppConverter dtoToClientAppConverter() {
-        return new DtoToClientAppConverter(clientAppRepository);
+    public ClientAppDtoToEntityConverter dtoToClientAppConverter() {
+        return new ClientAppDtoToEntityConverter(clientAppRepository, clientDetailsController);
     }
 
     @Bean
@@ -40,3 +41,4 @@ class ClientAppConfig {
         return new ClientAppToDtoConverter();
     }
 }
+*/

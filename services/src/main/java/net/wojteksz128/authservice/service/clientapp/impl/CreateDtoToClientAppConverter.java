@@ -10,30 +10,33 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.UUID;
 
 @Component
 class CreateDtoToClientAppConverter implements Converter<CreateClientAppDto, ClientApp> {
 
     private final UserService userService;
+    private final OAuthClientDetailsDtoToEntityConverter clientDetailsDtoToEntityConverter;
 
     @Autowired
-    public CreateDtoToClientAppConverter(UserService userService) {
+    public CreateDtoToClientAppConverter(UserService userService, OAuthClientDetailsDtoToEntityConverter clientDetailsDtoToEntityConverter) {
         this.userService = userService;
+        this.clientDetailsDtoToEntityConverter = clientDetailsDtoToEntityConverter;
     }
 
     @Override
     public ClientApp convert(CreateClientAppDto createClientAppDto) {
         ClientApp clientApp = new ClientApp();
+        prepareEntity(createClientAppDto, clientApp);
+        return clientApp;
+    }
+
+    private void prepareEntity(CreateClientAppDto createClientAppDto, ClientApp clientApp) {
         final UserDto currentLoggedUser = userService.getCurrentLoggedUser()
             .orElseThrow(() -> new UsernameNotFoundException("Current logged user not found"));
 
-        clientApp.setGuid(UUID.randomUUID().toString());
-        clientApp.setName(createClientAppDto.getName());
-        clientApp.setDescription(createClientAppDto.getDescription());
+        clientApp.setClientDetails(clientDetailsDtoToEntityConverter.convert(createClientAppDto.getClientDetailsDto()));
         clientApp.setCreateDate(LocalDateTime.now(ZoneId.systemDefault()));
+        clientApp.setDescription(createClientAppDto.getDescription());
         clientApp.setUserId(currentLoggedUser.getId());
-
-        return clientApp;
     }
 }
