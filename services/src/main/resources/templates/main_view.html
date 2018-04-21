@@ -2,10 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8"/>
+        <script th:replace="fragments/header :: header-css"></script>
         <!--/*@thymesVar id="view" type="java.lang.String"*/-->
         <title th:replace="${view} :: head"></title>
-
-        <script th:replace="fragments/header :: header-css"></script>
+        <script th:src="@{js/main.js}" defer="defer"></script>
     </head>
     <body>
         <div th:replace="fragments/header :: header">Header</div>
@@ -18,5 +18,12 @@
         <!--/*@thymesVar id="view" type="java.lang.String"*/-->
         <div th:replace="${view} :: content">Page Content</div>
         <div th:replace="fragments/header :: footer">Footer</div>
+
+        <div id="modal-container">
+            <!--/*@thymesVar id="modals" type="java.util.List<java.lang.String>"*/-->
+            <div th:each="modal: ${modals}">
+                <div th:id="${modal + '-holder'}"></div>
+            </div>
+        </div>
     </body>
 </html>

@@ -22,7 +22,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="app : ${apps}" th:onclick="'javascript:openModal(\'/devApp/' + ${app.clientDetailsDto.clientId} + '\', \'#modal-info-holder\', \'#modal-info\');'">
+                    <tr th:each="app : ${apps}" th:onclick="'javascript:openModal(\'/devApp/' + ${app.clientDetailsDto.clientId} + '\', \'modal-info\');'">
                         <td th:text="${app.clientDetailsDto.clientId}">Test</td>
                         <td th:text="${app.description}">53333235-e4b4-4807-ad4a-5db00b0a9671</td>
                         <!--/*@thymesVar id="formatter" type="java.time.format.DateTimeFormatter"*/-->
@@ -32,7 +32,7 @@
                 <tfoot>
                     <tr>
                         <td colspan="3">
-                            <button class="btn btn-primary btn-new" onclick="openModal('/devApp/new', '#modal-create-holder', '#modal-create')">
+                            <button class="btn btn-primary btn-new" onclick="openModal('/devApp/new', 'modal-create')">
                                 <span class="glyphicon glyphicon-plus"></span> Dodaj nową aplikację
                             </button>
                         </td>
@@ -42,16 +42,11 @@
             <div class="alert alert-info" th:if="${apps.isEmpty()}">
                 <p>Żadna aplikacja nie została jeszcze zarejestrowana.</p>
                 <br/>
-                <button class="btn btn-primary btn-new" onclick="openModal('/devApp/new', '#modal-create-holder', '#modal-create')">
+                <button class="btn btn-primary btn-new" onclick="openModal('/devApp/new', 'modal-create')">
                     <span class="glyphicon glyphicon-plus"></span> Dodaj nową aplikację
                 </button>
             </div>
         </div>
-
-        <!-- Okna modalne -->
-        <div id="modal-create-holder"></div>
-        <div id="modal-delete-holder"></div>
-        <div id="modal-info-holder"></div>
     </body>
 
 </html>

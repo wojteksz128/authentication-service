@@ -12,10 +12,12 @@ public class WebsiteBuilder {
     private String pathToContent;
     private Model model;
     private List<Message> pageMessages;
+    private List<String> modals;
 
     private WebsiteBuilder(Model model) {
         this.model = model;
         this.pageMessages = new ArrayList<>();
+        this.modals = new ArrayList<>();
     }
 
     public static WebsiteBuilder create(Model model) {
@@ -28,6 +30,7 @@ public class WebsiteBuilder {
         return this;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public WebsiteBuilder withMessage(MessageType messageType, String title, String content) {
         final Message message = new Message();
 
@@ -39,9 +42,16 @@ public class WebsiteBuilder {
         return this;
     }
 
+    public WebsiteBuilder withModal(String modalId) {
+        this.modals.add(modalId);
+
+        return this;
+    }
+
     public String build() {
         model.addAttribute("view", pathToContent);
         model.addAttribute("pageMessages", pageMessages);
+        model.addAttribute("modals", modals);
 
         return "main_view";
     }
