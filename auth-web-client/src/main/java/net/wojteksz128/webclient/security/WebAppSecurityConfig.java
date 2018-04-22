@@ -23,10 +23,8 @@ class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.antMatcher("/**").authorizeRequests()
-            .antMatchers("/", "/login**").permitAll()
-            .anyRequest().authenticated()
-            .and().logout().logoutSuccessUrl("/?logout").permitAll()
+        http.authorizeRequests().anyRequest().permitAll()
+            .and().logout().logoutSuccessUrl("/?logout")
             .and().exceptionHandling().accessDeniedPage("/403").accessDeniedHandler(accessDeniedHandler);
     }
 

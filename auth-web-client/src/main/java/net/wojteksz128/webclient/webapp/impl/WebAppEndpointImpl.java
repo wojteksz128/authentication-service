@@ -14,7 +14,6 @@ import java.util.Map;
 class WebAppEndpointImpl implements WebAppEndpoint {
 
     @Override
-    @RequestMapping({"/", "/index"})
     public String mainScreen(Model model, @RequestParam Map<String, String> params) {
         final WebsiteBuilder websiteBuilder = WebsiteBuilder.create(model).withContent("index");
 
