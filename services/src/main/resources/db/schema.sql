@@ -6,8 +6,10 @@ ALTER TABLE client_apps
   DROP FOREIGN KEY client_apps_user_fk;
 ALTER TABLE user_roles
   DROP FOREIGN KEY user_roles_role_fk;
+ALTER TABLE users_personal_data
+  DROP FOREIGN KEY user_personal_data_user_fk;
 ALTER TABLE user_roles
-  DROP FOREIGN KEY user_roles_user;
+  DROP FOREIGN KEY user_roles_user_fk;
 
 ########################################################################################################################
 # Remove all tables
@@ -17,6 +19,7 @@ DROP TABLE IF EXISTS client_apps;
 DROP TABLE IF EXISTS roles;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS users_personal_data;
 DROP TABLE IF EXISTS oauth_client_details;
 DROP TABLE IF EXISTS oauth_client_token;
 DROP TABLE IF EXISTS oauth_access_token;
@@ -53,6 +56,18 @@ CREATE TABLE users (
   id       BIGINT       NOT NULL AUTO_INCREMENT,
   login    VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE users_personal_data (
+  id           BIGINT       NOT NULL AUTO_INCREMENT,
+  user_id      BIGINT       NOT NULL,
+  first_name   VARCHAR(255) NOT NULL,
+  last_name    VARCHAR(255) NOT NULL,
+  birth_date   DATE         NOT NULL,
+  email        VARCHAR(255) NOT NULL,
+  url          VARCHAR(255) NULL,
+  phone_number VARCHAR(40)  NULL,
   PRIMARY KEY (id)
 );
 
@@ -118,30 +133,13 @@ ALTER TABLE roles
   ADD CONSTRAINT roles_unique_code UNIQUE (code);
 ALTER TABLE users
   ADD CONSTRAINT users_unique_login UNIQUE (login);
+ALTER TABLE users_personal_data
+  ADD CONSTRAINT user_personal_data_unique_user_id UNIQUE (user_id);
+ALTER TABLE users_personal_data
+  ADD CONSTRAINT user_personal_data_user_fk FOREIGN KEY (user_id) REFERENCES users (id);
 ALTER TABLE client_apps
   ADD CONSTRAINT client_apps_user_fk FOREIGN KEY (user_id) REFERENCES users (id);
 ALTER TABLE user_roles
   ADD CONSTRAINT user_roles_role_fk FOREIGN KEY (role_id) REFERENCES roles (id);
 ALTER TABLE user_roles
-  ADD CONSTRAINT user_roles_user FOREIGN KEY (user_id) REFERENCES users (id);
-
-########################################################################################################################
-# OAuth 2 std tables
-########################################################################################################################
-
-
--- TODO: No to ja nie wiem co to ma być...
-/*DROP TABLE IF EXISTS ClientDetails;
-CREATE TABLE ClientDetails (
-  appId                  VARCHAR(255) PRIMARY KEY,
-  resourceIds            VARCHAR(255),
-  appSecret              VARCHAR(255),
-  scope                  VARCHAR(255),
-  grantTypes             VARCHAR(255),
-  redirectUrl            VARCHAR(255),
-  authorities            VARCHAR(255),
-  access_token_validity  INTEGER,
-  refresh_token_validity INTEGER,
-  additionalInformation  VARCHAR(4096),
-  autoApproveScopes      VARCHAR(255)
-);*/
+  ADD CONSTRAINT user_roles_user_fk FOREIGN KEY (user_id) REFERENCES users (id);
