@@ -9,9 +9,7 @@
         <script th:replace="fragments/header :: header-css"></script>
     </head>
     <body>
-        <div th:if="${ param.apiKey == null }">
-            <div th:replace="fragments/header :: header"></div>
-        </div>
+        <div th:replace="fragments/header :: header"></div>
         <div class="container">
             <h1>Rejestracja</h1>
             <!--/*@thymesVar id="user" type="net.wojteksz128.authservice.service.user.UserRegistrationDto"*/-->
@@ -20,10 +18,10 @@
                     <div th:if="${ #fields.hasGlobalErrors() }" th:each="error: ${#fields.errors('global')}">
                         <div th:replace="fragments/message :: message(${ T(net.wojteksz128.authservice.service.MessageType).ERROR }, 'Błąd!', ${error})"></div>
                     </div>
-                    <div class="form-group" th:classappend="${#fields.hasErrors('email')} ? 'has-error' : ''">
+                    <div class="form-group" th:classappend="${#fields.hasErrors('login')} ? 'has-error' : ''">
                         <label for="email">Adres e-mail:</label>
-                        <input type="email" class="form-control" id="email" th:field="*{email}" required="required"/>
-                        <div th:if="${ #fields.hasErrors('email') }" th:each="error: ${#fields.errors('email')}">
+                        <input type="email" class="form-control" id="email" th:field="*{login}" required="required"/>
+                        <div th:if="${ #fields.hasErrors('login') }" th:each="error: ${#fields.errors('login')}">
                             <div th:replace="fragments/message :: message(${ T(net.wojteksz128.authservice.service.MessageType).ERROR }, 'Błąd!', ${error})"></div>
                         </div>
                     </div>

@@ -51,7 +51,7 @@ CREATE TABLE user_roles (
 
 CREATE TABLE users (
   id       BIGINT       NOT NULL AUTO_INCREMENT,
-  email    VARCHAR(255) NOT NULL,
+  login    VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
   PRIMARY KEY (id)
 );
@@ -117,7 +117,7 @@ ALTER TABLE client_apps
 ALTER TABLE roles
   ADD CONSTRAINT roles_unique_code UNIQUE (code);
 ALTER TABLE users
-  ADD CONSTRAINT users_unique_email UNIQUE (email);
+  ADD CONSTRAINT users_unique_login UNIQUE (login);
 ALTER TABLE client_apps
   ADD CONSTRAINT client_apps_user_fk FOREIGN KEY (user_id) REFERENCES users (id);
 ALTER TABLE user_roles

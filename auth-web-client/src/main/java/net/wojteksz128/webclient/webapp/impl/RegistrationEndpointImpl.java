@@ -44,8 +44,8 @@ class RegistrationEndpointImpl implements RegistrationEndpoint {
     @PreAuthorize("isAnonymous()")
     @PostMapping
     public String register(@ModelAttribute("user") @Valid UserRegistrationDto user, BindingResult result) {
-        if (userService.findByEmail(user.getEmail()).isPresent()) {
-            result.rejectValue("email", null, "There is already an account registered with that email");
+        if (userService.findByLogin(user.getLogin()).isPresent()) {
+            result.rejectValue("login", null, "There is already an account registered with that login");
         }
 
         if (!user.getPassword().equals(user.getConfirmPassword())) {

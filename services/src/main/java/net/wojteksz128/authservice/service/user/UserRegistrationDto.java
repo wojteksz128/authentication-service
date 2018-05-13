@@ -12,7 +12,7 @@ public class UserRegistrationDto {
 
     @Email
     @NotEmpty
-    private String email;
+    private String login;
 
     @NotEmpty
     @Size(min = 6)

@@ -26,7 +26,7 @@ class UserToDtoConverter implements Converter<User, UserDto> {
         List<RoleDto> userRoles = user.getRoles().stream().map(roleToDtoConverter::convert).collect(Collectors.toList());
 
         userDto.setId(user.getId());
-        userDto.setEmail(user.getEmail());
+        userDto.setLogin(user.getLogin());
         userDto.setRoles(new HashSet<>(userRoles));
 
         return userDto;

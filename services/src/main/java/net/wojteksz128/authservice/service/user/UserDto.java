@@ -9,6 +9,6 @@ import java.util.Set;
 public class UserDto {
 
     private Long id;
-    private String email;
+    private String login;
     private Set<RoleDto> roles;
 }
