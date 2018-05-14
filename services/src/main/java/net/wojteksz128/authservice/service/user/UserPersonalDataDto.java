@@ -25,4 +25,6 @@ public class UserPersonalDataDto {
     private String url;
 
     private String phoneNumber;
+
+    private UserDto user;
 }

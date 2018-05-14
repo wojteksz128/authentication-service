@@ -22,16 +22,18 @@ import java.util.Optional;
 @EnableJpaRepositories(basePackageClasses = {UserRepository.class, RoleRepository.class})
 class UserServiceImpl implements UserService {
 
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final UserToDtoConverter userToDtoConverter;
-    private final PasswordEncoder passwordEncoder;
+    private final UserPersonalDataDtoToEntityConverter userPersonalDataDtoToEntityConverter;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, UserToDtoConverter userToDtoConverter, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, UserToDtoConverter userToDtoConverter, PasswordEncoder passwordEncoder, UserPersonalDataDtoToEntityConverter userPersonalDataDtoToEntityConverter) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.userToDtoConverter = userToDtoConverter;
         this.passwordEncoder = passwordEncoder;
+        this.userPersonalDataDtoToEntityConverter = userPersonalDataDtoToEntityConverter;
     }
 
     @Override
@@ -46,6 +48,8 @@ class UserServiceImpl implements UserService {
         user.setLogin(userDto.getLogin());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setRoles(roleRepository.findByCode("USER").map(v -> new HashSet<>(Collections.singletonList(v))).orElse(null));
+        user.setPersonalData(this.userPersonalDataDtoToEntityConverter.convert(userDto.getPersonalData()));
+        user.getPersonalData().setUser(user);
 
         userRepository.save(user);
     }
