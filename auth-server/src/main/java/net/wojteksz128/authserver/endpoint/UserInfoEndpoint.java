@@ -20,4 +20,10 @@ class UserInfoEndpoint {
     String getUsername(Principal principal) {
         return principal.getName();
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/me/personal")
+    String getPersonal() {
+        return "testowe dane z UserInfoEndpoint";
+    }
 }
