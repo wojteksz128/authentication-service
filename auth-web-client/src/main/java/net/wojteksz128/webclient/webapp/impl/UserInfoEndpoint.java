@@ -1,10 +1,10 @@
 package net.wojteksz128.webclient.webapp.impl;
 
+import net.wojteksz128.authservice.service.webapp.RestOperationsBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
-import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,9 +42,8 @@ class UserInfoEndpoint {
     @GetMapping("/me/personal")
     String getUserPersonalData(Principal principal) {
         final String url = "http://localhost:8080/auth/me/personal";
-        final RestOperations restOperations = new OAuth2RestTemplate(resourceDetails, clientContext);
+        final RestOperations restOperations = RestOperationsBuilder.create(resourceDetails, clientContext).withUri(url).build();
 
-        resourceDetails.setPreEstablishedRedirectUri(url);
         ResponseEntity<String> responseEntity = restOperations.getForEntity(url, String.class);
         return responseEntity.getBody();
     }
