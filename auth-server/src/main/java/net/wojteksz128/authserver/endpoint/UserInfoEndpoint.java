@@ -1,13 +1,22 @@
 package net.wojteksz128.authserver.endpoint;
 
+import net.wojteksz128.authservice.service.user.UserDto;
+import net.wojteksz128.authservice.service.user.UserPersonalDataDto;
+import net.wojteksz128.authservice.service.user.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 
 @RestController
 class UserInfoEndpoint {
+
+    @Autowired
+    private UserService userService;
+
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/me/principal")
@@ -22,8 +31,8 @@ class UserInfoEndpoint {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/me/personal")
-    String getPersonal() {
-        return "testowe dane z UserInfoEndpoint";
+    @GetMapping("/{login}/personal")
+    UserPersonalDataDto getPersonal(@PathVariable("login") String login) {
+        return userService.findByLogin(login).map(UserDto::getPersonalData).orElse(null);
     }
 }

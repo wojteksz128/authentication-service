@@ -1,5 +1,6 @@
 package net.wojteksz128.webclient.webapp.impl;
 
+import net.wojteksz128.authservice.service.user.UserPersonalDataDto;
 import net.wojteksz128.authservice.service.webapp.RestOperationsBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -41,10 +42,10 @@ class UserInfoEndpoint {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/me/personal")
     String getUserPersonalData(Principal principal) {
-        final String url = "http://localhost:8080/auth/me/personal";
+        final String url = String.format("http://localhost:8080/auth/%s/personal", principal.getName());
         final RestOperations restOperations = RestOperationsBuilder.create(resourceDetails, clientContext).withUri(url).build();
 
-        ResponseEntity<String> responseEntity = restOperations.getForEntity(url, String.class);
-        return responseEntity.getBody();
+        ResponseEntity<UserPersonalDataDto> responseEntity = restOperations.getForEntity(url, UserPersonalDataDto.class);
+        return responseEntity.getBody().toString();
     }
 }
