@@ -4,6 +4,8 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import java.sql.Date;
 
 @Data
@@ -15,7 +17,8 @@ public class UserPersonalDataDto {
     @NotEmpty
     private String lastName;
 
-    @NotEmpty
+    @NotNull
+    @Past
     private Date birthDate;
 
     @Email

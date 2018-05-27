@@ -2,6 +2,7 @@ package net.wojteksz128.webclient.webapp.impl;
 
 import net.wojteksz128.authservice.service.user.UserRegistrationDto;
 import net.wojteksz128.authservice.service.user.UserService;
+import net.wojteksz128.authservice.service.webapp.WebsiteBuilder;
 import net.wojteksz128.webclient.webapp.RegistrationEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,7 +38,7 @@ class RegistrationEndpointImpl implements RegistrationEndpoint {
     @PreAuthorize("isAnonymous()")
     @GetMapping
     public String signUp(Model model) {
-        return "register";
+        return WebsiteBuilder.create(model).withContent("register").build();
     }
 
     @Override

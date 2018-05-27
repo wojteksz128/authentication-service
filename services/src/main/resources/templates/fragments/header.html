@@ -39,17 +39,19 @@
         </div>
 
         <div th:fragment="footer">
-            <div class="navbar navbar-fixed-bottom navbar-light">
+            <div class="navbar navbar-fixed-bottom navbar-inverse">
                 <div class="container">
-                    <span>&copy; 2018 Wojciech Szczepaniak</span>
-                    <span sec:authorize="isAuthenticated()">
-                        | Logged user: <span sec:authentication="name"></span> |
-                        Roles: <span sec:authentication="authorities"></span> |
+                    <span style="float: left; height: 50px; padding: 18px 18px; line-height: 14px; color: white;">
+                        <span>&copy; 2018 Wojciech Szczepaniak</span>
+                        <span sec:authorize="isAuthenticated()">
+                            | Logged user: <span sec:authentication="name"></span>
+                            | Roles: <span sec:authentication="authorities"></span> |
                         <a onclick="$('#logout-form').submit()">Sign Out</a>
                         <form id="logout-form" th:action="@{/logout}" method="post">
                             <input type="hidden" th:name="${_csrf.getParameterName()}" th:value="${_csrf.getToken()}"/>
                         </form>
                     </span>
+                </span>
                 </div>
             </div>
         </div>

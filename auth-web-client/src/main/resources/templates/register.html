@@ -8,8 +8,7 @@
 
         <script th:replace="fragments/header :: header-css"></script>
     </head>
-    <body>
-        <div th:replace="fragments/header :: header"></div>
+    <body th:fragment="content">
         <div class="container">
             <h1>Rejestracja</h1>
             <!--/*@thymesVar id="user" type="net.wojteksz128.authservice.service.user.UserRegistrationDto"*/-->
@@ -19,8 +18,8 @@
                         <div th:replace="fragments/message :: message(${ T(net.wojteksz128.authservice.service.MessageType).ERROR }, 'Błąd!', ${error})"></div>
                     </div>
                     <div class="form-group" th:classappend="${#fields.hasErrors('login')} ? 'has-error' : ''">
-                        <label for="email">Adres e-mail:</label>
-                        <input type="email" class="form-control" id="email" th:field="*{login}" required="required"/>
+                        <label for="login">Login:</label>
+                        <input type="text" class="form-control" id="login" th:field="*{login}" required="required"/>
                         <div th:if="${ #fields.hasErrors('login') }" th:each="error: ${#fields.errors('login')}">
                             <div th:replace="fragments/message :: message(${ T(net.wojteksz128.authservice.service.MessageType).ERROR }, 'Błąd!', ${error})"></div>
                         </div>
@@ -40,13 +39,50 @@
                             <div th:replace="fragments/message :: message(${ T(net.wojteksz128.authservice.service.MessageType).ERROR }, 'Błąd!', ${error})"></div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" th:classappend="${#fields.hasErrors('personalData.firstName')} ? 'has-error' : ''">
                         <label for="firstName">Imię:</label>
-                        <input type="text" class="form-control" id="firstName"/>
+                        <input type="text" class="form-control" id="firstName" th:field="*{personalData.firstName}"
+                               required="required"/>
+                        <div th:if="${ #fields.hasErrors('personalData.firstName')}" th:each="error: ${#fields.errors('personalData.firstName')}">
+                            <div th:replace="fragments/message :: message(${T(net.wojteksz128.authservice.service.MessageType).ERROR}, 'Błąd!', ${error})"></div>
+                        </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" th:classappend="${#fields.hasErrors('personalData.lastName')} ? 'has-error' : ''">
                         <label for="lastName">Nazwisko:</label>
-                        <input type="text" class="form-control" id="lastName"/>
+                        <input type="text" class="form-control" id="lastName" th:field="*{personalData.lastName}"
+                               required="required"/>
+                        <div th:if="${ #fields.hasErrors('personalData.lastName')}" th:each="error: ${#fields.errors('personalData.lastName')}">
+                            <div th:replace="fragments/message :: message(${T(net.wojteksz128.authservice.service.MessageType).ERROR}, 'Błąd!', ${error})"></div>
+                        </div>
+                    </div>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('personalData.birthDate')} ? 'has-error' : ''">
+                        <label for="birthDate">Data urodzenia:</label>
+                        <input type="date" class="form-control" id="birthDate" th:field="*{personalData.birthDate}"
+                               required="required"/>
+                        <div th:if="${ #fields.hasErrors('personalData.birthDate')}" th:each="error: ${#fields.errors('personalData.birthDate')}">
+                            <div th:replace="fragments/message :: message(${T(net.wojteksz128.authservice.service.MessageType).ERROR}, 'Błąd!', ${error})"></div>
+                        </div>
+                    </div>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('personalData.email')} ? 'has-error' : ''">
+                        <label for="email">Adres e-mail:</label>
+                        <input type="email" class="form-control" id="email" th:field="*{personalData.email}" required="required"/>
+                        <div th:if="${ #fields.hasErrors('personalData.email')}" th:each="error: ${#fields.errors('personalData.email')}">
+                            <div th:replace="fragments/message :: message(${T(net.wojteksz128.authservice.service.MessageType).ERROR}, 'Błąd!', ${error})"></div>
+                        </div>
+                    </div>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('personalData.url')} ? 'has-error' : ''">
+                        <label for="url">Adres URL profilu:</label>
+                        <input type="text" class="form-control" id="url" th:field="*{personalData.url}"/>
+                        <div th:if="${ #fields.hasErrors('personalData.url')}" th:each="error: ${#fields.errors('personalData.url')}">
+                            <div th:replace="fragments/message :: message(${T(net.wojteksz128.authservice.service.MessageType).ERROR}, 'Błąd!', ${error})"></div>
+                        </div>
+                    </div>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('personalData.phoneNumber')} ? 'has-error' : ''">
+                        <label for="phoneNumber">Numer telefonu:</label>
+                        <input type="text" class="form-control" id="phoneNumber" th:field="*{personalData.phoneNumber}"/>
+                        <div th:if="${ #fields.hasErrors('personalData.phoneNumber')}" th:each="error: ${#fields.errors('personalData.phoneNumber')}">
+                            <div th:replace="fragments/message :: message(${T(net.wojteksz128.authservice.service.MessageType).ERROR}, 'Błąd!', ${error})"></div>
+                        </div>
                     </div>
                     <div class="form-group" th:classappend="${#fields.hasErrors('terms')} ? 'has-error' : ''">
                         <div class="checkbox">
@@ -62,6 +98,5 @@
                 </fieldset>
             </form>
         </div>
-        <div th:replace="fragments/header :: footer"></div>
     </body>
 </html>
