@@ -1,14 +1,16 @@
-package net.wojteksz128.authservice.service.clientapp.impl;
+package net.wojteksz128.authservice.service.oauth.impl;
 
-import net.wojteksz128.authservice.service.clientapp.OAuthClientDetailsController;
-import net.wojteksz128.authservice.service.clientapp.OAuthClientDetailsDto;
 import net.wojteksz128.authservice.service.exception.EmptyObjectException;
 import net.wojteksz128.authservice.service.exception.InvalidRequestException;
 import net.wojteksz128.authservice.service.exception.ObjectNotCorrespondingException;
+import net.wojteksz128.authservice.service.oauth.OAuthClientDetailsController;
+import net.wojteksz128.authservice.service.oauth.OAuthClientDetailsDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Component;
 
 @Component
+@EnableJpaRepositories(basePackageClasses = {OAuthClientDetailsRepository.class})
 class OAuthClientDetailsControllerImpl implements OAuthClientDetailsController {
 
     private final OAuthClientDetailsDtoToEntityConverter clientDetailsDtoToEntityConverter;
@@ -44,16 +46,18 @@ class OAuthClientDetailsControllerImpl implements OAuthClientDetailsController {
     }
 
     @Override
-    public void delete(String clientId, OAuthClientDetailsDto dto) {
-
+    public void delete(String clientId, OAuthClientDetailsDto dto) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException {
+        checkValidity(clientId, dto);
+        clientDetailsRepository.delete(clientDetailsRepository.findByClientId(clientId));
     }
+
     /**
      * Throw exception, when request data aren't correct.
      *
      * @param clientId requested client app identifier
-     * @param dto information about client app
-     * @throws EmptyObjectException client app information is null
-     * @throws InvalidRequestException client app identifier is null
+     * @param dto      information about client app
+     * @throws EmptyObjectException            client app information is null
+     * @throws InvalidRequestException         client app identifier is null
      * @throws ObjectNotCorrespondingException clientId in dto and request aren't the same
      */
     private void checkValidity(String clientId, OAuthClientDetailsDto dto) throws EmptyObjectException, InvalidRequestException, ObjectNotCorrespondingException {
@@ -65,8 +69,8 @@ class OAuthClientDetailsControllerImpl implements OAuthClientDetailsController {
             throw new InvalidRequestException("Client Id is null.");
         }
 
-        if (clientId.equals(dto.getClientId())) {
-            throw new ObjectNotCorrespondingException("Object is not requested object.");
+        if (!clientId.equals(dto.getClientId())) {
+            throw new ObjectNotCorrespondingException("Client Details is not requested object.");
         }
     }
 }

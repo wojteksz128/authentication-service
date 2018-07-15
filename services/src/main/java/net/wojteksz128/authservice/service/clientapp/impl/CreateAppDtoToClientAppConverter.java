@@ -12,15 +12,13 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 @Component
-class CreateDtoToClientAppConverter implements Converter<CreateClientAppDto, ClientApp> {
+class CreateAppDtoToClientAppConverter implements Converter<CreateClientAppDto, ClientApp> {
 
     private final UserService userService;
-    private final OAuthClientDetailsDtoToEntityConverter clientDetailsDtoToEntityConverter;
 
     @Autowired
-    public CreateDtoToClientAppConverter(UserService userService, OAuthClientDetailsDtoToEntityConverter clientDetailsDtoToEntityConverter) {
+    public CreateAppDtoToClientAppConverter(UserService userService) {
         this.userService = userService;
-        this.clientDetailsDtoToEntityConverter = clientDetailsDtoToEntityConverter;
     }
 
     @Override
@@ -34,7 +32,8 @@ class CreateDtoToClientAppConverter implements Converter<CreateClientAppDto, Cli
         final UserDto currentLoggedUser = userService.getCurrentLoggedUser()
             .orElseThrow(() -> new UsernameNotFoundException("Current logged user not found"));
 
-        clientApp.setClientDetails(clientDetailsDtoToEntityConverter.convert(createClientAppDto.getClientDetailsDto()));
+        clientApp.setClientId(createClientAppDto.getClientId());
+        clientApp.setName(createClientAppDto.getName());
         clientApp.setCreateDate(LocalDateTime.now(ZoneId.systemDefault()));
         clientApp.setDescription(createClientAppDto.getDescription());
         clientApp.setUserId(currentLoggedUser.getId());

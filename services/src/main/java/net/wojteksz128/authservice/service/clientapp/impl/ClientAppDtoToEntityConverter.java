@@ -9,24 +9,23 @@ import org.springframework.stereotype.Component;
 class ClientAppDtoToEntityConverter implements Converter<ClientAppDto, ClientApp> {
 
     private final ClientAppRepository clientAppRepository;
-    private final OAuthClientDetailsDtoToEntityConverter clientDetailsDtoToEntityConverter;
 
     @Autowired
-    public ClientAppDtoToEntityConverter(ClientAppRepository clientAppRepository, OAuthClientDetailsDtoToEntityConverter clientDetailsDtoToEntityConverter) {
+    public ClientAppDtoToEntityConverter(ClientAppRepository clientAppRepository) {
         this.clientAppRepository = clientAppRepository;
-        this.clientDetailsDtoToEntityConverter = clientDetailsDtoToEntityConverter;
     }
 
     @Override
     public ClientApp convert(ClientAppDto clientAppDto) {
-        ClientApp clientApp = clientAppRepository.findByClientDetails_ClientId(clientAppDto.getClientDetailsDto().getClientId());
+        ClientApp clientApp = clientAppRepository.findByClientId(clientAppDto.getClientDetailsDto().getClientId());
         prepareEntity(clientAppDto, clientApp);
         return clientApp;
     }
 
     @SuppressWarnings("WeakerAccess")
     void prepareEntity(ClientAppDto clientAppDto, ClientApp clientApp) {
+        clientApp.setName(clientAppDto.getName());
+        clientApp.setClientId(clientAppDto.getClientDetailsDto().getClientId());
         clientApp.setDescription(clientAppDto.getDescription());
-        clientDetailsDtoToEntityConverter.prepareEntity(clientAppDto.getClientDetailsDto(), clientApp.getClientDetails());
     }
 }

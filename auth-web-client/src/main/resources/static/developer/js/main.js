@@ -15,6 +15,6 @@ function copyToClipboard(textInput) {
 }
 
 function updateContent(response) {
-    $('#dev-apps-content').replaceWith($(response).filter('#dev-apps-content'));
+    $('#page-content').replaceWith($(response).filter('#page-content'));
     $('#message-container').replaceWith($(response).filter('#message-container'));
 }

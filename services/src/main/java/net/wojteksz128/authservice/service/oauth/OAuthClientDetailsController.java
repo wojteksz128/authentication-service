@@ -1,4 +1,4 @@
-package net.wojteksz128.authservice.service.clientapp;
+package net.wojteksz128.authservice.service.oauth;
 
 import net.wojteksz128.authservice.service.exception.EmptyObjectException;
 import net.wojteksz128.authservice.service.exception.InvalidRequestException;
@@ -12,5 +12,5 @@ public interface OAuthClientDetailsController {
 
     void update(String clientId, OAuthClientDetailsDto dto) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException;
 
-    void delete(String clientId, OAuthClientDetailsDto dto);
+    void delete(String clientId, OAuthClientDetailsDto dto) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException;
 }

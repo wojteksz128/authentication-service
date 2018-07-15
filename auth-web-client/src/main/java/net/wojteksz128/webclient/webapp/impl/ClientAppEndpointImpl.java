@@ -1,10 +1,7 @@
 package net.wojteksz128.webclient.webapp.impl;
 
 import net.wojteksz128.authservice.service.MessageType;
-import net.wojteksz128.authservice.service.clientapp.ClientAppController;
-import net.wojteksz128.authservice.service.clientapp.ClientAppDto;
-import net.wojteksz128.authservice.service.clientapp.CreateClientAppDto;
-import net.wojteksz128.authservice.service.clientapp.OAuthClientDetailsController;
+import net.wojteksz128.authservice.service.clientapp.*;
 import net.wojteksz128.authservice.service.user.UserDto;
 import net.wojteksz128.authservice.service.user.UserService;
 import net.wojteksz128.authservice.service.webapp.WebsiteBuilder;
@@ -29,14 +26,15 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
 
     private final ClientAppController clientAppController;
     private final UserService userService;
-    private final OAuthClientDetailsController clientDetailsController;
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private final DateTimeFormatter formatter;
+    private final ClientAppDtoToUpdateClientAppDtoConverter clientAppDtoToUpdateClientAppDtoConverter;
 
     @Autowired
-    public ClientAppEndpointImpl(ClientAppController clientAppController, UserService userService, OAuthClientDetailsController clientDetailsController) {
+    public ClientAppEndpointImpl(ClientAppController clientAppController, UserService userService, ClientAppDtoToUpdateClientAppDtoConverter clientAppDtoToUpdateClientAppDtoConverter) {
         this.clientAppController = clientAppController;
         this.userService = userService;
-        this.clientDetailsController = clientDetailsController;
+        this.clientAppDtoToUpdateClientAppDtoConverter = clientAppDtoToUpdateClientAppDtoConverter;
+        this.formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     }
 
     @Override
@@ -86,7 +84,6 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
 
         try {
             clientAppControllerNew = clientAppController.createNew(appDto);
-            clientAppControllerNew.setClientDetailsDto(clientDetailsController.createNew(appDto.getClientDetailsDto()));
         } catch (Exception e) {
             result.reject("global", null, e.getLocalizedMessage());
             return "developer/fragments/modalCreate";
@@ -96,8 +93,9 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
     }
 
     @Override
-    public String updateApp(@PathVariable String clientApp, @ModelAttribute("devApp") @Valid ClientAppDto appDto, BindingResult result, Model model) {
+    public String updateApp(@PathVariable String clientApp, @ModelAttribute("devApp") @Valid UpdateClientAppDto appDto, BindingResult result, Model model) {
         model.addAttribute("formatter", formatter);
+
         if (result.hasErrors()) {
             return "developer/fragments/modalInfo";
         }
@@ -145,7 +143,7 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
 
     @Override
     public String getApp(@PathVariable String clientApp, Model model) {
-        model.addAttribute("devApp", clientAppController.getAppByClientId(clientApp));
+        model.addAttribute("devApp", clientAppDtoToUpdateClientAppDtoConverter.convert(clientAppController.getAppByClientId(clientApp)));
         model.addAttribute("formatter", formatter);
 
         return "developer/fragments/modalInfo";
