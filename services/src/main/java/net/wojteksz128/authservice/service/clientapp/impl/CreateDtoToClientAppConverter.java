@@ -34,7 +34,8 @@ class CreateDtoToClientAppConverter implements Converter<CreateClientAppDto, Cli
         final UserDto currentLoggedUser = userService.getCurrentLoggedUser()
             .orElseThrow(() -> new UsernameNotFoundException("Current logged user not found"));
 
-        clientApp.setClientDetails(clientDetailsDtoToEntityConverter.convert(createClientAppDto.getClientDetailsDto()));
+        // TODO: 15.07.2018 Zmień przygotowywanie encji
+//        clientApp.setClientDetails(clientDetailsDtoToEntityConverter.convert(createClientAppDto.getClientDetailsDto()));
         clientApp.setCreateDate(LocalDateTime.now(ZoneId.systemDefault()));
         clientApp.setDescription(createClientAppDto.getDescription());
         clientApp.setUserId(currentLoggedUser.getId());

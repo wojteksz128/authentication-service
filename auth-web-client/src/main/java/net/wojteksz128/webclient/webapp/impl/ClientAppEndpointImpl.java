@@ -86,7 +86,8 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
 
         try {
             clientAppControllerNew = clientAppController.createNew(appDto);
-            clientAppControllerNew.setClientDetailsDto(clientDetailsController.createNew(appDto.getClientDetailsDto()));
+            // TODO: 15.07.2018 Dodaj dodawanie oauth_client_details
+//            clientAppControllerNew.setClientDetailsDto(clientDetailsController.createNew(appDto.getClientDetailsDto()));
         } catch (Exception e) {
             result.reject("global", null, e.getLocalizedMessage());
             return "developer/fragments/modalCreate";
