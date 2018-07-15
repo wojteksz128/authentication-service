@@ -69,7 +69,7 @@ class OAuthClientDetailsControllerImpl implements OAuthClientDetailsController {
         }
 
         if (!clientId.equals(dto.getClientId())) {
-            throw new ObjectNotCorrespondingException("Object is not requested object.");
+            throw new ObjectNotCorrespondingException("Client Details is not requested object.");
         }
     }
 }

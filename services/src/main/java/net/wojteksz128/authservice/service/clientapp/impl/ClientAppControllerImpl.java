@@ -64,7 +64,7 @@ class ClientAppControllerImpl implements ClientAppController {
             throw new InvalidRequestException("");
         }
         if (!app.getClientId().equals(appGuid)) {
-            throw new ObjectNotCorrespondingException("Object is not requested object.");
+            throw new ObjectNotCorrespondingException("App is not requested object.");
         }
 
         final ClientAppDto clientAppDto = updateClientAppDtoToClientAppDtoConverter.convert(app);
@@ -105,7 +105,7 @@ class ClientAppControllerImpl implements ClientAppController {
         }
 
         if (!clientId.equals(dto.getClientDetailsDto().getClientId())) {
-            throw new ObjectNotCorrespondingException("Object is not requested object.");
+            throw new ObjectNotCorrespondingException("App is not requested object.");
         }
 
         clientAppRepository.findByClientId(clientId);
