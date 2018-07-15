@@ -24,6 +24,7 @@ class OAuthClientDetailsDtoToEntityConverter implements Converter<OAuthClientDet
         clientDetails.setWebServerRedirectUri(clientDetailsDto.getWebServerRedirectUri());
         clientDetails.setAuthorities(clientDetailsDto.getAuthorities());
         clientDetails.setAccessTokenValidity(clientDetailsDto.getAccessTokenValidity());
+        clientDetails.setRefreshTokenValidity(clientDetailsDto.getRefreshTokenValidity());
         clientDetails.setAdditionalInformation(clientDetailsDto.getAdditionalInformation());
         clientDetails.setAutoApprove(clientDetailsDto.getAutoApprove());
     }
