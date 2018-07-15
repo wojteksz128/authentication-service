@@ -9,12 +9,10 @@ import org.springframework.stereotype.Component;
 class ClientAppDtoToEntityConverter implements Converter<ClientAppDto, ClientApp> {
 
     private final ClientAppRepository clientAppRepository;
-    private final OAuthClientDetailsDtoToEntityConverter clientDetailsDtoToEntityConverter;
 
     @Autowired
-    public ClientAppDtoToEntityConverter(ClientAppRepository clientAppRepository, OAuthClientDetailsDtoToEntityConverter clientDetailsDtoToEntityConverter) {
+    public ClientAppDtoToEntityConverter(ClientAppRepository clientAppRepository) {
         this.clientAppRepository = clientAppRepository;
-        this.clientDetailsDtoToEntityConverter = clientDetailsDtoToEntityConverter;
     }
 
     @Override
@@ -26,7 +24,8 @@ class ClientAppDtoToEntityConverter implements Converter<ClientAppDto, ClientApp
 
     @SuppressWarnings("WeakerAccess")
     void prepareEntity(ClientAppDto clientAppDto, ClientApp clientApp) {
+        // TODO: 15.07.2018 Dodaj nazwę clientApp
+        clientApp.setClientId(clientAppDto.getClientDetailsDto().getClientId());
         clientApp.setDescription(clientAppDto.getDescription());
-        clientDetailsDtoToEntityConverter.prepareEntity(clientAppDto.getClientDetailsDto(), clientApp.getClientDetails());
     }
 }

@@ -1,4 +1,4 @@
-package net.wojteksz128.authservice.service.clientapp;
+package net.wojteksz128.authservice.service.oauth;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;

@@ -1,4 +1,4 @@
-package net.wojteksz128.authservice.service.clientapp.impl;
+package net.wojteksz128.authservice.service.oauth.impl;
 
 import net.wojteksz128.authservice.service.UserDetailsType;
 import net.wojteksz128.authservice.service.clientapp.CreateClientAppDto;

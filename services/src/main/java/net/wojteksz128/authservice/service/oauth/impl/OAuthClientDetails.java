@@ -1,6 +1,7 @@
-package net.wojteksz128.authservice.service.clientapp.impl;
+package net.wojteksz128.authservice.service.oauth.impl;
 
 import lombok.Data;
+import net.wojteksz128.authservice.service.clientapp.impl.StringListConverter;
 
 import javax.persistence.*;
 import java.io.Serializable;

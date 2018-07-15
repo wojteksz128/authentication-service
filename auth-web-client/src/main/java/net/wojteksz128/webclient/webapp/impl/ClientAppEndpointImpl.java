@@ -4,7 +4,7 @@ import net.wojteksz128.authservice.service.MessageType;
 import net.wojteksz128.authservice.service.clientapp.ClientAppController;
 import net.wojteksz128.authservice.service.clientapp.ClientAppDto;
 import net.wojteksz128.authservice.service.clientapp.CreateClientAppDto;
-import net.wojteksz128.authservice.service.clientapp.OAuthClientDetailsController;
+import net.wojteksz128.authservice.service.oauth.OAuthClientDetailsController;
 import net.wojteksz128.authservice.service.user.UserDto;
 import net.wojteksz128.authservice.service.user.UserService;
 import net.wojteksz128.authservice.service.webapp.WebsiteBuilder;

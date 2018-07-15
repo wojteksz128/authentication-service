@@ -1,10 +1,10 @@
-package net.wojteksz128.authservice.service.clientapp.impl;
+package net.wojteksz128.authservice.service.oauth.impl;
 
-import net.wojteksz128.authservice.service.clientapp.OAuthClientDetailsController;
-import net.wojteksz128.authservice.service.clientapp.OAuthClientDetailsDto;
 import net.wojteksz128.authservice.service.exception.EmptyObjectException;
 import net.wojteksz128.authservice.service.exception.InvalidRequestException;
 import net.wojteksz128.authservice.service.exception.ObjectNotCorrespondingException;
+import net.wojteksz128.authservice.service.oauth.OAuthClientDetailsController;
+import net.wojteksz128.authservice.service.oauth.OAuthClientDetailsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
