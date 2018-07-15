@@ -17,7 +17,7 @@ class ClientAppDtoToEntityConverter implements Converter<ClientAppDto, ClientApp
 
     @Override
     public ClientApp convert(ClientAppDto clientAppDto) {
-        ClientApp clientApp = clientAppRepository.findByClientDetails_ClientId(clientAppDto.getClientDetailsDto().getClientId());
+        ClientApp clientApp = clientAppRepository.findByClientId(clientAppDto.getClientDetailsDto().getClientId());
         prepareEntity(clientAppDto, clientApp);
         return clientApp;
     }
