@@ -76,6 +76,7 @@ class ClientAppControllerImpl implements ClientAppController {
     public void deleteApp(String appGuid, ClientAppDto app) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException {
         checkValidity(appGuid, app);
         clientAppRepository.delete(dtoToClientAppConverter.convert(app));
+        clientDetailsController.delete(appGuid, clientDetailsController.getByClientId(app.getClientDetailsDto().getClientId()));
     }
 
     @Override

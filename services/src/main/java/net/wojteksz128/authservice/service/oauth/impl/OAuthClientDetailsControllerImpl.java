@@ -46,8 +46,9 @@ class OAuthClientDetailsControllerImpl implements OAuthClientDetailsController {
     }
 
     @Override
-    public void delete(String clientId, OAuthClientDetailsDto dto) {
-
+    public void delete(String clientId, OAuthClientDetailsDto dto) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException {
+        checkValidity(clientId, dto);
+        clientDetailsRepository.delete(clientDetailsRepository.findByClientId(clientId));
     }
 
     /**
