@@ -14,10 +14,12 @@ import java.util.stream.Collectors;
 class UserToDtoConverter implements Converter<User, UserDto> {
 
     private final RoleToDtoConverter roleToDtoConverter;
+    private final UserPersonalDataToDtoConverter userPersonalDataToDtoConverter;
 
     @Autowired
-    public UserToDtoConverter(RoleToDtoConverter roleToDtoConverter) {
+    public UserToDtoConverter(RoleToDtoConverter roleToDtoConverter, UserPersonalDataToDtoConverter userPersonalDataToDtoConverter) {
         this.roleToDtoConverter = roleToDtoConverter;
+        this.userPersonalDataToDtoConverter = userPersonalDataToDtoConverter;
     }
 
     @Override
@@ -26,8 +28,9 @@ class UserToDtoConverter implements Converter<User, UserDto> {
         List<RoleDto> userRoles = user.getRoles().stream().map(roleToDtoConverter::convert).collect(Collectors.toList());
 
         userDto.setId(user.getId());
-        userDto.setEmail(user.getEmail());
+        userDto.setLogin(user.getLogin());
         userDto.setRoles(new HashSet<>(userRoles));
+        userDto.setPersonalData(userPersonalDataToDtoConverter.convert(user.getPersonalData()));
 
         return userDto;
     }

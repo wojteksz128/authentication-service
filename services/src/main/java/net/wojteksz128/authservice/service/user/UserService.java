@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
 
-    Optional<UserDto> findByEmail(String email);
+    Optional<UserDto> findByLogin(String email);
 
     void save(UserRegistrationDto user);
 

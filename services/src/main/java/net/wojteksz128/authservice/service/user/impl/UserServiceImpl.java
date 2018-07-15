@@ -22,30 +22,34 @@ import java.util.Optional;
 @EnableJpaRepositories(basePackageClasses = {UserRepository.class, RoleRepository.class})
 class UserServiceImpl implements UserService {
 
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final UserToDtoConverter userToDtoConverter;
-    private final PasswordEncoder passwordEncoder;
+    private final UserPersonalDataDtoToEntityConverter userPersonalDataDtoToEntityConverter;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, UserToDtoConverter userToDtoConverter, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, UserToDtoConverter userToDtoConverter, PasswordEncoder passwordEncoder, UserPersonalDataDtoToEntityConverter userPersonalDataDtoToEntityConverter) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.userToDtoConverter = userToDtoConverter;
         this.passwordEncoder = passwordEncoder;
+        this.userPersonalDataDtoToEntityConverter = userPersonalDataDtoToEntityConverter;
     }
 
     @Override
-    public Optional<UserDto> findByEmail(String email) {
-        return userRepository.findByEmail(email).map(userToDtoConverter::convert);
+    public Optional<UserDto> findByLogin(String login) {
+        return userRepository.findByLogin(login).map(userToDtoConverter::convert);
     }
 
     @Override
     public void save(UserRegistrationDto userDto) {
         User user = new User();
 
-        user.setEmail(userDto.getEmail());
+        user.setLogin(userDto.getLogin());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setRoles(roleRepository.findByCode("USER").map(v -> new HashSet<>(Collections.singletonList(v))).orElse(null));
+        user.setPersonalData(this.userPersonalDataDtoToEntityConverter.convert(userDto.getPersonalData()));
+        user.getPersonalData().setUser(user);
 
         userRepository.save(user);
     }
@@ -65,7 +69,7 @@ class UserServiceImpl implements UserService {
         Optional<UserDto> currentLoggedUser = Optional.empty();
 
         if (authentication instanceof OAuth2Authentication) {
-            currentLoggedUser = userRepository.findByEmail((String) authentication.getPrincipal()).map(userToDtoConverter::convert);
+            currentLoggedUser = userRepository.findByLogin((String) authentication.getPrincipal()).map(userToDtoConverter::convert);
         }
 
         return currentLoggedUser;
@@ -73,8 +77,8 @@ class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> optionalUser = userRepository.findByEmail(username);
+        Optional<User> optionalUser = userRepository.findByLogin(username);
         return new UserDetailsImpl(optionalUser
-            .orElseThrow(() -> new UsernameNotFoundException(String.format("User with email '%s' not exists", username))));
+            .orElseThrow(() -> new UsernameNotFoundException(String.format("User with login '%s' not exists", username))));
     }
 }

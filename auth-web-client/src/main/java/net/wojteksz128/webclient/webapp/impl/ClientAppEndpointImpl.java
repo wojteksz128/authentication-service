@@ -43,7 +43,7 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
     public String getDevApp(Authentication authentication, @RequestParam Map<String, String> params, Model model) {
         final WebsiteBuilder websiteBuilder = WebsiteBuilder.create(model).withContent("developer/devApps").withModal("modal-create").withModal("modal-info").withModal("modal-delete");
         String username = (String) authentication.getPrincipal();
-        final Optional<UserDto> optionalUser = userService.findByEmail(username);
+        final Optional<UserDto> optionalUser = userService.findByLogin(username);
 
         model.addAttribute("apps", clientAppController.getAllUserApps(optionalUser.map(UserDto::getId).orElseThrow(() -> new AuthorizationServiceException("User not logged."))));
 

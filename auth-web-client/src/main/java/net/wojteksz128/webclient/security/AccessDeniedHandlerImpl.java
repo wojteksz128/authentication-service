@@ -30,7 +30,7 @@ class AccessDeniedHandlerImpl implements AccessDeniedHandler {
                        AccessDeniedException accessDeniedException) throws IOException {
         final UserDto currentLoggedUser = userService.getCurrentLoggedUser().orElseThrow(() -> new UsernameNotFoundException("Current logged user not found"));
         logger.warn(String.format("User: %s attempted to access the protected URL: %s",
-            currentLoggedUser.getEmail(), request.getRequestURI()));
+            currentLoggedUser.getLogin(), request.getRequestURI()));
 
         response.sendRedirect(request.getContextPath() + "/403");
     }
