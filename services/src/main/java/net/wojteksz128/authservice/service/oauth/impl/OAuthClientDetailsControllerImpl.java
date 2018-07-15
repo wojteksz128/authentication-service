@@ -6,9 +6,11 @@ import net.wojteksz128.authservice.service.exception.ObjectNotCorrespondingExcep
 import net.wojteksz128.authservice.service.oauth.OAuthClientDetailsController;
 import net.wojteksz128.authservice.service.oauth.OAuthClientDetailsDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Component;
 
 @Component
+@EnableJpaRepositories(basePackageClasses = {OAuthClientDetailsRepository.class})
 class OAuthClientDetailsControllerImpl implements OAuthClientDetailsController {
 
     private final OAuthClientDetailsDtoToEntityConverter clientDetailsDtoToEntityConverter;
@@ -47,13 +49,14 @@ class OAuthClientDetailsControllerImpl implements OAuthClientDetailsController {
     public void delete(String clientId, OAuthClientDetailsDto dto) {
 
     }
+
     /**
      * Throw exception, when request data aren't correct.
      *
      * @param clientId requested client app identifier
-     * @param dto information about client app
-     * @throws EmptyObjectException client app information is null
-     * @throws InvalidRequestException client app identifier is null
+     * @param dto      information about client app
+     * @throws EmptyObjectException            client app information is null
+     * @throws InvalidRequestException         client app identifier is null
      * @throws ObjectNotCorrespondingException clientId in dto and request aren't the same
      */
     private void checkValidity(String clientId, OAuthClientDetailsDto dto) throws EmptyObjectException, InvalidRequestException, ObjectNotCorrespondingException {
