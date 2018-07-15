@@ -34,6 +34,7 @@ DROP TABLE IF EXISTS oauth_approvals;
 CREATE TABLE client_apps (
   id          BIGINT       NOT NULL AUTO_INCREMENT,
   client_id   VARCHAR(255) NOT NULL,
+  name        VARCHAR(255) NOT NULL,
   description VARCHAR(255),
   create_date TINYBLOB     NOT NULL,
   user_id     BIGINT       NOT NULL,
