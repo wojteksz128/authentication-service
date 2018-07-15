@@ -6,6 +6,7 @@ import net.wojteksz128.authservice.service.clientapp.CreateClientAppDto;
 import net.wojteksz128.authservice.service.exception.EmptyObjectException;
 import net.wojteksz128.authservice.service.exception.InvalidRequestException;
 import net.wojteksz128.authservice.service.exception.ObjectNotCorrespondingException;
+import net.wojteksz128.authservice.service.oauth.OAuthClientDetailsController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Component;
@@ -22,13 +23,17 @@ class ClientAppControllerImpl implements ClientAppController {
     private final CreateDtoToClientAppConverter createDtoToClientAppConverter;
     private final ClientAppDtoToEntityConverter dtoToClientAppConverter;
     private final ClientAppToDtoConverter clientAppToDtoConverter;
+    private final CreateAppDtoToOAuthClientDetailsDtoConverter createAppDtoToOAuthClientDetailsDtoConverter;
+    private final OAuthClientDetailsController clientDetailsController;
 
     @Autowired
-    public ClientAppControllerImpl(ClientAppRepository clientAppRepository, CreateDtoToClientAppConverter createDtoToClientAppConverter, ClientAppDtoToEntityConverter dtoToClientAppConverter, ClientAppToDtoConverter clientAppToDtoConverter) {
+    public ClientAppControllerImpl(ClientAppRepository clientAppRepository, CreateDtoToClientAppConverter createDtoToClientAppConverter, ClientAppDtoToEntityConverter dtoToClientAppConverter, ClientAppToDtoConverter clientAppToDtoConverter, CreateAppDtoToOAuthClientDetailsDtoConverter createAppDtoToOAuthClientDetailsDtoConverter, OAuthClientDetailsController clientDetailsController) {
         this.clientAppRepository = clientAppRepository;
         this.createDtoToClientAppConverter = createDtoToClientAppConverter;
         this.dtoToClientAppConverter = dtoToClientAppConverter;
         this.clientAppToDtoConverter = clientAppToDtoConverter;
+        this.createAppDtoToOAuthClientDetailsDtoConverter = createAppDtoToOAuthClientDetailsDtoConverter;
+        this.clientDetailsController = clientDetailsController;
     }
 
     @Override
@@ -36,6 +41,8 @@ class ClientAppControllerImpl implements ClientAppController {
         if (app == null) {
             throw new EmptyObjectException("Attempt to save a null object.");
         }
+
+        this.clientDetailsController.createNew(createAppDtoToOAuthClientDetailsDtoConverter.convert(app));
 
         return clientAppToDtoConverter.convert(clientAppRepository.save(createDtoToClientAppConverter.convert(app)));
     }

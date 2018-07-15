@@ -30,13 +30,14 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
     private final ClientAppController clientAppController;
     private final UserService userService;
     private final OAuthClientDetailsController clientDetailsController;
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private final DateTimeFormatter formatter;
 
     @Autowired
     public ClientAppEndpointImpl(ClientAppController clientAppController, UserService userService, OAuthClientDetailsController clientDetailsController) {
         this.clientAppController = clientAppController;
         this.userService = userService;
         this.clientDetailsController = clientDetailsController;
+        this.formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     }
 
     @Override
@@ -86,8 +87,6 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
 
         try {
             clientAppControllerNew = clientAppController.createNew(appDto);
-            // TODO: 15.07.2018 Dodaj dodawanie oauth_client_details
-//            clientAppControllerNew.setClientDetailsDto(clientDetailsController.createNew(appDto.getClientDetailsDto()));
         } catch (Exception e) {
             result.reject("global", null, e.getLocalizedMessage());
             return "developer/fragments/modalCreate";
