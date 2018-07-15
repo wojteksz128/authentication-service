@@ -16,4 +16,8 @@ public class ClientAppDto {
     private String name;
     private String description;
     private LocalDateTime createDate;
+    private Boolean fullNameRequired;
+    private Boolean birthDateRequired;
+    private Boolean emailRequired;
+    private Boolean contactRequired;
 }
