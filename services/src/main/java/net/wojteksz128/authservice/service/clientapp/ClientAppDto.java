@@ -13,6 +13,7 @@ public class ClientAppDto {
     private Long id;
     @Valid
     private OAuthClientDetailsDto clientDetailsDto;
+    private String name;
     private String description;
     private LocalDateTime createDate;
 }

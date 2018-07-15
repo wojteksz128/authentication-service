@@ -25,8 +25,8 @@ class ClientAppToDtoConverter implements Converter<ClientApp, ClientAppDto> {
 
     @SuppressWarnings("WeakerAccess")
     void prepareDto(ClientApp clientApp, ClientAppDto clientAppDto) {
-        // TODO: 15.07.2018 Dodaj nazwę clientApp
         clientAppDto.setClientDetailsDto(clientDetailsController.getByClientId(clientApp.getClientId()));
+        clientAppDto.setName(clientApp.getName());
         clientAppDto.setCreateDate(clientApp.getCreateDate());
         clientAppDto.setDescription(clientApp.getDescription());
         clientAppDto.setId(clientApp.getId());

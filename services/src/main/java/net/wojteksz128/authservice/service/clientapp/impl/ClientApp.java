@@ -18,6 +18,9 @@ class ClientApp implements Serializable {
     @Column(name = "client_id", unique = true, nullable = false)
     private String clientId;
 
+    @Column(name = "name", nullable = false)
+    private String name;
+
     @Column(name = "description")
     private String description;
 

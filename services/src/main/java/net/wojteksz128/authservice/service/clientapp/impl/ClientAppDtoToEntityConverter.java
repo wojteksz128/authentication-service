@@ -24,7 +24,7 @@ class ClientAppDtoToEntityConverter implements Converter<ClientAppDto, ClientApp
 
     @SuppressWarnings("WeakerAccess")
     void prepareEntity(ClientAppDto clientAppDto, ClientApp clientApp) {
-        // TODO: 15.07.2018 Dodaj nazwę clientApp
+        clientApp.setName(clientAppDto.getName());
         clientApp.setClientId(clientAppDto.getClientDetailsDto().getClientId());
         clientApp.setDescription(clientAppDto.getDescription());
     }
