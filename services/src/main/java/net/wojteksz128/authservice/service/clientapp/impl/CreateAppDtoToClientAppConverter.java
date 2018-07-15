@@ -12,12 +12,12 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 @Component
-class CreateDtoToClientAppConverter implements Converter<CreateClientAppDto, ClientApp> {
+class CreateAppDtoToClientAppConverter implements Converter<CreateClientAppDto, ClientApp> {
 
     private final UserService userService;
 
     @Autowired
-    public CreateDtoToClientAppConverter(UserService userService) {
+    public CreateAppDtoToClientAppConverter(UserService userService) {
         this.userService = userService;
     }
 

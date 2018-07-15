@@ -68,7 +68,7 @@ class OAuthClientDetailsControllerImpl implements OAuthClientDetailsController {
             throw new InvalidRequestException("Client Id is null.");
         }
 
-        if (clientId.equals(dto.getClientId())) {
+        if (!clientId.equals(dto.getClientId())) {
             throw new ObjectNotCorrespondingException("Object is not requested object.");
         }
     }

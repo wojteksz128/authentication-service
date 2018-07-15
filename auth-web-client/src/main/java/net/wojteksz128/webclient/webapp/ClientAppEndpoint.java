@@ -2,6 +2,7 @@ package net.wojteksz128.webclient.webapp;
 
 import net.wojteksz128.authservice.service.clientapp.ClientAppDto;
 import net.wojteksz128.authservice.service.clientapp.CreateClientAppDto;
+import net.wojteksz128.authservice.service.clientapp.UpdateClientAppDto;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
@@ -22,7 +23,7 @@ public interface ClientAppEndpoint {
 
     @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
     @RequestMapping(value = "/devApp/{clientApp}", method = RequestMethod.POST)
-    String updateApp(@PathVariable("clientApp") String guid, @ModelAttribute("devApp") @Valid ClientAppDto appDto, BindingResult result, Model model);
+    String updateApp(@PathVariable("clientApp") String guid, @ModelAttribute("devApp") @Valid UpdateClientAppDto appDto, BindingResult result, Model model);
 
     @PreAuthorize("hasRole(\"ROLE_DEVELOPER\")")
     @RequestMapping(value = "/devApp/{clientApp}/delete", method = RequestMethod.POST)

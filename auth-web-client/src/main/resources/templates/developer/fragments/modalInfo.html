@@ -11,8 +11,8 @@
                         <a href="#" class="close" data-dismiss="modal" aria-label="close">&times;</a>
                         <h4 class="modal-title">Informacje o aplikacji</h4>
                     </div>
-                    <!--/*@thymesVar id="devApp" type="net.wojteksz128.authservice.service.clientapp.ClientAppDto"*/-->
-                    <form class="form-app form-horizontal" th:action="'/devApp/' + ${devApp.clientDetailsDto.clientId}" method="post" th:object="${devApp}">
+                    <!--/*@thymesVar id="devApp" type="net.wojteksz128.authservice.service.clientapp.UpdateClientAppDto"*/-->
+                    <form class="form-app form-horizontal" th:action="'/devApp/' + ${devApp.clientId}" method="post" th:object="${devApp}">
                         <div class="modal-body">
                             <div th:if="${ #fields.hasGlobalErrors() }" th:each="error: ${#fields.errors('global')}">
                                 <div th:replace="fragments/message :: message(${T(net.wojteksz128.authservice.service.MessageType).ERROR}, 'Błąd!', ${error})"></div>
@@ -34,29 +34,29 @@
                                     <input type="hidden" readonly="readonly" th:field="*{createDate}"/>
                                 </div>
                             </div>
-                            <div class="form-group form-group-sm" th:classappend="${#fields.hasErrors('clientDetailsDto.clientId')} ? 'has-error' : ''">
+                            <div class="form-group form-group-sm" th:classappend="${#fields.hasErrors('clientId')} ? 'has-error' : ''">
                                 <label for="app-client-id" class="control-label col-sm-4">Client Id:</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="app-client-id" readonly="readonly" th:field="*{clientDetailsDto.clientId}"/>
-                                    <div th:if="${ #fields.hasErrors('clientDetailsDto.clientId') }" th:each="error: ${#fields.errors('clientDetailsDto.clientId')}">
+                                    <input type="text" class="form-control" id="app-client-id" readonly="readonly" th:field="*{clientId}"/>
+                                    <div th:if="${ #fields.hasErrors('clientId') }" th:each="error: ${#fields.errors('clientId')}">
                                         <span class="help-block" th:text="${error}"></span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group form-group-sm" th:classappend="${#fields.hasErrors('clientDetailsDto.clientSecret')} ? 'has-error' : ''">
+                            <div class="form-group form-group-sm" th:classappend="${#fields.hasErrors('clientSecret')} ? 'has-error' : ''">
                                 <label for="app-client-secret" class="control-label col-sm-4">Client Secret:</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="app-client-secret" th:field="*{clientDetailsDto.clientSecret}"/>
-                                    <div th:if="${ #fields.hasErrors('clientDetailsDto.clientSecret') }" th:each="error: ${#fields.errors('clientDetailsDto.clientSecret')}">
+                                    <input type="text" class="form-control" id="app-client-secret" th:field="*{clientSecret}"/>
+                                    <div th:if="${ #fields.hasErrors('clientSecret') }" th:each="error: ${#fields.errors('clientSecret')}">
                                         <span class="help-block" th:text="${error}"></span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group form-group-sm" th:classappend="${#fields.hasErrors('clientDetailsDto.webServerRedirectUri')} ? 'has-error' : ''">
+                            <div class="form-group form-group-sm" th:classappend="${#fields.hasErrors('webServerRedirectUri')} ? 'has-error' : ''">
                                 <label for="app-web-server-redirect-uri" class="control-label col-sm-4">Web server redirect URI:</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="app-web-server-redirect-uri" th:field="*{clientDetailsDto.webServerRedirectUri}"/>
-                                    <div th:if="${ #fields.hasErrors('clientDetailsDto.webServerRedirectUri') }" th:each="error: ${#fields.errors('clientDetailsDto.webServerRedirectUri')}">
+                                    <input type="text" class="form-control" id="app-web-server-redirect-uri" th:field="*{webServerRedirectUri}"/>
+                                    <div th:if="${ #fields.hasErrors('webServerRedirectUri') }" th:each="error: ${#fields.errors('webServerRedirectUri')}">
                                         <span class="help-block" th:text="${error}"></span>
                                     </div>
                                 </div>
@@ -90,7 +90,7 @@
                             <button type="button" class="btn btn-success btn-ok">
                                 <span class="glyphicon glyphicon-edit"></span> Zapisz
                             </button>
-                            <button type="button" class="btn btn-danger" th:onclick="'javascript:openModal(\'/devApp/' + ${devApp.clientDetailsDto.clientId} + '/delete\', \'modal-delete\');'">
+                            <button type="button" class="btn btn-danger" th:onclick="'javascript:openModal(\'/devApp/' + ${devApp.clientId} + '/delete\', \'modal-delete\');'">
                                 <span class="glyphicon glyphicon-remove"></span> Usuń
                             </button>
                         </div>
