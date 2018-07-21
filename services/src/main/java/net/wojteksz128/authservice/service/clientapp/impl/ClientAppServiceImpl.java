@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+// TODO: 21.07.2018 Zaimplementuj transakcyjność operacji
 @Component
 class ClientAppServiceImpl implements ClientAppService {
 
@@ -86,12 +87,32 @@ class ClientAppServiceImpl implements ClientAppService {
         clientDetailsController.update(clientId, clientAppDto.getClientDetailsDto());
 
         final ClientApp clientAppEntity = clientAppDtoToEntityConverter.convert(clientAppDto);
-        clientAppController.updateApp(clientAppEntity);
+        final ClientApp updatedAppEntity = clientAppController.updateApp(clientAppEntity);
+        if (updatedAppEntity == null) {
+            throw new EmptyObjectException("ClientApp is not updated");
+        }
     }
 
     @Override
     public void deleteApp(String clientId, ClientAppDto deletedApp) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException {
-        // TODO: 21.07.2018 Implement this based on ClientAppController
+        // TODO: 21.07.2018 Check user privileges
+        if (deletedApp == null) {
+            throw new EmptyObjectException("Attempt to use a null object");
+        }
+        if (clientId == null) {
+            throw new InvalidRequestException("clientId is null");
+        }
+        if (!clientId.equals(deletedApp.getClientDetailsDto().getClientId())) {
+            throw new ObjectNotCorrespondingException("ClientApp is not requested object");
+        }
+
+        // TODO: 21.07.2018 Sprawdź poprawność wykonania poniższej operacji
+        clientDetailsController.delete(clientId, deletedApp.getClientDetailsDto());
+
+        final ClientApp clientAppEntity = clientAppDtoToEntityConverter.convert(deletedApp);
+        // TODO: 21.07.2018 Sprawdź poprawność wykonania poniższej operacji
+        clientAppController.deleteApp(clientAppEntity);
+
     }
 
     @Override
