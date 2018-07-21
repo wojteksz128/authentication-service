@@ -1,7 +1,6 @@
 package net.wojteksz128.authservice.service.clientapp.impl;
 
 import net.wojteksz128.authservice.service.clientapp.ClientAppDto;
-import net.wojteksz128.authservice.service.clientapp.CreateClientAppDto;
 import net.wojteksz128.authservice.service.clientapp.UpdateClientAppDto;
 import net.wojteksz128.authservice.service.exception.EmptyObjectException;
 import net.wojteksz128.authservice.service.exception.InvalidRequestException;
@@ -39,14 +38,8 @@ class ClientAppControllerImpl implements ClientAppController {
     }
 
     @Override
-    public ClientAppDto createNew(CreateClientAppDto app) throws EmptyObjectException {
-        if (app == null) {
-            throw new EmptyObjectException("Attempt to save a null object.");
-        }
-
-        this.clientDetailsController.createNew(createAppDtoToOAuthClientDetailsDtoConverter.convert(app));
-
-        return clientAppToDtoConverter.convert(clientAppRepository.save(createAppDtoToClientAppConverter.convert(app)));
+    public ClientApp createNew(ClientApp app) {
+        return clientAppRepository.save(app);
     }
 
     @Override

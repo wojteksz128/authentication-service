@@ -1,7 +1,6 @@
 package net.wojteksz128.authservice.service.clientapp.impl;
 
 import net.wojteksz128.authservice.service.clientapp.ClientAppDto;
-import net.wojteksz128.authservice.service.clientapp.CreateClientAppDto;
 import net.wojteksz128.authservice.service.clientapp.UpdateClientAppDto;
 import net.wojteksz128.authservice.service.exception.EmptyObjectException;
 import net.wojteksz128.authservice.service.exception.InvalidRequestException;
@@ -11,7 +10,7 @@ import java.util.List;
 
 interface ClientAppController {
 
-    ClientAppDto createNew(CreateClientAppDto app) throws EmptyObjectException;
+    ClientApp createNew(ClientApp app);
 
     ClientAppDto getAppByClientId(String clientId);
 
