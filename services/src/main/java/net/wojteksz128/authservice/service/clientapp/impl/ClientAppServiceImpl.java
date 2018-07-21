@@ -7,8 +7,8 @@ import net.wojteksz128.authservice.service.clientapp.UpdateClientAppDto;
 import net.wojteksz128.authservice.service.exception.EmptyObjectException;
 import net.wojteksz128.authservice.service.exception.InvalidRequestException;
 import net.wojteksz128.authservice.service.exception.ObjectNotCorrespondingException;
-import net.wojteksz128.authservice.service.oauth.OAuthClientDetailsController;
 import net.wojteksz128.authservice.service.oauth.OAuthClientDetailsDto;
+import net.wojteksz128.authservice.service.oauth.OAuthClientDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,17 +21,17 @@ class ClientAppServiceImpl implements ClientAppService {
 
     private final ClientAppController clientAppController;
     private final CreateAppDtoToOAuthClientDetailsDtoConverter createAppDtoToOAuthClientDetailsDtoConverter;
-    private final OAuthClientDetailsController clientDetailsController;
+    private final OAuthClientDetailsService clientDetailsService;
     private final CreateAppDtoToClientAppConverter createAppDtoToClientAppConverter;
     private final ClientAppToDtoConverter clientAppToDtoConverter;
     private final UpdateClientAppDtoToClientAppDtoConverter updateClientAppDtoToClientAppDtoConverter;
     private final ClientAppDtoToEntityConverter clientAppDtoToEntityConverter;
 
     @Autowired
-    public ClientAppServiceImpl(ClientAppController clientAppController, CreateAppDtoToOAuthClientDetailsDtoConverter createAppDtoToOAuthClientDetailsDtoConverter, OAuthClientDetailsController clientDetailsController, CreateAppDtoToClientAppConverter createAppDtoToClientAppConverter, ClientAppToDtoConverter clientAppToDtoConverter, UpdateClientAppDtoToClientAppDtoConverter updateClientAppDtoToClientAppDtoConverter, ClientAppDtoToEntityConverter clientAppDtoToEntityConverter) {
+    public ClientAppServiceImpl(ClientAppController clientAppController, CreateAppDtoToOAuthClientDetailsDtoConverter createAppDtoToOAuthClientDetailsDtoConverter, OAuthClientDetailsService clientDetailsService, CreateAppDtoToClientAppConverter createAppDtoToClientAppConverter, ClientAppToDtoConverter clientAppToDtoConverter, UpdateClientAppDtoToClientAppDtoConverter updateClientAppDtoToClientAppDtoConverter, ClientAppDtoToEntityConverter clientAppDtoToEntityConverter) {
         this.clientAppController = clientAppController;
         this.createAppDtoToOAuthClientDetailsDtoConverter = createAppDtoToOAuthClientDetailsDtoConverter;
-        this.clientDetailsController = clientDetailsController;
+        this.clientDetailsService = clientDetailsService;
         this.createAppDtoToClientAppConverter = createAppDtoToClientAppConverter;
         this.clientAppToDtoConverter = clientAppToDtoConverter;
         this.updateClientAppDtoToClientAppDtoConverter = updateClientAppDtoToClientAppDtoConverter;
@@ -46,7 +46,7 @@ class ClientAppServiceImpl implements ClientAppService {
         }
 
         final OAuthClientDetailsDto newClientDetails = createAppDtoToOAuthClientDetailsDtoConverter.convert(newApp);
-        final OAuthClientDetailsDto createdClientDetails = clientDetailsController.createNew(newClientDetails);
+        final OAuthClientDetailsDto createdClientDetails = clientDetailsService.createNew(newClientDetails);
 
         if (createdClientDetails == null) {
             throw new EmptyObjectException("OAuth client details is not created");
@@ -85,7 +85,7 @@ class ClientAppServiceImpl implements ClientAppService {
         }
 
         final ClientAppDto clientAppDto = updateClientAppDtoToClientAppDtoConverter.convert(updatedApp);
-        clientDetailsController.update(clientId, clientAppDto.getClientDetailsDto());
+        clientDetailsService.update(clientId, clientAppDto.getClientDetailsDto());
 
         final ClientApp clientAppEntity = clientAppDtoToEntityConverter.convert(clientAppDto);
         final ClientApp updatedAppEntity = clientAppController.updateApp(clientAppEntity);
@@ -108,7 +108,7 @@ class ClientAppServiceImpl implements ClientAppService {
         }
 
         // TODO: 21.07.2018 Sprawdź poprawność wykonania poniższej operacji
-        clientDetailsController.delete(clientId, deletedApp.getClientDetailsDto());
+        clientDetailsService.delete(clientId, deletedApp.getClientDetailsDto());
 
         final ClientApp clientAppEntity = clientAppDtoToEntityConverter.convert(deletedApp);
         // TODO: 21.07.2018 Sprawdź poprawność wykonania poniższej operacji

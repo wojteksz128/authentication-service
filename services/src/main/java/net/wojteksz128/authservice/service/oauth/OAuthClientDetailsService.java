@@ -4,7 +4,7 @@ import net.wojteksz128.authservice.service.exception.EmptyObjectException;
 import net.wojteksz128.authservice.service.exception.InvalidRequestException;
 import net.wojteksz128.authservice.service.exception.ObjectNotCorrespondingException;
 
-public interface OAuthClientDetailsController {
+public interface OAuthClientDetailsService {
 
     OAuthClientDetailsDto createNew(OAuthClientDetailsDto app) throws EmptyObjectException;
 
