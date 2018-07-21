@@ -1,7 +1,6 @@
 package net.wojteksz128.authservice.service.clientapp.impl;
 
 import net.wojteksz128.authservice.service.UserDetailsType;
-import net.wojteksz128.authservice.service.clientapp.ClientAppController;
 import net.wojteksz128.authservice.service.clientapp.ClientAppDto;
 import net.wojteksz128.authservice.service.clientapp.UpdateClientAppDto;
 import org.springframework.beans.factory.annotation.Autowired;

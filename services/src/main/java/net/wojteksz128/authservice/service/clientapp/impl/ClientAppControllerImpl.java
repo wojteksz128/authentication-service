@@ -1,6 +1,5 @@
 package net.wojteksz128.authservice.service.clientapp.impl;
 
-import net.wojteksz128.authservice.service.clientapp.ClientAppController;
 import net.wojteksz128.authservice.service.clientapp.ClientAppDto;
 import net.wojteksz128.authservice.service.clientapp.CreateClientAppDto;
 import net.wojteksz128.authservice.service.clientapp.UpdateClientAppDto;

@@ -1,6 +1,9 @@
 package net.wojteksz128.authservice.service.clientapp.impl;
 
-import net.wojteksz128.authservice.service.clientapp.*;
+import net.wojteksz128.authservice.service.clientapp.ClientAppDto;
+import net.wojteksz128.authservice.service.clientapp.ClientAppService;
+import net.wojteksz128.authservice.service.clientapp.CreateClientAppDto;
+import net.wojteksz128.authservice.service.clientapp.UpdateClientAppDto;
 import net.wojteksz128.authservice.service.exception.EmptyObjectException;
 import net.wojteksz128.authservice.service.exception.InvalidRequestException;
 import net.wojteksz128.authservice.service.exception.ObjectNotCorrespondingException;
@@ -10,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class ClientAppServiceImpl implements ClientAppService {
+class ClientAppServiceImpl implements ClientAppService {
 
     private final ClientAppController clientAppController;
 
