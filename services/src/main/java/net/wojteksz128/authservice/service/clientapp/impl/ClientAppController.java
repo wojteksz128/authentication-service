@@ -9,7 +9,7 @@ import net.wojteksz128.authservice.service.exception.ObjectNotCorrespondingExcep
 
 import java.util.List;
 
-public interface ClientAppController {
+interface ClientAppController {
 
     ClientAppDto createNew(CreateClientAppDto app) throws EmptyObjectException;
 
