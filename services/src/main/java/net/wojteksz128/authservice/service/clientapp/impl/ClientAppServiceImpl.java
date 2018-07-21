@@ -41,7 +41,7 @@ class ClientAppServiceImpl implements ClientAppService {
     }
 
     @Override
-    public void deleteApp(String clientId, ClientAppDto app) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException {
+    public void deleteApp(String clientId, ClientAppDto deletedApp) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException {
 
     }
 

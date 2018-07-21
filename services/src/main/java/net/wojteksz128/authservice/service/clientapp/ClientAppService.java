@@ -14,7 +14,7 @@ public interface ClientAppService {
 
     void updateApp(String clientId, UpdateClientAppDto updatedApp) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException;
 
-    void deleteApp(String clientId, ClientAppDto app) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException;
+    void deleteApp(String clientId, ClientAppDto deletedApp) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException;
 
     List<ClientAppDto> getAllUserApps(Long userId);
 }
