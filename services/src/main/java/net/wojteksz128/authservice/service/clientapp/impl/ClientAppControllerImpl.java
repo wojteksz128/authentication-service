@@ -1,12 +1,10 @@
 package net.wojteksz128.authservice.service.clientapp.impl;
 
-import net.wojteksz128.authservice.service.clientapp.ClientAppDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Collection;
 
 @SuppressWarnings("unused")
 @Component
@@ -14,12 +12,10 @@ import java.util.stream.Collectors;
 class ClientAppControllerImpl implements ClientAppController {
 
     private final ClientAppRepository clientAppRepository;
-    private final ClientAppToDtoConverter clientAppToDtoConverter;
 
     @Autowired
-    public ClientAppControllerImpl(ClientAppRepository clientAppRepository, ClientAppToDtoConverter clientAppToDtoConverter) {
+    public ClientAppControllerImpl(ClientAppRepository clientAppRepository) {
         this.clientAppRepository = clientAppRepository;
-        this.clientAppToDtoConverter = clientAppToDtoConverter;
     }
 
     @Override
@@ -43,10 +39,7 @@ class ClientAppControllerImpl implements ClientAppController {
     }
 
     @Override
-    public List<ClientAppDto> getAllUserApps(Long userId) {
-        return clientAppRepository.findAllByUserId(userId)
-            .stream()
-            .map(clientAppToDtoConverter::convert)
-            .collect(Collectors.toList());
+    public Collection<ClientApp> getAllUserApps(Long userId) {
+        return clientAppRepository.findAllByUserId(userId);
     }
 }

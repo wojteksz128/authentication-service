@@ -12,7 +12,8 @@ import net.wojteksz128.authservice.service.oauth.OAuthClientDetailsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 // TODO: 21.07.2018 Zaimplementuj transakcyjność operacji
 @Component
@@ -116,8 +117,12 @@ class ClientAppServiceImpl implements ClientAppService {
     }
 
     @Override
-    public List<ClientAppDto> getAllUserApps(Long userId) {
-        // TODO: 21.07.2018 Implement this based on ClientAppController
-        return null;
+    public Collection<ClientAppDto> getAllUserApps(Long userId) {
+        // TODO: 21.07.2018 Check user privileges
+        final Collection<ClientApp> allUserApps = clientAppController.getAllUserApps(userId);
+        return allUserApps
+            .stream()
+            .map(clientAppToDtoConverter::convert)
+            .collect(Collectors.toList());
     }
 }

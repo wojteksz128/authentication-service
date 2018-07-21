@@ -1,8 +1,6 @@
 package net.wojteksz128.authservice.service.clientapp.impl;
 
-import net.wojteksz128.authservice.service.clientapp.ClientAppDto;
-
-import java.util.List;
+import java.util.Collection;
 
 interface ClientAppController {
 
@@ -14,5 +12,5 @@ interface ClientAppController {
 
     void deleteApp(ClientApp app);
 
-    List<ClientAppDto> getAllUserApps(Long userId);
+    Collection<ClientApp> getAllUserApps(Long userId);
 }
