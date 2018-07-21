@@ -2,7 +2,9 @@ package net.wojteksz128.authservice.service.clientapp.impl;
 
 import net.wojteksz128.authservice.service.UserDetailsType;
 import net.wojteksz128.authservice.service.clientapp.ClientAppDto;
+import net.wojteksz128.authservice.service.clientapp.ClientAppService;
 import net.wojteksz128.authservice.service.clientapp.UpdateClientAppDto;
+import net.wojteksz128.authservice.service.exception.EmptyObjectException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.convert.converter.Converter;
@@ -15,16 +17,21 @@ import java.util.List;
 class UpdateClientAppDtoToClientAppDtoConverter implements Converter<UpdateClientAppDto, ClientAppDto> {
 
 
-    private final ClientAppController clientAppController;
+    private final ClientAppService clientAppService;
 
     @Autowired
-    public UpdateClientAppDtoToClientAppDtoConverter(@Lazy ClientAppController clientAppController) {
-        this.clientAppController = clientAppController;
+    public UpdateClientAppDtoToClientAppDtoConverter(@Lazy ClientAppService clientAppService) {
+        this.clientAppService = clientAppService;
     }
 
     @Override
     public ClientAppDto convert(UpdateClientAppDto updateClientAppDto) {
-        ClientAppDto clientAppDto = clientAppController.getAppByClientId(updateClientAppDto.getClientId());
+        ClientAppDto clientAppDto;
+        try {
+            clientAppDto = clientAppService.getAppByClientId(updateClientAppDto.getClientId());
+        } catch (EmptyObjectException e) {
+            return null;
+        }
 
         clientAppDto.setName(updateClientAppDto.getName());
         clientAppDto.getClientDetailsDto().setClientSecret(updateClientAppDto.getClientSecret());

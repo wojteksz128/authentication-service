@@ -43,8 +43,8 @@ class ClientAppControllerImpl implements ClientAppController {
     }
 
     @Override
-    public ClientAppDto getAppByClientId(String clientId) {
-        return clientAppToDtoConverter.convert(clientAppRepository.findByClientId(clientId));
+    public ClientApp getAppByClientId(String clientId) {
+        return clientAppRepository.findByClientId(clientId);
     }
 
     @Override
@@ -83,9 +83,9 @@ class ClientAppControllerImpl implements ClientAppController {
      * Throw exception, when request data aren't correct.
      *
      * @param clientId requested client app identifier
-     * @param dto information about client app
-     * @throws EmptyObjectException client app information is null
-     * @throws InvalidRequestException client app identifier is null
+     * @param dto      information about client app
+     * @throws EmptyObjectException            client app information is null
+     * @throws InvalidRequestException         client app identifier is null
      * @throws ObjectNotCorrespondingException clientId in dto and request aren't the same
      */
     private void checkValidity(String clientId, ClientAppDto dto) throws EmptyObjectException, InvalidRequestException, ObjectNotCorrespondingException {

@@ -34,6 +34,7 @@ class ClientAppServiceImpl implements ClientAppService {
 
     @Override
     public ClientAppDto createNew(CreateClientAppDto newApp) throws EmptyObjectException {
+        // TODO: 21.07.2018 Sprawdź, czy użytkownik może dodawać swoje aplikacje klienckie do usługi
         if (newApp == null) {
             throw new EmptyObjectException("Attempt to save a null ClientApp object");
         }
@@ -55,9 +56,13 @@ class ClientAppServiceImpl implements ClientAppService {
     }
 
     @Override
-    public ClientAppDto getAppByClientId(String clientId) {
-        // TODO: 21.07.2018 Implement this based on ClientAppController
-        return null;
+    public ClientAppDto getAppByClientId(String clientId) throws EmptyObjectException {
+        if (clientId == null || clientId.isEmpty()) {
+            throw new EmptyObjectException("clientId is Empty");
+        }
+
+        final ClientApp appEntity = clientAppController.getAppByClientId(clientId);
+        return clientAppToDtoConverter.convert(appEntity);
     }
 
     @Override

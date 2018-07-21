@@ -2,6 +2,7 @@ package net.wojteksz128.webclient.webapp.impl;
 
 import net.wojteksz128.authservice.service.MessageType;
 import net.wojteksz128.authservice.service.clientapp.*;
+import net.wojteksz128.authservice.service.exception.EmptyObjectException;
 import net.wojteksz128.authservice.service.user.UserDto;
 import net.wojteksz128.authservice.service.user.UserService;
 import net.wojteksz128.authservice.service.webapp.WebsiteBuilder;
@@ -136,14 +137,22 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
 
     @Override
     public String showDeleteDevAppForm(@PathVariable String clientApp, Model model) {
-        model.addAttribute("devApp", clientAppService.getAppByClientId(clientApp));
+        try {
+            model.addAttribute("devApp", clientAppService.getAppByClientId(clientApp));
+        } catch (EmptyObjectException e) {
+            e.printStackTrace();    // TODO: 21.07.2018 Do it better
+        }
 
         return "developer/fragments/modalDelete";
     }
 
     @Override
     public String getApp(@PathVariable String clientApp, Model model) {
-        model.addAttribute("devApp", clientAppDtoToUpdateClientAppDtoConverter.convert(clientAppService.getAppByClientId(clientApp)));
+        try {
+            model.addAttribute("devApp", clientAppDtoToUpdateClientAppDtoConverter.convert(clientAppService.getAppByClientId(clientApp)));
+        } catch (EmptyObjectException e) {
+            e.printStackTrace();    // TODO: 21.07.2018 Do it better
+        }
         model.addAttribute("formatter", formatter);
 
         return "developer/fragments/modalInfo";

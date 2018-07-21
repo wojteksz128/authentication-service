@@ -12,7 +12,7 @@ interface ClientAppController {
 
     ClientApp createNew(ClientApp app);
 
-    ClientAppDto getAppByClientId(String clientId);
+    ClientApp getAppByClientId(String clientId);
 
     void updateApp(String appGuid, UpdateClientAppDto app) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException;
 
