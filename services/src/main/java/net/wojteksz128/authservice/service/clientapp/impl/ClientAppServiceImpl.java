@@ -22,14 +22,18 @@ class ClientAppServiceImpl implements ClientAppService {
     private final OAuthClientDetailsController clientDetailsController;
     private final CreateAppDtoToClientAppConverter createAppDtoToClientAppConverter;
     private final ClientAppToDtoConverter clientAppToDtoConverter;
+    private final UpdateClientAppDtoToClientAppDtoConverter updateClientAppDtoToClientAppDtoConverter;
+    private final ClientAppDtoToEntityConverter clientAppDtoToEntityConverter;
 
     @Autowired
-    public ClientAppServiceImpl(ClientAppController clientAppController, CreateAppDtoToOAuthClientDetailsDtoConverter createAppDtoToOAuthClientDetailsDtoConverter, OAuthClientDetailsController clientDetailsController, CreateAppDtoToClientAppConverter createAppDtoToClientAppConverter, ClientAppToDtoConverter clientAppToDtoConverter) {
+    public ClientAppServiceImpl(ClientAppController clientAppController, CreateAppDtoToOAuthClientDetailsDtoConverter createAppDtoToOAuthClientDetailsDtoConverter, OAuthClientDetailsController clientDetailsController, CreateAppDtoToClientAppConverter createAppDtoToClientAppConverter, ClientAppToDtoConverter clientAppToDtoConverter, UpdateClientAppDtoToClientAppDtoConverter updateClientAppDtoToClientAppDtoConverter, ClientAppDtoToEntityConverter clientAppDtoToEntityConverter) {
         this.clientAppController = clientAppController;
         this.createAppDtoToOAuthClientDetailsDtoConverter = createAppDtoToOAuthClientDetailsDtoConverter;
         this.clientDetailsController = clientDetailsController;
         this.createAppDtoToClientAppConverter = createAppDtoToClientAppConverter;
         this.clientAppToDtoConverter = clientAppToDtoConverter;
+        this.updateClientAppDtoToClientAppDtoConverter = updateClientAppDtoToClientAppDtoConverter;
+        this.clientAppDtoToEntityConverter = clientAppDtoToEntityConverter;
     }
 
     @Override
@@ -61,13 +65,28 @@ class ClientAppServiceImpl implements ClientAppService {
             throw new EmptyObjectException("clientId is Empty");
         }
 
-        final ClientApp appEntity = clientAppController.getAppByClientId(clientId);
+        final ClientApp appEntity = clientAppController.findByClientId(clientId);
         return clientAppToDtoConverter.convert(appEntity);
     }
 
     @Override
     public void updateApp(String clientId, UpdateClientAppDto updatedApp) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException {
-        // TODO: 21.07.2018 Implement this based on ClientAppController
+        // TODO: 21.07.2018 Check user privileges
+        if (updatedApp == null) {
+            throw new EmptyObjectException("Attempt to use a null object");
+        }
+        if (clientId == null) {
+            throw new InvalidRequestException("clientId is null");
+        }
+        if (!updatedApp.getClientId().equals(clientId)) {
+            throw new ObjectNotCorrespondingException("ClientApp is not requested object.");
+        }
+
+        final ClientAppDto clientAppDto = updateClientAppDtoToClientAppDtoConverter.convert(updatedApp);
+        clientDetailsController.update(clientId, clientAppDto.getClientDetailsDto());
+
+        final ClientApp clientAppEntity = clientAppDtoToEntityConverter.convert(clientAppDto);
+        clientAppController.updateApp(clientAppEntity);
     }
 
     @Override

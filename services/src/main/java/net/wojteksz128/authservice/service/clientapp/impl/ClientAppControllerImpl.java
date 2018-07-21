@@ -1,7 +1,6 @@
 package net.wojteksz128.authservice.service.clientapp.impl;
 
 import net.wojteksz128.authservice.service.clientapp.ClientAppDto;
-import net.wojteksz128.authservice.service.clientapp.UpdateClientAppDto;
 import net.wojteksz128.authservice.service.exception.EmptyObjectException;
 import net.wojteksz128.authservice.service.exception.InvalidRequestException;
 import net.wojteksz128.authservice.service.exception.ObjectNotCorrespondingException;
@@ -19,22 +18,16 @@ import java.util.stream.Collectors;
 class ClientAppControllerImpl implements ClientAppController {
 
     private final ClientAppRepository clientAppRepository;
-    private final CreateAppDtoToClientAppConverter createAppDtoToClientAppConverter;
     private final ClientAppDtoToEntityConverter dtoToClientAppConverter;
     private final ClientAppToDtoConverter clientAppToDtoConverter;
-    private final CreateAppDtoToOAuthClientDetailsDtoConverter createAppDtoToOAuthClientDetailsDtoConverter;
     private final OAuthClientDetailsController clientDetailsController;
-    private final UpdateClientAppDtoToClientAppDtoConverter updateClientAppDtoToClientAppDtoConverter;
 
     @Autowired
     public ClientAppControllerImpl(ClientAppRepository clientAppRepository, CreateAppDtoToClientAppConverter createAppDtoToClientAppConverter, ClientAppDtoToEntityConverter dtoToClientAppConverter, ClientAppToDtoConverter clientAppToDtoConverter, CreateAppDtoToOAuthClientDetailsDtoConverter createAppDtoToOAuthClientDetailsDtoConverter, OAuthClientDetailsController clientDetailsController, UpdateClientAppDtoToClientAppDtoConverter updateClientAppDtoToClientAppDtoConverter) {
         this.clientAppRepository = clientAppRepository;
-        this.createAppDtoToClientAppConverter = createAppDtoToClientAppConverter;
         this.dtoToClientAppConverter = dtoToClientAppConverter;
         this.clientAppToDtoConverter = clientAppToDtoConverter;
-        this.createAppDtoToOAuthClientDetailsDtoConverter = createAppDtoToOAuthClientDetailsDtoConverter;
         this.clientDetailsController = clientDetailsController;
-        this.updateClientAppDtoToClientAppDtoConverter = updateClientAppDtoToClientAppDtoConverter;
     }
 
     @Override
@@ -43,25 +36,13 @@ class ClientAppControllerImpl implements ClientAppController {
     }
 
     @Override
-    public ClientApp getAppByClientId(String clientId) {
+    public ClientApp findByClientId(String clientId) {
         return clientAppRepository.findByClientId(clientId);
     }
 
     @Override
-    public void updateApp(String appGuid, UpdateClientAppDto app) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException {
-        if (app == null) {
-            throw new EmptyObjectException("Attempt to use a null object.");
-        }
-        if (appGuid == null) {
-            throw new InvalidRequestException("");
-        }
-        if (!app.getClientId().equals(appGuid)) {
-            throw new ObjectNotCorrespondingException("App is not requested object.");
-        }
-
-        final ClientAppDto clientAppDto = updateClientAppDtoToClientAppDtoConverter.convert(app);
-        clientDetailsController.update(appGuid, clientAppDto.getClientDetailsDto());
-        clientAppRepository.save(dtoToClientAppConverter.convert(clientAppDto));
+    public ClientApp updateApp(ClientApp updatedApp) {
+        return clientAppRepository.save(updatedApp);
     }
 
     @Override
