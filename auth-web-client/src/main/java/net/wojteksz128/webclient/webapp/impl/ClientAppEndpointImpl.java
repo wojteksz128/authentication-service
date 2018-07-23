@@ -2,6 +2,7 @@ package net.wojteksz128.webclient.webapp.impl;
 
 import net.wojteksz128.authservice.service.MessageType;
 import net.wojteksz128.authservice.service.clientapp.*;
+import net.wojteksz128.authservice.service.exception.EmptyObjectException;
 import net.wojteksz128.authservice.service.user.UserDto;
 import net.wojteksz128.authservice.service.user.UserService;
 import net.wojteksz128.authservice.service.webapp.WebsiteBuilder;
@@ -24,14 +25,14 @@ import java.util.Optional;
 @Controller
 class ClientAppEndpointImpl implements ClientAppEndpoint {
 
-    private final ClientAppController clientAppController;
+    private final ClientAppService clientAppService;
     private final UserService userService;
     private final DateTimeFormatter formatter;
     private final ClientAppDtoToUpdateClientAppDtoConverter clientAppDtoToUpdateClientAppDtoConverter;
 
     @Autowired
-    public ClientAppEndpointImpl(ClientAppController clientAppController, UserService userService, ClientAppDtoToUpdateClientAppDtoConverter clientAppDtoToUpdateClientAppDtoConverter) {
-        this.clientAppController = clientAppController;
+    public ClientAppEndpointImpl(ClientAppService clientAppService, UserService userService, ClientAppDtoToUpdateClientAppDtoConverter clientAppDtoToUpdateClientAppDtoConverter) {
+        this.clientAppService = clientAppService;
         this.userService = userService;
         this.clientAppDtoToUpdateClientAppDtoConverter = clientAppDtoToUpdateClientAppDtoConverter;
         this.formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -43,7 +44,7 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
         String username = (String) authentication.getPrincipal();
         final Optional<UserDto> optionalUser = userService.findByLogin(username);
 
-        model.addAttribute("apps", clientAppController.getAllUserApps(optionalUser.map(UserDto::getId).orElseThrow(() -> new AuthorizationServiceException("User not logged."))));
+        model.addAttribute("apps", clientAppService.getAllUserApps(optionalUser.map(UserDto::getId).orElseThrow(() -> new AuthorizationServiceException("User not logged."))));
 
         if (params.containsKey("add")) {
             websiteBuilder.withMessage(MessageType.INFO, "Sukces!", "Aplikacja \"" + params.get("add") + "\" została zarejestrowana.");
@@ -83,7 +84,7 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
         }
 
         try {
-            clientAppControllerNew = clientAppController.createNew(appDto);
+            clientAppControllerNew = clientAppService.createNew(appDto);
         } catch (Exception e) {
             result.reject("global", null, e.getLocalizedMessage());
             return "developer/fragments/modalCreate";
@@ -101,7 +102,7 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
         }
 
         try {
-            clientAppController.updateApp(clientApp, appDto);
+            clientAppService.updateApp(clientApp, appDto);
         } catch (Exception e) {
             result.reject("global", null, e.getLocalizedMessage());
             return "developer/fragments/modalInfo";
@@ -117,7 +118,7 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
         }
 
         try {
-            clientAppController.deleteApp(clientApp, appDto);
+            clientAppService.deleteApp(clientApp, appDto);
         } catch (Exception e) {
             result.reject("global", null, e.getLocalizedMessage());
             return "developer/fragments/modalDelete";
@@ -136,14 +137,22 @@ class ClientAppEndpointImpl implements ClientAppEndpoint {
 
     @Override
     public String showDeleteDevAppForm(@PathVariable String clientApp, Model model) {
-        model.addAttribute("devApp", clientAppController.getAppByClientId(clientApp));
+        try {
+            model.addAttribute("devApp", clientAppService.getAppByClientId(clientApp));
+        } catch (EmptyObjectException e) {
+            e.printStackTrace();    // TODO: 21.07.2018 Do it better
+        }
 
         return "developer/fragments/modalDelete";
     }
 
     @Override
     public String getApp(@PathVariable String clientApp, Model model) {
-        model.addAttribute("devApp", clientAppDtoToUpdateClientAppDtoConverter.convert(clientAppController.getAppByClientId(clientApp)));
+        try {
+            model.addAttribute("devApp", clientAppDtoToUpdateClientAppDtoConverter.convert(clientAppService.getAppByClientId(clientApp)));
+        } catch (EmptyObjectException e) {
+            e.printStackTrace();    // TODO: 21.07.2018 Do it better
+        }
         model.addAttribute("formatter", formatter);
 
         return "developer/fragments/modalInfo";
