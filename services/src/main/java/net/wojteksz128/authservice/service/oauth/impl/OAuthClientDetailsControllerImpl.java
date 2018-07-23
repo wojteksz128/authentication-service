@@ -25,12 +25,8 @@ class OAuthClientDetailsControllerImpl implements OAuthClientDetailsController {
     }
 
     @Override
-    public OAuthClientDetailsDto createNew(OAuthClientDetailsDto clientDetailsDto) throws EmptyObjectException {
-        if (clientDetailsDto == null) {
-            throw new EmptyObjectException("Attempt to save null object.");
-        }
-
-        return clientDetailsEntityToDtoConverter.convert(clientDetailsRepository.save(clientDetailsDtoToEntityConverter.convert(clientDetailsDto)));
+    public OAuthClientDetails createNew(OAuthClientDetails clientDetailsDto) {
+        return clientDetailsRepository.save(clientDetailsDto);
     }
 
     @Override

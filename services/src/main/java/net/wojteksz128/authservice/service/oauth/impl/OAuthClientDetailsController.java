@@ -7,7 +7,7 @@ import net.wojteksz128.authservice.service.oauth.OAuthClientDetailsDto;
 
 interface OAuthClientDetailsController {
 
-    OAuthClientDetailsDto createNew(OAuthClientDetailsDto app) throws EmptyObjectException;
+    OAuthClientDetails createNew(OAuthClientDetails app);
 
     OAuthClientDetailsDto getByClientId(String clientId);
 
