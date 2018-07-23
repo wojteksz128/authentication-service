@@ -40,9 +40,14 @@ class OAuthClientDetailsServiceImpl implements OAuthClientDetailsService {
     }
 
     @Override
-    public OAuthClientDetailsDto getByClientId(String clientId) {
-        // TODO: 21.07.2018 Implement this based on OAuthClientDetailsController
-        return clientDetailsController.getByClientId(clientId);
+    public OAuthClientDetailsDto getByClientId(String clientId) throws EmptyObjectException {
+        // TODO: 23.07.2018 Check user privileges
+        if (clientId == null || clientId.isEmpty()) {
+            throw new EmptyObjectException("clientId is Empty");
+        }
+
+        final OAuthClientDetails clientDetails = clientDetailsController.getByClientId(clientId);
+        return clientDetailsToDtoConverter.convert(clientDetails);
     }
 
     @Override

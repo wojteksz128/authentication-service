@@ -30,8 +30,8 @@ class OAuthClientDetailsControllerImpl implements OAuthClientDetailsController {
     }
 
     @Override
-    public OAuthClientDetailsDto getByClientId(String clientId) {
-        return clientDetailsEntityToDtoConverter.convert(clientDetailsRepository.findByClientId(clientId));
+    public OAuthClientDetails getByClientId(String clientId) {
+        return clientDetailsRepository.findByClientId(clientId);
     }
 
     @Override

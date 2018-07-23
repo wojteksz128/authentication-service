@@ -9,7 +9,7 @@ interface OAuthClientDetailsController {
 
     OAuthClientDetails createNew(OAuthClientDetails app);
 
-    OAuthClientDetailsDto getByClientId(String clientId);
+    OAuthClientDetails getByClientId(String clientId);
 
     void update(String clientId, OAuthClientDetailsDto dto) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException;
 

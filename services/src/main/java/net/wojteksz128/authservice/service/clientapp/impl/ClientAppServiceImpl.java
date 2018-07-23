@@ -65,6 +65,7 @@ class ClientAppServiceImpl implements ClientAppService {
 
     @Override
     public ClientAppDto getAppByClientId(String clientId) throws EmptyObjectException {
+        // TODO: 23.07.2018 Check user privileges
         if (clientId == null || clientId.isEmpty()) {
             throw new EmptyObjectException("clientId is Empty");
         }
