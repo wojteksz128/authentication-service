@@ -64,7 +64,7 @@ class OAuthClientDetailsServiceImpl implements OAuthClientDetailsService {
         }
 
         final OAuthClientDetails clientDetailsEntity = clientDetailsDtoToEntityConverter.convert(updatedClientDetails);
-        final OAuthClientDetails updatedClientDetailsEntity = clientDetailsController.update(clientId, clientDetailsEntity);
+        final OAuthClientDetails updatedClientDetailsEntity = clientDetailsController.update(clientDetailsEntity);
         if (updatedClientDetailsEntity == null) {
             // TODO: 23.07.2018 Zmień wyjątek na odpowiedniejszy
             throw new EmptyObjectException("OAuthClientDetails is not updated");
@@ -73,7 +73,19 @@ class OAuthClientDetailsServiceImpl implements OAuthClientDetailsService {
 
     @Override
     public void delete(String clientId, OAuthClientDetailsDto deletedClientDetails) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException {
-        // TODO: 21.07.2018 Implement this based on OAuthClientDetailsController
-        clientDetailsController.delete(clientId, deletedClientDetails);
+        // TODO: 23.07.2018 Check user privileges
+        if (deletedClientDetails == null) {
+            throw new EmptyObjectException("Attempt to use a null object");
+        }
+        if (clientId == null) {
+            throw new InvalidRequestException("clientId is null");
+        }
+        if (!clientId.equals(deletedClientDetails.getClientId())) {
+            throw new ObjectNotCorrespondingException("OAuthClientDetails is not requested object");
+        }
+
+        final OAuthClientDetails clientDetailsEntity = clientDetailsDtoToEntityConverter.convert(deletedClientDetails);
+        // TODO: 23.07.2018 Sprawdź poprawność wykonania poniższej operacji
+        clientDetailsController.delete(clientDetailsEntity);
     }
 }
