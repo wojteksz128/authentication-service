@@ -49,6 +49,7 @@ class ClientAppServiceImpl implements ClientAppService {
         final OAuthClientDetailsDto createdClientDetails = clientDetailsService.createNew(newClientDetails);
 
         if (createdClientDetails == null) {
+            // TODO: 23.07.2018 Zmień wyjątek na odpowiedniejszy
             throw new EmptyObjectException("OAuth client details is not created");
         }
 
@@ -56,6 +57,7 @@ class ClientAppServiceImpl implements ClientAppService {
         final ClientApp newClientAppEntity = clientAppController.createNew(newClientApp);
 
         if (newClientAppEntity == null) {
+            // TODO: 23.07.2018 Zmień wyjątek na odpowiedniejszy
             throw new EmptyObjectException("ClientApp is not created");
         }
         return clientAppToDtoConverter.convert(newClientAppEntity);
@@ -90,6 +92,7 @@ class ClientAppServiceImpl implements ClientAppService {
         final ClientApp clientAppEntity = clientAppDtoToEntityConverter.convert(clientAppDto);
         final ClientApp updatedAppEntity = clientAppController.updateApp(clientAppEntity);
         if (updatedAppEntity == null) {
+            // TODO: 23.07.2018 Zmień wyjątek na odpowiedniejszy
             throw new EmptyObjectException("ClientApp is not updated");
         }
     }
