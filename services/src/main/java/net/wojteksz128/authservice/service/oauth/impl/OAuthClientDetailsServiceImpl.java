@@ -52,8 +52,23 @@ class OAuthClientDetailsServiceImpl implements OAuthClientDetailsService {
 
     @Override
     public void update(String clientId, OAuthClientDetailsDto updatedClientDetails) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException {
-        // TODO: 21.07.2018 Implement this based on OAuthClientDetailsController
-        clientDetailsController.update(clientId, updatedClientDetails);
+        // TODO: 23.07.2018 Check user privileges
+        if (updatedClientDetails == null) {
+            throw new EmptyObjectException("Attempt to use a null object");
+        }
+        if (clientId == null) {
+            throw new InvalidRequestException("clientId is null");
+        }
+        if (!updatedClientDetails.getClientId().equals(clientId)) {
+            throw new ObjectNotCorrespondingException("OAuthClientDetails is not requested object.");
+        }
+
+        final OAuthClientDetails clientDetailsEntity = clientDetailsDtoToEntityConverter.convert(updatedClientDetails);
+        final OAuthClientDetails updatedClientDetailsEntity = clientDetailsController.update(clientId, clientDetailsEntity);
+        if (updatedClientDetailsEntity == null) {
+            // TODO: 23.07.2018 Zmień wyjątek na odpowiedniejszy
+            throw new EmptyObjectException("OAuthClientDetails is not updated");
+        }
     }
 
     @Override

@@ -11,7 +11,7 @@ interface OAuthClientDetailsController {
 
     OAuthClientDetails getByClientId(String clientId);
 
-    void update(String clientId, OAuthClientDetailsDto dto) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException;
+    OAuthClientDetails update(String clientId, OAuthClientDetails updateClientDetails) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException;
 
     void delete(String clientId, OAuthClientDetailsDto dto) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException;
 }

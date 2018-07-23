@@ -35,9 +35,8 @@ class OAuthClientDetailsControllerImpl implements OAuthClientDetailsController {
     }
 
     @Override
-    public void update(String clientId, OAuthClientDetailsDto dto) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException {
-        checkValidity(clientId, dto);
-        clientDetailsRepository.save(clientDetailsDtoToEntityConverter.convert(dto));
+    public OAuthClientDetails update(String clientId, OAuthClientDetails updateClientDetails) {
+        return clientDetailsRepository.save(updateClientDetails);
     }
 
     @Override
