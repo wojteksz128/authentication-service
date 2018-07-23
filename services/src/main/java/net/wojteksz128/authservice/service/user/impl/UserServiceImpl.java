@@ -20,6 +20,7 @@ import java.util.Optional;
 
 @Service
 @EnableJpaRepositories(basePackageClasses = {UserRepository.class, RoleRepository.class})
+// TODO: 23.07.2018 Zmień implementację (wywołuj nowy kontroler, a nie bezpośrednio repozytoria
 class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder;
