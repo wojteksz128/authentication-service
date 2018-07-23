@@ -3,7 +3,6 @@ package net.wojteksz128.authservice.service.oauth.impl;
 import net.wojteksz128.authservice.service.exception.EmptyObjectException;
 import net.wojteksz128.authservice.service.exception.InvalidRequestException;
 import net.wojteksz128.authservice.service.exception.ObjectNotCorrespondingException;
-import net.wojteksz128.authservice.service.oauth.OAuthClientDetailsController;
 import net.wojteksz128.authservice.service.oauth.OAuthClientDetailsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -26,29 +25,23 @@ class OAuthClientDetailsControllerImpl implements OAuthClientDetailsController {
     }
 
     @Override
-    public OAuthClientDetailsDto createNew(OAuthClientDetailsDto clientDetailsDto) throws EmptyObjectException {
-        if (clientDetailsDto == null) {
-            throw new EmptyObjectException("Attempt to save null object.");
-        }
-
-        return clientDetailsEntityToDtoConverter.convert(clientDetailsRepository.save(clientDetailsDtoToEntityConverter.convert(clientDetailsDto)));
+    public OAuthClientDetails createNew(OAuthClientDetails clientDetailsDto) {
+        return clientDetailsRepository.save(clientDetailsDto);
     }
 
     @Override
-    public OAuthClientDetailsDto getByClientId(String clientId) {
-        return clientDetailsEntityToDtoConverter.convert(clientDetailsRepository.findByClientId(clientId));
+    public OAuthClientDetails getByClientId(String clientId) {
+        return clientDetailsRepository.findByClientId(clientId);
     }
 
     @Override
-    public void update(String clientId, OAuthClientDetailsDto dto) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException {
-        checkValidity(clientId, dto);
-        clientDetailsRepository.save(clientDetailsDtoToEntityConverter.convert(dto));
+    public OAuthClientDetails update(OAuthClientDetails updateClientDetails) {
+        return clientDetailsRepository.save(updateClientDetails);
     }
 
     @Override
-    public void delete(String clientId, OAuthClientDetailsDto dto) throws ObjectNotCorrespondingException, InvalidRequestException, EmptyObjectException {
-        checkValidity(clientId, dto);
-        clientDetailsRepository.delete(clientDetailsRepository.findByClientId(clientId));
+    public void delete(OAuthClientDetails deleteClientDetails) {
+        clientDetailsRepository.delete(deleteClientDetails);
     }
 
     /**

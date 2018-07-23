@@ -1,7 +1,8 @@
 package net.wojteksz128.authservice.service.clientapp.impl;
 
 import net.wojteksz128.authservice.service.clientapp.ClientAppDto;
-import net.wojteksz128.authservice.service.oauth.OAuthClientDetailsController;
+import net.wojteksz128.authservice.service.exception.EmptyObjectException;
+import net.wojteksz128.authservice.service.oauth.OAuthClientDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -9,11 +10,11 @@ import org.springframework.stereotype.Component;
 @Component
 class ClientAppToDtoConverter implements Converter<ClientApp, ClientAppDto> {
 
-    private final OAuthClientDetailsController clientDetailsController;
+    private final OAuthClientDetailsService clientDetailsService;
 
     @Autowired
-    public ClientAppToDtoConverter(OAuthClientDetailsController clientDetailsController) {
-        this.clientDetailsController = clientDetailsController;
+    public ClientAppToDtoConverter(OAuthClientDetailsService clientDetailsService) {
+        this.clientDetailsService = clientDetailsService;
     }
 
     @Override
@@ -26,7 +27,11 @@ class ClientAppToDtoConverter implements Converter<ClientApp, ClientAppDto> {
     @SuppressWarnings("WeakerAccess")
     void prepareDto(ClientApp clientApp, ClientAppDto clientAppDto) {
         clientAppDto.setId(clientApp.getId());
-        clientAppDto.setClientDetailsDto(clientDetailsController.getByClientId(clientApp.getClientId()));
+        try {
+            clientAppDto.setClientDetailsDto(clientDetailsService.getByClientId(clientApp.getClientId()));
+        } catch (EmptyObjectException e) {
+            e.printStackTrace();
+        }
         clientAppDto.setName(clientApp.getName());
         clientAppDto.setDescription(clientApp.getDescription());
         clientAppDto.setCreateDate(clientApp.getCreateDate());
