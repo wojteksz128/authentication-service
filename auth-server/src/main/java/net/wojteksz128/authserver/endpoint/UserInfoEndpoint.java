@@ -6,7 +6,6 @@ import net.wojteksz128.authservice.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
@@ -31,8 +30,8 @@ class UserInfoEndpoint {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/{login}/personal")
-    UserPersonalDataDto getPersonal(@PathVariable("login") String login) {
-        return userService.findByLogin(login).map(UserDto::getPersonalData).orElse(null);
+    @GetMapping("/me/personal")
+    UserPersonalDataDto getPersonal() {
+        return userService.getCurrentLoggedUser().map(UserDto::getPersonalData).orElse(null);
     }
 }
