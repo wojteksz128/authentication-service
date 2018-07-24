@@ -56,5 +56,5 @@ INSERT INTO user_roles (SELECT
 ------------------------------------------------------------------------------------------------------------------------
 --  Dodanie aplikacji do oauth_client_details
 ------------------------------------------------------------------------------------------------------------------------
-INSERT INTO oauth_client_details (client_id, client_secret, scope, authorized_grant_types, autoapprove)
-VALUES ('AuthService', 'devAppSecret', 'devApp', 'authorization_code', 'true');
+INSERT INTO oauth_client_details (client_id, client_secret, scope, authorized_grant_types, access_token_validity, refresh_token_validity, autoapprove)
+VALUES ('AuthService', 'devAppSecret', 'devApp', 'authorization_code,refresh_token', 86400, 2592000, 'true');

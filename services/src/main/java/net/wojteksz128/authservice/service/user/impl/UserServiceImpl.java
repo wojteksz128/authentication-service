@@ -70,7 +70,15 @@ class UserServiceImpl implements UserService {
         Optional<UserDto> currentLoggedUser = Optional.empty();
 
         if (authentication instanceof OAuth2Authentication) {
-            currentLoggedUser = userRepository.findByLogin((String) authentication.getPrincipal()).map(userToDtoConverter::convert);
+
+            final Object principal = authentication.getPrincipal();
+            String login = null;
+            if (principal instanceof String) {
+                login = (String) principal;
+            } else if (principal instanceof UserDetailsImpl) {
+                login = ((UserDetailsImpl) principal).getUsername();
+            }
+            currentLoggedUser = userRepository.findByLogin(login).map(userToDtoConverter::convert);
         }
 
         return currentLoggedUser;

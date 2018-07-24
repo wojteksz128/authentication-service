@@ -8,6 +8,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.approval.ApprovalStore;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 
 @Configuration
 @EnableAuthorizationServer
@@ -15,12 +17,18 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     private final AuthenticationManager authenticationManager;
     private final OAuthDbConfig dbConfig;
+    private final TokenStore tokenStore;
+    private final ApprovalStore approvalStore;
 
 
     @Autowired
-    public AuthorizationServerConfig(AuthenticationManager authenticationManager, OAuthDbConfig dbConfig) {
+    public AuthorizationServerConfig(AuthenticationManager authenticationManager,
+                                     OAuthDbConfig dbConfig, TokenStore tokenStore,
+                                     ApprovalStore approvalStore) {
         this.authenticationManager = authenticationManager;
         this.dbConfig = dbConfig;
+        this.tokenStore = tokenStore;
+        this.approvalStore = approvalStore;
     }
 
     @Override
@@ -37,7 +45,7 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints.authenticationManager(authenticationManager)
-            .tokenStore(dbConfig.tokenStore())
-            .approvalStore(dbConfig.approvalStore());
+            .tokenStore(tokenStore)
+            .approvalStore(approvalStore);
     }
 }

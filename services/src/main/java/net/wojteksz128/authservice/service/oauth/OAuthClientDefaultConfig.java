@@ -18,7 +18,7 @@ public class OAuthClientDefaultConfig {
     }
 
     public Integer getRefreshTokenValidity() {
-        return 3/*days*/ * 24/*hours*/ * 60/*minutes*/ * 60/*seconds*/;
+        return 30/*days*/ * 24/*hours*/ * 60/*minutes*/ * 60/*seconds*/;
     }
 
     public boolean getAutoApprove() {

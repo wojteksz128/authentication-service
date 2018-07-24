@@ -26,6 +26,7 @@ class OAuthClientDetailsToDtoConverter implements Converter<OAuthClientDetails, 
         dto.setWebServerRedirectUri(clientDetails.getWebServerRedirectUri());
         dto.setAuthorities(clientDetails.getAuthorities());
         dto.setAccessTokenValidity(clientDetails.getAccessTokenValidity());
+        dto.setRefreshTokenValidity(clientDetails.getRefreshTokenValidity());
         dto.setAdditionalInformation(clientDetails.getAdditionalInformation());
         dto.setAutoApprove(clientDetails.getAutoApprove());
     }
