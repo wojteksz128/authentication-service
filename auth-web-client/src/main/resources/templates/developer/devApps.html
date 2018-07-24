@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Zarejestrowane aplikacje</title>
+        <script th:replace="developer/fragments/appKeyInfo :: app-key-info-header"></script>
+        <link rel="stylesheet" type="text/css" media="screen" th:href="@{/developer/css/main.css}"/>
+        <script th:src="@{developer/js/main.js}" defer="defer"></script>
+    </head>
+
+    <body th:fragment="content">
+        <div id="dev-apps-content" class="container">
+            <h1>Zarejestrowane aplikacje</h1>
+            <!-- Tabela -->
+            <!--/*@thymesVar id="apps" type="java.util.List<net.wojteksz128.authservice.service.clientapp.ClientAppDto>"*/-->
+            <table class="table table-striped table-hover" th:if="${!apps.isEmpty()}">
+                <thead>
+                    <tr>
+                        <th>Nazwa aplikacji</th>
+                        <th>Opis</th>
+                        <th>Data rejestracji</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="app : ${apps}" th:onclick="'javascript:openModal(\'/devApp/' + ${app.clientDetailsDto.clientId} + '\', \'modal-info\');'">
+                        <td th:text="${app.name}">Test</td>
+                        <td th:text="${app.description}">Description</td>
+                        <!--/*@thymesVar id="formatter" type="java.time.format.DateTimeFormatter"*/-->
+                        <td th:text="${formatter.format(app.createDate)}">2017-12-24 00:00:00</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3">
+                            <button class="btn btn-primary btn-new" onclick="openModal('/devApp/new', 'modal-create')">
+                                <span class="glyphicon glyphicon-plus"></span> Dodaj nową aplikację
+                            </button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+            <div class="alert alert-info" th:if="${apps.isEmpty()}">
+                <p>Żadna aplikacja nie została jeszcze zarejestrowana.</p>
+                <br/>
+                <button class="btn btn-primary btn-new" onclick="openModal('/devApp/new', 'modal-create')">
+                    <span class="glyphicon glyphicon-plus"></span> Dodaj nową aplikację
+                </button>
+            </div>
+        </div>
+    </body>
+
+</html>

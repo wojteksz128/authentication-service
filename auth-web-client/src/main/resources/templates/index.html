@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+    <head>
+        <title>Strona główna</title>
+    </head>
+    <body th:fragment="content">
+        <div class="container">
+            <div th:if="${ param.logout }">
+                <script type="text/javascript">
+                    $.post('http://localhost:8080/auth/logout').done(function () {
+                        console.log("Logout successfully");
+                    }).fail(function (data) {
+                        console.log("Error: \n" + data.toString() )
+                    });
+                </script>
+            </div>
+            <h1>AuthService</h1>
+            <p>Przykładowa treść powitania...</p>
+            <div sec:authorize="isAuthenticated() and !hasRole('ROLE_DEVELOPER')">
+                <div th:replace="developer/fragments/switchToDev :: switch-to-dev"></div>
+            </div>
+        </div>
+    </body>
+</html>

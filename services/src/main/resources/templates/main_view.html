@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8"/>
+        <script th:replace="fragments/header :: header-css"></script>
+        <!--/*@thymesVar id="view" type="java.lang.String"*/-->
+        <title th:replace="${view} :: head"></title>
+        <script th:src="@{js/main.js}" defer="defer"></script>
+    </head>
+    <body>
+        <div th:replace="fragments/header :: header">Header</div>
+        <!--/*@thymesVar id="pageMessages" type="java.util.List<net.wojteksz128.authservice.service.webapp.WebsiteBuilder.Message>"*/-->
+        <div id="message-container">
+            <div class="container" th:each="message: ${pageMessages}">
+                <div th:replace="fragments/message :: message(${message.getMessageType()}, ${message.getTitle()}, ${message.getContent()})"></div>
+            </div>
+        </div>
+        <!--/*@thymesVar id="view" type="java.lang.String"*/-->
+        <div id="page-content" style="margin-bottom: 50px">
+            <div th:replace="${view} :: content">Page Content</div>
+        </div>
+        <div th:replace="fragments/header :: footer">Footer</div>
+
+        <div id="modal-container">
+            <!--/*@thymesVar id="modals" type="java.util.List<java.lang.String>"*/-->
+            <div th:each="modal: ${modals}" th:id="${modal + '-holder'}"></div>
+        </div>
+    </body>
+</html>

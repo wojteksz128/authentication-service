@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <script th:src="@{/developer/js/modalDelete.js}"></script>
+    </head>
+    <body>
+        <div id="modal-delete" class="modal fade" tabindex="-1" role="dialog" th:fragment="modal-delete">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Usuwanie aplikacji</h4>
+                    </div>
+                    <div class="modal-body">
+                        Czy na pewno chcesz usunąć aplikację z listy zarejestrowanych? Po usunięciu nie klucz stanie
+                        się nieaktualny i nie będzie można go wykorzystać w dalszej komunikacji.
+                    </div>
+                    <!--/*@thymesVar id="devApp" type="net.wojteksz128.authservice.service.clientapp.ClientAppDto"*/-->
+                    <form class="modal-footer" th:action="'/devApp/' + *{clientDetailsDto.clientId} + '/delete'"
+                          th:object="${devApp}" method="post">
+                        <input type="hidden" th:field="*{clientDetailsDto.clientId}"/>
+                        <input type="hidden" th:field="*{clientDetailsDto.clientSecret}"/>
+                        <input type="hidden" th:field="*{clientDetailsDto.scope}"/>
+                        <input type="hidden" th:field="*{clientDetailsDto.authorizedGrantTypes}"/>
+                        <input type="hidden" th:field="*{clientDetailsDto.webServerRedirectUri}"/>
+                        <input type="hidden" th:field="*{clientDetailsDto.accessTokenValidity}"/>
+                        <input type="hidden" th:field="*{clientDetailsDto.refreshTokenValidity}"/>
+                        <input type="hidden" th:field="*{clientDetailsDto.autoApprove}"/>
+                        <input type="hidden" th:field="*{description}"/>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
+                        <button type="button" class="btn btn-danger btn-ok">Usuń</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
