@@ -7,13 +7,17 @@ import net.wojteksz128.authservice.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.util.Optional;
 
 @RestController
 class UserInfoEndpointImpl implements UserInfoEndpoint {
 
+    @SuppressWarnings("FieldCanBeLocal")
+    private final String CURRENT_LOGGED_KEY = "me";
     private final UserService userService;
 
     @Autowired
@@ -37,8 +41,14 @@ class UserInfoEndpointImpl implements UserInfoEndpoint {
 
     @Override
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/me/personal")
-    public UserPersonalDataDto getPersonal() {
-        return userService.getCurrentLoggedUser().map(UserDto::getPersonalData).orElse(null);
+    @GetMapping("/{login}/personal")
+    public UserPersonalDataDto getPersonal(@PathVariable("login") String login) {
+        final Optional<UserDto> userDto;
+        if (login.equals(CURRENT_LOGGED_KEY)) {
+            userDto = userService.getCurrentLoggedUser();
+        } else {
+            userDto = userService.findByLogin(login);
+        }
+        return userDto.map(UserDto::getPersonalData).orElse(null);
     }
 }
