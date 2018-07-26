@@ -4,6 +4,7 @@ import net.wojteksz128.authservice.service.user.UserPersonalDataDto;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
 
@@ -20,4 +21,8 @@ public interface UserInfoEndpoint {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{login}/personal")
     UserPersonalDataDto getPersonal(@PathVariable("login") String login);
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/{login}/personal")
+    UserPersonalDataDto updatePersonalData(@PathVariable("login") String login, UserPersonalDataDto personalData);
 }

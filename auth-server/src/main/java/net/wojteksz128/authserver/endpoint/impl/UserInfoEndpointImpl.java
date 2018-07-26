@@ -51,4 +51,10 @@ class UserInfoEndpointImpl implements UserInfoEndpoint {
         }
         return userDto.map(UserDto::getPersonalData).orElse(null);
     }
+
+    @Override
+    public UserPersonalDataDto updatePersonalData(String login, UserPersonalDataDto personalData) {
+        // TODO: 26.07.2018 Implement updating personal data
+        return null;
+    }
 }
