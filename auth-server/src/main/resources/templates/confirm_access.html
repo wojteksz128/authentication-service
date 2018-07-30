@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Zgoda na udostępnianie informacji</title>
+    </head>
+    <!--/*@thymesVar id="appName" type="java.lang.String"*/-->
+    <!--/*@thymesVar id="scopes" type="java.util.List<net.wojteksz128.authservice.service.UserDetailsType>"*/-->
+    <body th:fragment="content">
+        <div class="container">
+            <h1>Zgoda na udostępnianie informacji</h1>
+            <p>Czy zezwalasz aplikacji '<span th:text="${appName}"></span>' na dostęp do poniższych informacji?</p>
+            <ul>
+                <li th:each="scope : ${scopes}"><span th:text="${scope.getDisplayName()}"></span></li>
+            </ul>
+            <button type="submit" class="btn btn-success" onclick="$('#confirmationForm').submit()"><span class="glyphicon glyphicon-ok"></span> Zezwól</button>
+            <button type="submit" class="btn btn-danger" onclick="$('#denialForm').submit()"><span class="glyphicon glyphicon-remove"></span> Odmów</button>
+
+            <form id="confirmationForm" name="confirmationForm" th:action="@{/oauth/authorize}" method="post">
+                <input name="user_oauth_approval" value="true" type="hidden"/>
+                <input th:each="scope : ${scopes}" type="hidden" th:name="${scope.getScopeName()}" value="true"/>
+            </form>
+            <form id="denialForm" name="denialForm" th:action="@{/oauth/authorize}" method="post">
+                <input name="user_oauth_approval" value="false" type="hidden"/>
+            </form>
+        </div>
+
+    </body>
+</html>
