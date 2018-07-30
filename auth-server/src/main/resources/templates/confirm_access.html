@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Title</title>
+    </head>
+    <!--/*@thymesVar id="authorizationRequest" type="org.springframework.security.oauth2.provider.AuthorizationRequest"*/-->
+    <!--/*@thymesVar id="defaultScopes" type="java.util.Map<java.lang.String, java.lang.Boolean>"*/-->
+    <body>
+        <h1>OAuth Approval Test</h1>
+        <p>Do you authorize '<span th:text="*{authorizationRequest.clientId}"></span>' to access your protected resources?</p>
+        <form id="confirmationForm" name="confirmationForm" th:action="@{/oauth/authorize}" method="post">
+            <input name="user_oauth_approval" th:value="${authorizationRequest.scope != null}" type="hidden"/>
+            <ul>
+                <li th:each="scopeName : *{authorizationRequest.scope}">
+                    <div class="form-group" th:with="validScope = ${defaultScopes.get('scope.' + scopeName)}">
+                        <span th:text="${scopeName}"></span>:
+                        <label><input type="radio" th:name="${'scope.' + scopeName}" value="true" th:checked="${validScope}"/> Approve</label>
+                        <label><input type="radio" th:name="${'scope.' + scopeName}" value="false" th:checked="${!validScope}"/> Deny</label>
+                    </div>
+                </li>
+            </ul>
+            <label><input name="authorize" value="Authorize" th:value="${authorizationRequest.scope != null ? 'Authorize' : 'Deny'}" type="submit"/></label>
+        </form>
+    </body>
+</html>
