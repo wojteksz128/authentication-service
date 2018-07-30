@@ -11,14 +11,15 @@
             <ul>
                 <li th:each="scopeName : ${authorizationRequest.scope}"><span th:text="${scopeName}"></span></li>
             </ul>
+            <button type="submit" class="btn btn-success" onclick="$('#confirmationForm').submit()"><span class="glyphicon glyphicon-ok"></span> Zezwól</button>
+            <button type="submit" class="btn btn-danger" onclick="$('#denialForm').submit()"><span class="glyphicon glyphicon-remove"></span> Odmów</button>
+
             <form id="confirmationForm" name="confirmationForm" th:action="@{/oauth/authorize}" method="post">
                 <input name="user_oauth_approval" th:value="true" type="hidden"/>
                 <input th:each="scopeName : ${authorizationRequest.scope}" type="hidden" th:name="${'scope.' + scopeName}" value="true"/>
-                <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> Zezwól</button>
             </form>
             <form id="denialForm" name="denialForm" th:action="@{/oauth/authorize}" method="post">
                 <input name="user_oauth_approval" value="false" type="hidden"/>
-                <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Odmów</button>
             </form>
         </div>
 
