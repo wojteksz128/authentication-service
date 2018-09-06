@@ -3,13 +3,28 @@
 ########################################################################################################################
 
 ALTER TABLE client_apps
+  DROP FOREIGN KEY client_apps_oauth_client_details_fk;
+ALTER TABLE client_apps
   DROP FOREIGN KEY client_apps_user_fk;
-ALTER TABLE user_roles
-  DROP FOREIGN KEY user_roles_role_fk;
+
 ALTER TABLE users_personal_data
   DROP FOREIGN KEY user_personal_data_user_fk;
+
+ALTER TABLE user_roles
+  DROP FOREIGN KEY user_roles_role_fk;
 ALTER TABLE user_roles
   DROP FOREIGN KEY user_roles_user_fk;
+
+ALTER TABLE oauth_access_token
+  DROP FOREIGN KEY oauth_access_token_users_fk;
+ALTER TABLE oauth_access_token
+  DROP FOREIGN KEY oauth_access_token_oauth_client_details_fk;
+
+ALTER TABLE oauth_approvals
+  DROP FOREIGN KEY oauth_approvals_users_fk;
+ALTER TABLE oauth_approvals
+  DROP FOREIGN KEY oauth_approvals_oauth_client_details_fk;
+
 
 ########################################################################################################################
 # Remove all tables
@@ -130,17 +145,33 @@ CREATE TABLE oauth_approvals (
 
 ALTER TABLE client_apps
   ADD CONSTRAINT client_apps_unique_guid UNIQUE (client_id);
+ALTER TABLE client_apps
+  ADD CONSTRAINT client_apps_oauth_client_details_fk FOREIGN KEY (client_id) REFERENCES oauth_client_details (client_id);
+ALTER TABLE client_apps
+  ADD CONSTRAINT client_apps_user_fk FOREIGN KEY (user_id) REFERENCES users (id);
+
 ALTER TABLE roles
   ADD CONSTRAINT roles_unique_code UNIQUE (code);
+
 ALTER TABLE users
   ADD CONSTRAINT users_unique_login UNIQUE (login);
+
 ALTER TABLE users_personal_data
   ADD CONSTRAINT user_personal_data_unique_user_id UNIQUE (user_id);
 ALTER TABLE users_personal_data
   ADD CONSTRAINT user_personal_data_user_fk FOREIGN KEY (user_id) REFERENCES users (id);
-ALTER TABLE client_apps
-  ADD CONSTRAINT client_apps_user_fk FOREIGN KEY (user_id) REFERENCES users (id);
+
 ALTER TABLE user_roles
   ADD CONSTRAINT user_roles_role_fk FOREIGN KEY (role_id) REFERENCES roles (id);
 ALTER TABLE user_roles
   ADD CONSTRAINT user_roles_user_fk FOREIGN KEY (user_id) REFERENCES users (id);
+
+ALTER TABLE oauth_access_token
+  ADD CONSTRAINT oauth_access_token_users_fk FOREIGN KEY (user_name) REFERENCES users (login);
+ALTER TABLE oauth_access_token
+  ADD CONSTRAINT oauth_access_token_oauth_client_details_fk FOREIGN KEY (client_id) REFERENCES oauth_client_details (client_id);
+
+ALTER TABLE oauth_approvals
+  ADD CONSTRAINT oauth_approvals_users_fk FOREIGN KEY (userId) REFERENCES users (login);
+ALTER TABLE oauth_approvals
+  ADD CONSTRAINT oauth_approvals_oauth_client_details_fk FOREIGN KEY (clientId) REFERENCES oauth_client_details (client_id);
