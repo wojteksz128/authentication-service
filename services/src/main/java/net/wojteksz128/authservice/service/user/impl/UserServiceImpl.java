@@ -1,9 +1,6 @@
 package net.wojteksz128.authservice.service.user.impl;
 
-import net.wojteksz128.authservice.service.user.RoleDto;
-import net.wojteksz128.authservice.service.user.UserDto;
-import net.wojteksz128.authservice.service.user.UserRegistrationDto;
-import net.wojteksz128.authservice.service.user.UserService;
+import net.wojteksz128.authservice.service.user.*;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.core.Authentication;
@@ -28,13 +25,17 @@ class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final UserToDtoConverter userToDtoConverter;
     private final UserPersonalDataDtoToEntityConverter userPersonalDataDtoToEntityConverter;
+    private final UserPersonalDataRepository userPersonalDataRepository;
+    private final UserPersonalDataToDtoConverter userPersonalDataToDtoConverter;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, UserToDtoConverter userToDtoConverter, PasswordEncoder passwordEncoder, UserPersonalDataDtoToEntityConverter userPersonalDataDtoToEntityConverter) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, UserToDtoConverter userToDtoConverter, PasswordEncoder passwordEncoder, UserPersonalDataDtoToEntityConverter userPersonalDataDtoToEntityConverter, UserPersonalDataRepository userPersonalDataRepository, UserPersonalDataToDtoConverter userPersonalDataToDtoConverter) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.userToDtoConverter = userToDtoConverter;
         this.passwordEncoder = passwordEncoder;
         this.userPersonalDataDtoToEntityConverter = userPersonalDataDtoToEntityConverter;
+        this.userPersonalDataRepository = userPersonalDataRepository;
+        this.userPersonalDataToDtoConverter = userPersonalDataToDtoConverter;
     }
 
     @Override
@@ -82,6 +83,22 @@ class UserServiceImpl implements UserService {
         }
 
         return currentLoggedUser;
+    }
+
+    @Override
+    public UserPersonalDataDto updatePersonalData(String login, UserPersonalDataDto personalData) {
+        final Optional<UserDto> optionalUserDto = findByLogin(login);
+
+        return optionalUserDto.map(UserDto::getPersonalData).map(userPersonalDataDtoToEntityConverter::convert).map(oldPersonalData -> {
+            oldPersonalData.setBirthDate(personalData.getBirthDate());
+            oldPersonalData.setEmail(personalData.getEmail());
+            oldPersonalData.setFirstName(personalData.getFirstName());
+            oldPersonalData.setLastName(personalData.getLastName());
+            oldPersonalData.setPhoneNumber(personalData.getPhoneNumber());
+            oldPersonalData.setUrl(personalData.getUrl());
+
+            return userPersonalDataRepository.save(oldPersonalData);
+        }).map(userPersonalDataToDtoConverter::convert).orElse(null);
     }
 
     @Override
