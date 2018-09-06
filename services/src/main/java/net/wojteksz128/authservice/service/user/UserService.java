@@ -13,4 +13,6 @@ public interface UserService extends UserDetailsService {
     void addRole(UserDto user, RoleDto role);
 
     Optional<UserDto> getCurrentLoggedUser();
+
+    UserPersonalDataDto updatePersonalData(String login, UserPersonalDataDto personalData);
 }
