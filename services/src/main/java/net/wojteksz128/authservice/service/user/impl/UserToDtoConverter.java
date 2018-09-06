@@ -31,6 +31,7 @@ class UserToDtoConverter implements Converter<User, UserDto> {
         userDto.setLogin(user.getLogin());
         userDto.setRoles(new HashSet<>(userRoles));
         userDto.setPersonalData(userPersonalDataToDtoConverter.convert(user.getPersonalData()));
+        userDto.getPersonalData().setUser(userDto);
 
         return userDto;
     }

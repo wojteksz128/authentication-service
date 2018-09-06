@@ -6,9 +6,7 @@ import net.wojteksz128.authservice.service.user.UserPersonalDataDto;
 import net.wojteksz128.authservice.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.Optional;
@@ -53,8 +51,12 @@ class UserInfoEndpointImpl implements UserInfoEndpoint {
     }
 
     @Override
-    public UserPersonalDataDto updatePersonalData(String login, UserPersonalDataDto personalData) {
-        // TODO: 26.07.2018 Implement updating personal data
-        return null;
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/{login}/personal")
+    public UserPersonalDataDto updatePersonalData(@PathVariable("login") String login, @RequestBody UserPersonalDataDto personalData) {
+        if (login.equals(CURRENT_LOGGED_KEY)) {
+            login = userService.getCurrentLoggedUser().map(UserDto::getLogin).orElse(null);
+        }
+        return userService.updatePersonalData(login, personalData);
     }
 }
